@@ -2,20 +2,79 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* scroll-bar */
+
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Track */
+::-webkit-scrollbar-track {
+  background: #ccc;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.arrow {
+  &::before {
+    position: relative;
+    content: '';
+    display: inline-block;
+    width: 0.4em;
+    height: 0.4em;
+    border-right: 0.12em solid rgba(0, 0, 0, 0.87);
+    border-top: 0.12em solid rgba(0, 0, 0, 0.87);
+  }
+
+  &.left {
+    transform: rotate(-135deg) translate(-50%);
+  }
+
+  &.right {
+    transform: rotate(45deg);
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+
+.svg_loading {
+  animation: spin 1s linear infinite;
+
+  circle {
+    opacity: .25;
+  }
+  path {
+    opacity: .75;
+  }
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(1turn)
+  }
+}
+
+.tox-statusbar__right-container {
+  display: none !important;
+}
+
+.tox-notification {
+  display: none !important;
+}
+
+.tox-notification--in {
+  display: none !important;
+}
+
+.tox-notification--warning {
+  display: none !important;
 }
