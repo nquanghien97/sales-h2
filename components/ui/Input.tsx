@@ -12,15 +12,17 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, icon, type, name, label, addon, minWidthLabel, placeholder = "", ...props }, ref) => {
     return (
       <div className={`flex items-center ${className || ""}`}>
-        {label && <p className={`whitespace-nowrap mr-2 text-[#2563eb]`} style={{ width: minWidthLabel}}>{label}</p>}
+        {label && <p className={`whitespace-nowrap mr-2 text-[#2563eb]`} style={{ width: minWidthLabel }}>{label}</p>}
         <div
           className={
             `w-full rounded-xl border flex`
           }
         >
-          <div className="flex items-center ml-2">
-            {icon}
-          </div>
+          {icon && (
+            <div className="flex items-center ml-2">
+              {icon}
+            </div>
+          )}
           <input
             className="outline-0 w-full rounded-xl p-2"
             {...props}

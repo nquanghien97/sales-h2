@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { ToastContainer } from 'react-toastify';
 import { useEffect } from "react";
 import { useAuthStore } from "@/zustand/auth.store";
+import "react-datepicker/dist/react-datepicker.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

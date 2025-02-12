@@ -78,3 +78,7 @@
 .tox-notification--warning {
   display: none !important;
 }
+
+.react-datepicker-wrapper {
+  width: 100%;
+}

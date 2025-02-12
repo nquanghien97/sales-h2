@@ -1,6 +1,6 @@
 'use client'
 
-// import withAuth from "@/hocs/withAuth";
+import withAuth from "@/hocs/withAuth";
 
 const Home = () => {
   return (
@@ -10,7 +10,5 @@ const Home = () => {
   );
 }
 
-// const HomeWithAuth = withAuth(Home);
-// export default HomeWithAuth;
-
-export default Home;
+const HomeWithAuth = withAuth(Home);
+export default HomeWithAuth;

@@ -69,9 +69,10 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(({
   };
 
   return (
-    <div className={`relative w-full ${className}`} ref={mergedRef}>
+    <div className={`relative w-full flex items-center ${className}`} ref={mergedRef}>
+      {label && <label className="bg-white px-1 text-blue-600 whitespace-nowrap">{label}</label>}
       <div
-        className={`flex justify-between items-center p-3 bg-white border rounded-lg cursor-pointer transition-all duration-200 ${isOpen ? 'border-gray-600 rounded-b-none' : 'border-gray-300 hover:border-gray-400'}`}
+        className={`flex justify-between w-full items-center p-2 bg-white border rounded-xl cursor-pointer transition-all duration-200 ${isOpen ? 'border-gray-600 rounded-b-none' : 'border-gray-300 hover:border-gray-400'}`}
         onClick={() => setIsOpen(!isOpen)}
       >
         <span>{selectedOption ? selectedOption.label : placeholder}</span>
@@ -80,7 +81,6 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(({
         ) : (
           <ArrowRight width={16} height={16} className={`transform transition-transform ${isOpen ? 'rotate-90' : ''}`} />
         )}
-        {label && <label className="absolute bg-white px-1 text-blue-600 transform -translate-y-5 text-sm">{label}</label>}
       </div>
       {isOpen && (
         <ul className="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-b-lg max-h-52 overflow-y-auto z-10">

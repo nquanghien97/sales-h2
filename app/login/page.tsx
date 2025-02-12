@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 import { Input } from '@/components/ui/Input';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { Button } from '@/components/ui/Button';
 import LoadingIcon from '@/components/ui/LoadingIcon';
 import { useAuthStore } from '@/zustand/auth.store';
@@ -38,8 +38,8 @@ function Login() {
       const res = await loginUser({ username, password });
       Cookies.set('token', res.accessToken);
       await getMe()
-      router.push('/');
       toast.success('Đăng nhập thành công')
+      router.push('/');
     } catch (err) {
       console.log(err)
       toast.error('Đăng nhập thất bại. Vui lòng thử lại')
@@ -71,7 +71,6 @@ function Login() {
           </form>
         </div>
       </div>
-      <ToastContainer />
     </>
   )
 }
