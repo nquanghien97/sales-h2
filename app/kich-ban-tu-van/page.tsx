@@ -4,23 +4,21 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import Select from '@/components/ui/Select'
 import React, { JSX, useState } from 'react'
-import DatePicker from 'react-datepicker';
-import { vi } from 'date-fns/locale';
-import { ageCalculator } from '@/utils/ageCalculator'
-import { formatDate } from '@/utils/formatDate'
 import { data_height, data_weight } from '@/constants/data'
 import { data_config, Gender } from './data_config'
+import withAuth from '@/hocs/withAuth'
 
 function Content() {
   const [currentHeight, setCurrentHeight] = useState('');
   const [currentWeight, setCurrentWeight] = useState('');
   const [gender, setGender] = useState<Gender>();
-  const [date, setDate] = useState<Date | null>(new Date());
+  const [currentAge, setCurrentAge] = useState('');
   const [dataResponse, setDataResponse] = useState<{ title?: string, content?: JSX.Element }>();
-  const [errorMessage, setErrorMessage] = useState<{ currentHeight?: string, currentWeight?: string, gender?: string }>({
+  const [errorMessage, setErrorMessage] = useState<{ currentHeight?: string, currentWeight?: string, gender?: string, currentAge?: string }>({
     currentHeight: '',
     currentWeight: '',
     gender: '',
+    currentAge: '',
   });
 
   const validateForm = () => {
@@ -42,8 +40,10 @@ function Content() {
       errors.gender = 'Bạn phải chọn giới tính';
     }
 
-    if (!date) {
-      errors.date = 'Ngày sinh không được để trống';
+    if (!currentAge) {
+      errors.currentAge = 'Số tuổi không được để trống';
+    } else if (isNaN(Number(currentAge)) || Number(currentAge) <= 0) {
+      errors.currentAge = 'Số tuổi phải là số dương';
     }
 
     setErrorMessage(errors);
@@ -54,12 +54,11 @@ function Content() {
   const handleSubmit = () => {
     if (!validateForm()) return;
 
-    const currentAge = ageCalculator(formatDate(date!)).years;
-    const weightBelowStandard = data_weight[gender!].can_nang_duoi_TB[currentAge]
-    const weightAboveStandard = data_weight[gender!].can_nang_tren_TB[currentAge]
+    const weightBelowStandard = data_weight[gender!].can_nang_duoi_TB[+currentAge]
+    const weightAboveStandard = data_weight[gender!].can_nang_tren_TB[+currentAge]
 
-    const heightBelowStandard = data_height[gender!].chieu_cao_duoi_TB[currentAge]
-    const heightAboveStandard = data_height[gender!].chieu_cao_tren_TB[currentAge]
+    const heightBelowStandard = data_height[gender!].chieu_cao_duoi_TB[+currentAge]
+    const heightAboveStandard = data_height[gender!].chieu_cao_tren_TB[+currentAge]
 
     const matchedCondition = data_config({
       weightAboveStandard,
@@ -68,7 +67,7 @@ function Content() {
       heightBelowStandard
     }).find(condition => condition.condition({
       currentHeight: +currentHeight,
-      currentAge,
+      currentAge: +currentAge,
       currentWeight: +currentWeight,
       gender: gender!
     }))
@@ -77,8 +76,6 @@ function Content() {
       content: matchedCondition?.content
     })
   }
-
-  console.log(errorMessage)
 
   return (
     <>
@@ -97,17 +94,9 @@ function Content() {
             <Select options={[{ label: 'Nam', value: 'BOY' }, { label: 'Nữ', value: 'GIRL' }]} label='Giới tính' placeholder='Giới tính' onChange={(e) => setGender(e as Gender)} />
             <p className="text-[red] text-sm">{errorMessage?.gender}</p>
           </div>
-          <div className='w-1/5 flex items-start'>
-            <div className="flex items-center">
-              <label className="bg-white px-1 text-blue-600 whitespace-nowrap">Ngày sinh</label>
-              <DatePicker
-                locale={vi}
-                className="w-full rounded-xl px-4 py-2 outline-none border placeholder-[#002A9E] placeholder:italic placeholder:font-semibold"
-                selected={date}
-                onChange={(date: Date | null) => setDate(date)}
-                dateFormat="dd/MM/yyyy"
-              />
-            </div>
+          <div className="flex flex-col w-1/5 justify-start">
+            <Input label='Số tuổi' onChange={(e) => setCurrentAge(e.target.value)} />
+            <p className="text-[red] text-sm">{errorMessage?.currentAge}</p>
           </div>
           <Button variant='primary' onClick={handleSubmit}>Tìm kiếm</Button>
         </div>
@@ -124,4 +113,6 @@ function Content() {
   )
 }
 
-export default Content
+const ContentWithAuth = withAuth(Content)
+
+export default ContentWithAuth

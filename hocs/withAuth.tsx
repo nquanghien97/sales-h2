@@ -14,7 +14,6 @@ function withAuth<P extends object>(
     useEffect(() => {
       const checkAuth = () => {
         const dataParse = parseJwt(token || '')
-        console.log(dataParse)
         const user_id = dataParse?.user_id || null
         if (!user_id) {
           router.push('/login');

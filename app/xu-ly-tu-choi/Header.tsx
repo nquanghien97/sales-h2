@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/Input'
 import React, { useState } from 'react'
 import Create from './actions/Create'
 import { UserParams } from '@/dto/user'
-import { useAuthStore } from '@/zustand/auth.store'
 
 interface HeaderProps {
   setSearchParams: React.Dispatch<React.SetStateAction<UserParams>>
@@ -18,8 +17,6 @@ function Header(props: HeaderProps) {
   const [inputValue, setInputValue] = useState('');
   const [isOpenCreate, setIsOpenCreate] = useState(false);
 
-  const { me } = useAuthStore();
-
   const onSearch = () => {
     setSearchParams(pre => ({
       ...pre,
@@ -29,7 +26,7 @@ function Header(props: HeaderProps) {
   }
   return (
     <>
-      {me?.role === 'ADMIN' && <Create open={isOpenCreate} onClose={() => setIsOpenCreate(false)} setRefreshKey={setRefreshKey} />}
+      {<Create open={isOpenCreate} onClose={() => setIsOpenCreate(false)} setRefreshKey={setRefreshKey} />}
       <div className="mb-2">
         <div className="mb-2">
           <Button variant='primary' onClick={() => setIsOpenCreate(true)}>Thêm mới</Button>

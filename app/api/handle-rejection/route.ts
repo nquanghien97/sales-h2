@@ -28,17 +28,11 @@ export async function POST(req: NextRequest) {
       }, { status: 401 });
     }
 
-    if (user.user_role !== 'ADMIN') {
-      return NextResponse.json({
-        success: false,
-        message: "Bạn không có quyền tạo data"
-      }, { status: 403 });
-    }
-
-    await prisma.handleRejection.create({
+    await prisma.handlerejection.create({
       data: {
         category,
         content,
+        authorId: Number(user.user_id)
       }
     })
 
@@ -97,9 +91,17 @@ export async function GET(req: NextRequest) {
       }, { status: 401 });
     }
 
-    const data = await prisma.handleRejection.findMany({
+    const data = await prisma.handlerejection.findMany({
       where: {
         ...whereCondition
+      },
+      include: {
+        author: {
+          select: {
+            id: true,
+            fullName: true
+          }
+        }
       },
       skip,
       take,
@@ -108,7 +110,7 @@ export async function GET(req: NextRequest) {
       }
     })
 
-    const total = await prisma.handleRejection.count({
+    const total = await prisma.handlerejection.count({
       where: {
         ...whereCondition
       }

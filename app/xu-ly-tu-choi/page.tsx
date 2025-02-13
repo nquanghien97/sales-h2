@@ -72,6 +72,7 @@ function HandleRejection() {
           <th className="px-4 py-2 text-left font-medium border">{data.category}</th>
           <th className="px-4 py-2 text-left font-medium border"><div dangerouslySetInnerHTML={{ __html: data.content}} /></th>
           <th className="px-4 py-2 text-left font-medium border">{formatDate(data.createdAt)}</th>
+          <th className="px-4 py-2 text-left font-medium border">{data.author.fullName}</th>
           {me?.role === 'ADMIN' && (
             <th className="px-4 py-2 text-left font-medium border">
               <div className="flex gap-2">
@@ -115,6 +116,7 @@ function HandleRejection() {
                 <th className="px-4 py-2 text-left border">Từ khóa</th>
                 <th className="px-4 py-2 text-left border">Nội dung</th>
                 <th className="px-4 py-2 text-left border">Thời gian tạo</th>
+                <th className="px-4 py-2 text-left border">Người tạo</th>
                 {me?.role === 'ADMIN' && <th className="px-4 py-2 text-left border">Chức năng</th>}
               </tr>
             </thead>
