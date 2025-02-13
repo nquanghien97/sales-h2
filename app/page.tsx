@@ -4,9 +4,7 @@ import withAuth from "@/hocs/withAuth";
 
 const Home = () => {
   return (
-    <div className="">
-      Xin chào
-    </div>
+    <h1 className="text-center text-2xl">Website tư vấn</h1>
   );
 }
 

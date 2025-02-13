@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+p, li {
+  font-weight: 400;
+}
+
 /* scroll-bar */
 
 ::-webkit-scrollbar {

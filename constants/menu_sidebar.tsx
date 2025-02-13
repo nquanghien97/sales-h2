@@ -4,8 +4,8 @@ import UsersIcon from "@/assets/icons/UsersIcon";
 
 export const menu_sidebar = [
   {
-    title: 'Thông tin khách hàng',
-    url: '/thong-tin-khach-hang',
+    title: 'Kịch bản tư vấn',
+    url: '/kich-ban-tu-van',
     icon: <InfoIcon width={20} height={20} />,
     allowRole: ['ADMIN', 'USER']
   },
