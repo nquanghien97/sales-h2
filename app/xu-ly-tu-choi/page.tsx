@@ -29,7 +29,11 @@ function HandleRejection() {
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isOpenUpdate, setIsOpenUpdate] = useState(false);
 
-  const { me } = useAuthStore()
+  const { me } = useAuthStore();
+
+  useEffect(() => {
+    document.title = "Xử lý từ chối"
+  }, []);
 
   useEffect(() => {
     (async () => {

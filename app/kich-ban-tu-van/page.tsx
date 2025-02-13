@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import Select from '@/components/ui/Select'
-import React, { JSX, useState } from 'react'
+import React, { JSX, useEffect, useState } from 'react'
 import { data_height, data_weight } from '@/constants/data'
 import { data_config, Gender } from './data_config'
 import withAuth from '@/hocs/withAuth'
@@ -20,6 +20,10 @@ function Content() {
     gender: '',
     currentAge: '',
   });
+
+  useEffect(() => {
+    document.title = "Kịch bản tư vấn"
+  }, []);
 
   const validateForm = () => {
     const errors: { [key: string]: string } = {};

@@ -32,6 +32,10 @@ function UsersManagement() {
   const [isOpenUpdateUser, setIsOpenUpdateUser] = useState(false);
 
   useEffect(() => {
+    document.title = "Quản lý người dùng"
+  }, []);
+
+  useEffect(() => {
     (async () => {
       try {
         setLoading(true)

@@ -2,7 +2,7 @@
 
 import { loginUser } from '@/services/auth';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { Input } from '@/components/ui/Input';
 import { toast } from 'react-toastify';
@@ -20,6 +20,10 @@ function Login() {
   const [loading, setLoading] = useState(false);
 
   const { getMe } = useAuthStore();
+
+  useEffect(() => {
+    document.title = "Đăng nhập"
+  }, []);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
