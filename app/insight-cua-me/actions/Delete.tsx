@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/Button'
 import LoadingIcon from '@/components/ui/LoadingIcon'
 import Modal from '@/components/ui/Modal'
-import { HandleRejectionEntity } from '@/entities/handle-rejection'
-import { deleteHandleRejection } from '@/services/handle-rejection'
+import { HandleRejectionEntity } from '@/entities/insight-mother'
+import { deleteHandleRejection } from '@/services/insight-mother'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 

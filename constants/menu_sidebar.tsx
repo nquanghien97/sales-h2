@@ -1,18 +1,18 @@
-import BanIcon from "@/assets/icons/BanIcon";
-import InfoIcon from "@/assets/icons/InforIcon";
+import ChildrenIcon from "@/assets/icons/ChildrenIcon";
 import UsersIcon from "@/assets/icons/UsersIcon";
+import WomenIcon from "@/assets/icons/WomenIcon";
 
 export const menu_sidebar = [
   {
-    title: 'Kịch bản tư vấn',
-    url: '/kich-ban-tu-van',
-    icon: <InfoIcon width={20} height={20} />,
+    title: 'INSIGHT CỦA BÉ',
+    url: '/insight-cua-be',
+    icon: <ChildrenIcon width={20} height={20} />,
     allowRole: ['ADMIN', 'USER']
   },
   {
-    title: 'Xử lý từ chối',
-    url: '/xu-ly-tu-choi',
-    icon: <BanIcon width={20} height={20} />,
+    title: 'INSIGHT CỦA MẸ',
+    url: '/insight-cua-me',
+    icon: <WomenIcon width={20} height={20} />,
     allowRole: ['ADMIN', 'USER']
   },
   {

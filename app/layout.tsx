@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`bg-[#ccc] font-normal`}
+        className={`bg-[#faf2de] font-normal`}
       >
         {pathname.startsWith('/login') ? (
           children
@@ -33,7 +33,7 @@ export default function RootLayout({
           <div className="flex">
 
             <Sidebar />
-            <main className="p-2 bg-[#ccc] w-[calc(100%-240px)] h-screen">
+            <main className="p-2 bg-[#faf2de] w-[calc(100%-240px)] h-screen">
               {children}
             </main>
           </div>

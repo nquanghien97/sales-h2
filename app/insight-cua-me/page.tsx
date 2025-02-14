@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react'
 import Header from './Header'
-import { HandleRejectionEntity } from '@/entities/handle-rejection'
-import { handleRejectionParams } from '@/dto/handle-rejection'
+import { HandleRejectionEntity } from '@/entities/insight-mother'
+import { handleRejectionParams } from '@/dto/insight-mother'
 import { formatDate } from '@/utils/formatDate'
 import Select from '@/components/ui/Select'
 import Pagination from '@/components/ui/Pagination'
@@ -13,7 +13,7 @@ import DeleteIcon from '@/assets/icons/DeleteIcon'
 import withAuth from '@/hocs/withAuth'
 import Delete from './actions/Delete'
 import Update from './actions/Update'
-import { getHandleRejections } from '@/services/handle-rejection'
+import { getHandleRejections } from '@/services/insight-mother'
 import { useAuthStore } from '@/zustand/auth.store'
 import DataIcon from '@/assets/icons/DataIcon'
 
@@ -72,13 +72,13 @@ function HandleRejection() {
     return (
       datas.map((data, index) => (
         <tr key={data.id}>
-          <th className="px-4 py-2 text-left font-medium border">{(index + 1) + pageSize * (page - 1)}</th>
-          <th className="px-4 py-2 text-left font-medium border">{data.category}</th>
-          <th className="px-4 py-2 text-left font-medium border"><div dangerouslySetInnerHTML={{ __html: data.content}} /></th>
-          <th className="px-4 py-2 text-left font-medium border">{formatDate(data.createdAt)}</th>
-          <th className="px-4 py-2 text-left font-medium border">{data.author.fullName}</th>
+          <th className="px-4 py-2 text-left font-medium border border-black">{(index + 1) + pageSize * (page - 1)}</th>
+          <th className="px-4 py-2 text-left font-medium border border-black">{data.category}</th>
+          <th className="px-4 py-2 text-left font-medium border border-black"><div dangerouslySetInnerHTML={{ __html: data.content}} /></th>
+          <th className="px-4 py-2 text-left font-medium border border-black">{formatDate(data.createdAt)}</th>
+          <th className="px-4 py-2 text-left font-medium border border-black">{data.author.fullName}</th>
           {me?.role === 'ADMIN' && (
-            <th className="px-4 py-2 text-left font-medium border">
+            <th className="px-4 py-2 text-left font-medium border border-black">
               <div className="flex gap-2">
                 {/* update user */}
                 <ButtonIcon
@@ -110,18 +110,18 @@ function HandleRejection() {
       {data && (<Update data={data} open={isOpenUpdate} onClose={() => setIsOpenUpdate(false)} setRefreshKey={setRefreshKey} />)}
       {data && (<Delete data={data} open={isOpenDelete} onClose={() => setIsOpenDelete(false)} setRefreshKey={setRefreshKey} />)}
       <div>
-        <h1 className="text-center text-2xl font-bold mb-4 py-4">Quản lý người dùng</h1>
-        <div className="bg-white rounded-xl p-4">
+        <h1 className="text-center text-4xl font-bold mb-4 py-4">INSIGHT CỦA MẸ</h1>
+        <div className="bg-[#f4d798] shadow-xl rounded-xl p-4">
           <Header setSearchParams={setSearchParams} setRefreshKey={setRefreshKey} />
           <table className="w-full border-collapse">
-            <thead className="bg-[#ccc]">
+            <thead className="bg-[#f0c568]">
               <tr>
-                <th className="px-4 py-2 text-left border">STT</th>
-                <th className="px-4 py-2 text-left border">Từ khóa</th>
-                <th className="px-4 py-2 text-left border">Nội dung</th>
-                <th className="px-4 py-2 text-left border">Thời gian tạo</th>
-                <th className="px-4 py-2 text-left border">Người tạo</th>
-                {me?.role === 'ADMIN' && <th className="px-4 py-2 text-left border">Chức năng</th>}
+                <th className="px-4 py-2 text-left border border-black">STT</th>
+                <th className="px-4 py-2 text-left border border-black">Từ khóa</th>
+                <th className="px-4 py-2 text-left border border-black">Nội dung</th>
+                <th className="px-4 py-2 text-left border border-black">Thời gian tạo</th>
+                <th className="px-4 py-2 text-left border border-black">Người tạo</th>
+                {me?.role === 'ADMIN' && <th className="px-4 py-2 text-left border border-black">Chức năng</th>}
               </tr>
             </thead>
             <tbody>

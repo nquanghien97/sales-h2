@@ -45,7 +45,7 @@ export const data_config = ({ heightBelowStandard, heightAboveStandard, weightBe
         condition: ({ currentHeight, currentWeight } : { currentHeight: number, currentWeight: number }) => currentHeight < heightAboveStandard && currentHeight > heightBelowStandard && currentWeight > weightAboveStandard,
         title: 'Bé cao chuẩn, cân nặng dư',
         content: (
-          <ul className="text-lg font-semibold list-disc px-8 list-disc">
+          <ul className="text-lg font-semibold px-8 list-disc">
             <li>Bé có nền tảng chiều cao tốt nhưng cân nặng dư thừa có thể ảnh hưởng đến sức khỏe xương khớp, làm tăng nguy cơ dậy thì sớm và các vấn đề về chuyển hóa như kháng insulin, béo phì khi trưởng thành.</li>
             <li>Hiện tại tiêu chuẩn chiều cao ngày càng tăng lên, dù con bây giờ cao có đang đạt trung bình nhưng để con cao lớn hơn thì mẹ bổ sung giai đoạn này là rất chuẩn đó ạ.</li>
             <li>Bé nhà mình cần sản phẩm để phát triển chiều cao, đồng thời kiểm soát cân nặng đó mẹ. Sữa Wowtop bên em giúp hỗ trợ phát triển chiều cao từ cấp nguyên bào xương với thành phần CBP cao và cũng là dòng sữa đầu tiên tại nhập khẩu hiện tại ở Việt Nam có chứa CBP, Canxi với hàm lượng cao nhất.</li>

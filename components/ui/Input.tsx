@@ -15,7 +15,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {label && <p className={`whitespace-nowrap mr-2 text-[#2563eb]`} style={{ width: minWidthLabel }}>{label}</p>}
         <div
           className={
-            `w-full rounded-xl border flex`
+            `w-full rounded-xl border flex bg-white`
           }
         >
           {icon && (

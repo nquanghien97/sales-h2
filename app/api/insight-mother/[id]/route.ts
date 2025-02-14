@@ -33,7 +33,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: numb
       }, { status: 403 });
     }
 
-    const data = await prisma.handlerejection.findUnique({
+    const data = await prisma.insight_mother.findUnique({
       where: {
         id: +id
       }
@@ -86,7 +86,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: numb
       }, { status: 403 });
     }
 
-    await prisma.handlerejection.update({
+    await prisma.insight_mother.update({
       where: {
         id: +id
       },
@@ -139,7 +139,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: n
         message: "Bạn không có quyền"
       }, { status: 403 });
     }
-    await prisma.handlerejection.delete({
+    await prisma.insight_mother.delete({
       where: {
         id: +id
       }

@@ -72,11 +72,11 @@ function UsersManagement() {
     return (
       users.map((user, index) => (
         <tr key={user.id}>
-          <th className="px-4 py-2 text-left font-medium border">{(index + 1) + pageSize * (page - 1)}</th>
-          <th className="px-4 py-2 text-left font-medium border">{user.username}</th>
-          <th className="px-4 py-2 text-left font-medium border">{user.fullName}</th>
-          <th className="px-4 py-2 text-left font-medium border">{formatDate(user.createdAt)}</th>
-          <th className="px-4 py-2 text-left font-medium border">
+          <th className="px-4 py-2 text-left font-medium border border-black">{(index + 1) + pageSize * (page - 1)}</th>
+          <th className="px-4 py-2 text-left font-medium border border-black">{user.username}</th>
+          <th className="px-4 py-2 text-left font-medium border border-black">{user.fullName}</th>
+          <th className="px-4 py-2 text-left font-medium border border-black">{formatDate(user.createdAt)}</th>
+          <th className="px-4 py-2 text-left font-medium border border-black">
             <div className="flex gap-2">
               {/* update user */}
               <ButtonIcon
@@ -116,17 +116,17 @@ function UsersManagement() {
       {user && (<ChangePasswordUser user={user} open={isOpenChangePassword} onClose={() => setIsOpenChangePassword(false)} setRefreshKey={setRefreshKey} />)}
       {user && (<DeleteUser user={user} open={isOpenDeleteUser} onClose={() => setIsOpenDeleteUser(false)} setRefreshKey={setRefreshKey} />)}
       <div>
-        <h1 className="text-center text-2xl font-bold mb-4 py-4">Quản lý người dùng</h1>
-        <div className="bg-white rounded-xl p-4">
+        <h1 className="text-center text-4xl font-bold mb-4 py-4">QUẢN LÝ NGƯỜI DÙNG</h1>
+        <div className="bg-[#f4d798] rounded-xl p-4 shadow-xl">
           <Header setSearchParams={setSearchParams} setRefreshKey={setRefreshKey} />
           <table className="w-full border-collapse">
-            <thead className="bg-[#ccc]">
+            <thead className="bg-[#f0c568]">
               <tr>
-                <th className="px-4 py-2 text-left border">STT</th>
-                <th className="px-4 py-2 text-left border">Tài khoản</th>
-                <th className="px-4 py-2 text-left border">Tên</th>
-                <th className="px-4 py-2 text-left border">Thời gian tạo</th>
-                <th className="px-4 py-2 text-left border">Chức năng</th>
+                <th className="px-4 py-2 text-left border border-black">STT</th>
+                <th className="px-4 py-2 text-left border border-black">Tài khoản</th>
+                <th className="px-4 py-2 text-left border border-black">Tên</th>
+                <th className="px-4 py-2 text-left border border-black">Thời gian tạo</th>
+                <th className="px-4 py-2 text-left border border-black">Chức năng</th>
               </tr>
             </thead>
             <tbody>

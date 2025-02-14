@@ -7,13 +7,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model handlerejection {
+model insight_mother {
   id        Int      @id @default(autoincrement())
   category  String
   content   String   @db.LongText
-  createdAt DateTime @default(now())
   authorId  Int
-  author    user    @relation(fields: [authorId], references: [id])
+  author    user     @relation(fields: [authorId], references: [id])
+  images    image[]
+  createdAt DateTime @default(now())
+}
+
+enum ImageCategory {
+  SalesPolicy
+  Products
+  ProductDocuments
+  Feedbacks
+}
+
+model image {
+  id              Int            @id @default(autoincrement())
+  url             String
+  category        ImageCategory
+  authorId        Int
+  author          user           @relation(fields: [authorId], references: [id])
+  insightMotherId Int
+  insightMother   insight_mother @relation(fields: [insightMotherId], references: [id])
+  createdAt       DateTime       @default(now())
 }
 
 model user {
@@ -24,7 +43,9 @@ model user {
   role      user_role @default(USER)
   createdAt DateTime  @default(now())
 
-  handlerejection handlerejection[]
+  insight_mother insight_mother[]
+
+  image image[]
 }
 
 enum user_role {

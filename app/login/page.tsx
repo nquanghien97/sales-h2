@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { Button } from '@/components/ui/Button';
 import LoadingIcon from '@/components/ui/LoadingIcon';
 import { useAuthStore } from '@/zustand/auth.store';
+import Image from 'next/image';
 
 function Login() {
 
@@ -54,8 +55,9 @@ function Login() {
 
   return (
     <>
-      <div className="h-screen flex items-center justify-center bg-[#ccc]">
-        <div className="flex flex-col bg-white p-8 rounded-xl w-1/2">
+      <div className="h-screen flex flex-col items-center justify-center bg-[url('/bg-desktop.jpg')] bg-[length:100%_100%]">
+        <Image src="/logo-ngang.png" alt="logo-ngang" width={620} height={200} className="w-1/4" />
+        <div className="flex flex-col bg-white p-8 rounded-xl w-1/2 mb-2">
           <h1 className="text-center text-2xl mb-4">Đăng nhập</h1>
           <form className="flex flex-col w-full" onSubmit={onSubmit}>
             <div className="mb-4 w-full">
@@ -74,6 +76,7 @@ function Login() {
             </div>
           </form>
         </div>
+        <p className="text-[#2563eb] text-2xl italic font-bold">&quot;Làm việc tận tâm, vươn tầm Thế Giới&quot;</p>
       </div>
     </>
   )

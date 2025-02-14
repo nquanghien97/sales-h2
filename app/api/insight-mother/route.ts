@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
       }, { status: 401 });
     }
 
-    await prisma.handlerejection.create({
+    await prisma.insight_mother.create({
       data: {
         category,
         content,
@@ -91,7 +91,7 @@ export async function GET(req: NextRequest) {
       }, { status: 401 });
     }
 
-    const data = await prisma.handlerejection.findMany({
+    const data = await prisma.insight_mother.findMany({
       where: {
         ...whereCondition
       },
@@ -110,7 +110,7 @@ export async function GET(req: NextRequest) {
       }
     })
 
-    const total = await prisma.handlerejection.count({
+    const total = await prisma.insight_mother.count({
       where: {
         ...whereCondition
       }

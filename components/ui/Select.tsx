@@ -70,7 +70,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(({
 
   return (
     <div className={`relative w-full flex items-center ${className}`} ref={mergedRef}>
-      {label && <label className="bg-white px-1 text-blue-600 whitespace-nowrap">{label}</label>}
+      {label && <label className="px-1 text-blue-600 whitespace-nowrap">{label}</label>}
       <div
         className={`flex justify-between w-full items-center p-2 bg-white border rounded-xl cursor-pointer transition-all duration-200 ${isOpen ? 'border-gray-600 rounded-b-none' : 'border-gray-300 hover:border-gray-400'}`}
         onClick={() => setIsOpen(!isOpen)}

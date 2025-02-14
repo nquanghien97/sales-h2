@@ -6,6 +6,7 @@ import SidebarItem from './SidebarItem';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/zustand/auth.store';
+import { Button } from '../ui/Button';
 
 function Sidebar() {
   const router = useRouter();
@@ -19,11 +20,11 @@ function Sidebar() {
 
   return (
     <>
-      <div className="w-[240px] fixed h-screen">
+      <div className="w-[240px] fixed h-screen border-r border-[#ccc]">
         <div className="p-2 py-4 bg-[#2563eb] text-white text-center">
           {me?.fullName}
         </div>
-        <div className="bg-white h-[calc(100%-56px)] overflow-x-hidden overflow-y-auto flex flex-col">
+        <div className="bg-[#f8e2b2] h-[calc(100%-56px)] overflow-x-hidden overflow-y-auto flex flex-col">
           <div className="py-2 flex-1">
             {menu_sidebar.map(menu => (
               me && menu.allowRole.includes(me?.role) && (
@@ -32,7 +33,7 @@ function Sidebar() {
             ))}
           </div>
           <div className="flex justify-center py-4">
-            <button className="bg-black text-white py-2 px-4 rounded-xl hover:opacity-70 duration-300" onClick={logOut}>Đăng xuất</button>
+            <Button variant='primary' onClick={logOut}>Đăng xuất</Button>
           </div>
         </div>
       </div>
