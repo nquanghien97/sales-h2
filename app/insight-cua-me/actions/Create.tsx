@@ -6,7 +6,7 @@ import { createHandleRejection } from '@/services/insight-mother'
 import { Editor } from '@tinymce/tinymce-react'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
-import { Form, Image, Upload } from "antd";
+import { Form } from "antd";
 
 interface CreateUserProps {
   open: boolean
@@ -22,20 +22,12 @@ function CreateUser(props: CreateUserProps) {
   const { open, onClose, setRefreshKey } = props;
 
   const [loading, setLoading] = useState(false);
-  const [salesPolicy, setSalesPolicy] = useState<File[]>([]);
-  const [products, setProducts] = useState<File[]>([]);
-  const [productDocuments, setProductDocuments] = useState<File[]>([]);
-  const [feedbacks, setFeedbacks] = useState<File[]>([]);
   const [content, setContent] = useState('')
 
   const [form] = Form.useForm();
 
   const handleClose = () => {
     onClose();
-    setSalesPolicy([])
-    setProducts([])
-    setProductDocuments([])
-    setFeedbacks([])
   }
 
   const onSubmit = async (data: FormValues) => {
