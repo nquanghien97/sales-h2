@@ -4,9 +4,10 @@ import path from 'path';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { path: string[] } }
+  { params }: { params: Promise<{ path: string[] }> }
 ) {
-  const filePath = path.join(process.cwd(), 'files', ...params.path);
+  const { path: pathSegments } = await params;
+  const filePath = path.join(process.cwd(), 'files', ...pathSegments);
 
   if (fs.existsSync(filePath)) {
     const fileBuffer = await fs.promises.readFile(filePath);
