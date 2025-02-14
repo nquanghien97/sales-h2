@@ -28,6 +28,10 @@ function CreateUser(props: CreateUserProps) {
 
   const handleClose = () => {
     onClose();
+    form.setFieldsValue({
+      category: '',
+    });
+    setContent('');
   }
 
   const onSubmit = async (data: FormValues) => {
@@ -53,7 +57,7 @@ function CreateUser(props: CreateUserProps) {
   return (
     <Modal
       open={open}
-      onClose={() => { }}
+      onClose={handleClose}
       className='w-1/2'
     >
       <h1 className="mb-4 text-2xl font-bold text-center">Thêm mới nội dung</h1>
