@@ -120,10 +120,10 @@ function Content() {
 
   const ketLuanCanNang = () => {
     if (+currentWeight < weightBelowStandard) {
-      return <strong>nhẹ hơn {(data_weight?.[gender!]?.[+currentAge] - +currentWeight).toFixed(2)} cm</strong>
+      return <strong>nhẹ hơn {(data_weight?.[gender!]?.[+currentAge] - +currentWeight).toFixed(2)} kg so với tiêu chuẩn</strong>
     }
     if (+currentWeight > weightAboveStandard) {
-      return <strong>nặng hơn {(+currentWeight - data_weight?.[gender!]?.[+currentAge]).toFixed(2)} cm</strong>
+      return <strong>nặng hơn {(+currentWeight - data_weight?.[gender!]?.[+currentAge]).toFixed(2)} kg so với tiêu chuẩn</strong>
     }
     return <strong>đạt cân nặng tiêu chuẩn</strong>
   }
