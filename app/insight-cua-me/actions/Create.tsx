@@ -6,7 +6,7 @@ import { createHandleRejection } from '@/services/insight-mother'
 import { Editor } from '@tinymce/tinymce-react'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
-import { Form } from "antd";
+import { Form, Image, Upload } from "antd";
 
 interface CreateUserProps {
   open: boolean
@@ -22,16 +22,21 @@ function CreateUser(props: CreateUserProps) {
   const { open, onClose, setRefreshKey } = props;
 
   const [loading, setLoading] = useState(false);
+  const [salesPolicy, setSalesPolicy] = useState<File[]>([]);
+  const [products, setProducts] = useState<File[]>([]);
+  const [productDocuments, setProductDocuments] = useState<File[]>([]);
+  const [feedbacks, setFeedbacks] = useState<File[]>([]);
   const [content, setContent] = useState('')
 
   const [form] = Form.useForm();
 
   const handleClose = () => {
     onClose();
-    form.setFieldsValue({
-      category: '',
-    });
-    setContent('');
+    setSalesPolicy([])
+    setProducts([])
+    setProductDocuments([])
+    setFeedbacks([])
+    form.setFieldsValue('')
   }
 
   const onSubmit = async (data: FormValues) => {
@@ -53,16 +58,24 @@ function CreateUser(props: CreateUserProps) {
       setLoading(false);
     }
   }
-
+  console.log(productDocuments.map(file => {
+    if (file.type.startsWith("image/")) {
+      console.log(`${file.name} là hình ảnh.`);
+    } else if (file.type.startsWith("video/")) {
+      console.log(`${file.name} là video.`);
+    } else {
+      console.log(`${file.name} không phải hình ảnh hoặc video.`);
+    }
+  }))
   return (
     <Modal
       open={open}
-      onClose={handleClose}
+      onClose={() => { }}
       className='w-1/2'
     >
       <h1 className="mb-4 text-2xl font-bold text-center">Thêm mới nội dung</h1>
       <div>
-        <Form form={form} onFinish={onSubmit} initialValues={{ category: "" }}>
+        <Form form={form} onFinish={onSubmit}>
           <div className="flex items-center h-[40px] mb-2">
             <p className="w-[106px] text-left text-[#2563eb]">Từ khóa</p>
             <Form.Item
@@ -103,7 +116,7 @@ function CreateUser(props: CreateUserProps) {
               />
             </div>
           </div>
-          {/* <div className="flex items-center flex-col pb-4 border-b mb-4">
+          <div className="flex items-center flex-col py-4 border-b mb-4">
             <div className="flex items-center w-full h-full">
               <p className="w-[106px] text-left text-[#2563eb]">Chính sách bán hàng</p>
               <div className="flex items-center flex-1">
@@ -134,7 +147,7 @@ function CreateUser(props: CreateUserProps) {
               </div>
             </div>
           </div>
-          <div className="flex items-center flex-col pb-4 border-b mb-4">
+          <div className="flex items-center flex-col py-4 border-b mb-4">
             <div className="flex items-center w-full h-full">
               <p className="w-[106px] text-left text-[#2563eb]">Sản phẩm</p>
               <div className="flex items-center flex-1">
@@ -165,7 +178,7 @@ function CreateUser(props: CreateUserProps) {
               </div>
             </div>
           </div>
-          <div className="flex items-center flex-col pb-4 border-b mb-4">
+          <div className="flex items-center flex-col py-4 border-b mb-4">
             <div className="flex items-center w-full h-full">
               <p className="w-[106px] text-left text-[#2563eb]">Giấy tờ sản phẩm</p>
               <div className="flex items-center flex-1">
@@ -199,7 +212,7 @@ function CreateUser(props: CreateUserProps) {
                   }
                 </div>
               )}
-          </div> */}
+          </div>
           <div className="flex justify-center gap-4">
             <Button variant='danger' onClick={handleClose}>Hủy</Button>
             <Button variant='primary' type="submit">
