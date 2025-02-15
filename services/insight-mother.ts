@@ -1,16 +1,13 @@
 import { api } from "@/utils/api";
 
-export function createHandleRejection({ category, content }: { category: string, content: string }) {
+export function createInsightMother(data: FormData) {
   return api(`/api/insight-mother`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ category, content }),
+    body: data,
   })
 }
 
-export function getHandleRejections({ search, page, pageSize }: { search?: string, page?: number, pageSize?: number }) {
+export function getInsightMothers({ search, page, pageSize }: { search?: string, page?: number, pageSize?: number }) {
   const params = new URLSearchParams();
   if (search) params.append('search', search.toString());
   if (page) params.append('page', page.toString());
@@ -18,17 +15,14 @@ export function getHandleRejections({ search, page, pageSize }: { search?: strin
   return api(`/api/insight-mother?${params.toString()}`);
 }
 
-export function updateHandleRejection({ id, category, content }: { id: number, category: string, content: string }) {
+export function updateInsightMother({ id, data } : { id: number, data: FormData }) {
   return api(`/api/insight-mother/${id}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ category, content }),
+    body: data,
   })
 }
 
-export function deleteHandleRejection(id: number) {
+export function deleteInsightMother(id: number) {
   return api(`/api/insight-mother/${id}`, {
     method: 'DELETE',
   })

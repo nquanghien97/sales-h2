@@ -8,7 +8,7 @@ interface SidebarItemProps {
   menu: {
     title: string;
     url: string;
-    icon: JSX.Element
+    icon?: JSX.Element
   }
 }
 
@@ -19,12 +19,10 @@ function SidebarItem(props: SidebarItemProps) {
   const isPathActive = pathname === menu.url
 
   return (
-    <div className="mb-2">
-      <Link className={`flex items-center gap-1 p-2 hover:text-[#716aca] font-bold duration-300 ${isPathActive ? 'text-[#716aca]' : ''}`} href={menu.url}>
-        {menu.icon}
-        {menu.title}
-      </Link>
-    </div>
+    <Link className={`flex items-center gap-1 p-2 mb-2 hover:text-[#716aca] font-bold duration-300 ${isPathActive ? 'text-[#716aca]' : ''}`} href={menu.url}>
+      {menu.icon}
+      {menu.title}
+    </Link>
   )
 }
 

@@ -11,8 +11,11 @@ export async function uploadFile(files: File[], folderPath: string) {
       path.join(targetPath, filename),
       buffer
     );
-
-    return filename;
+    const type = file.type.startsWith('image/') ? 'image' : file.type.startsWith('video/') ? 'video' : '' as unknown as 'video' | 'image';
+    return {
+      filename: `/files/${folderPath}/${filename}`,
+      type
+    }
   });
 
   const filenames = await Promise.all(promises);

@@ -1,8 +1,8 @@
 import { UserEntity } from "./user";
 
-export interface HandleRejectionEntity {
+export interface InsightMotherEntity {
   id: number;
-  category: string;
+  keyword: string;
   content: string;
   author: UserEntity
   createdAt: Date;

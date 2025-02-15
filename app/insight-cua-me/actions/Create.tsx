@@ -2,11 +2,11 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import LoadingIcon from '@/components/ui/LoadingIcon'
 import Modal from '@/components/ui/Modal'
-import { createHandleRejection } from '@/services/insight-mother'
 import { Editor } from '@tinymce/tinymce-react'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { Form, Image, Upload, UploadFile } from "antd";
+import { createInsightMother } from '@/services/insight-mother'
 
 interface CreateUserProps {
   open: boolean
@@ -15,7 +15,7 @@ interface CreateUserProps {
 }
 
 interface FormValues {
-  category: string
+  keyword: string
 }
 
 function CreateUser(props: CreateUserProps) {
@@ -36,20 +36,39 @@ function CreateUser(props: CreateUserProps) {
     setProducts([])
     setProductDocuments([])
     setFeedbacks([])
-    form.setFieldsValue('')
+    setContent('')
+    form.setFieldsValue({
+      keyword: '',
+    })
   }
 
   const onSubmit = async (data: FormValues) => {
     setLoading(true);
     try {
-      console.log(data)
-      // await createHandleRejection({
-      //   category: data.category,
-      //   content,
-      // })
-      // setRefreshKey(pre => !pre);
+      const formData = new FormData()
+      formData.append("keyword", data.keyword);
+      formData.append("content", content);
 
-      // handleClose();
+      salesPolicy.forEach((file) => {
+        formData.append("salesPolicy", file as unknown as File); // Không có [] trong key
+      });
+      
+      products.forEach((file) => {
+        formData.append("products", file as unknown as File);
+      });
+      
+      productDocuments.forEach((file) => {
+        formData.append("productDocuments", file as unknown as File);
+      });
+      
+      feedbacks.forEach((file) => {
+        formData.append("feedbacks", file as unknown as File);
+      });
+
+      await createInsightMother(formData)
+      
+      setRefreshKey(pre => !pre);
+      handleClose();
     } catch (e) {
       if (e instanceof Error) {
         console.error(e.message);
@@ -68,12 +87,12 @@ function CreateUser(props: CreateUserProps) {
     >
       <h1 className="mb-4 text-2xl font-bold text-center">Thêm mới nội dung</h1>
       <div>
-        <Form form={form} onFinish={onSubmit} initialValues={{ category: '' }}>
+        <Form form={form} onFinish={onSubmit} initialValues={{ keyword: '' }}>
           <div className="flex items-center h-[40px] mb-6">
             <p className="w-[106px] text-left text-[#2563eb]">Từ khóa</p>
             <Form.Item
               className="!mb-0 w-full flex-1"
-              name="category"
+              name="keyword"
               rules={[
                 {
                   required: true,
@@ -153,7 +172,7 @@ function CreateUser(props: CreateUserProps) {
             <div className="flex items-center w-full h-full">
               <p className="w-[106px] text-left text-[#2563eb]">Sản phẩm</p>
               <div className="flex items-center flex-1">
-                <Form.Item name="product" valuePropName="filelist">
+                <Form.Item name="products" valuePropName="filelist">
                   <Upload
                     multiple
                     showUploadList
@@ -186,7 +205,7 @@ function CreateUser(props: CreateUserProps) {
             <div className="flex items-center w-full h-full">
               <p className="w-[106px] text-left text-[#2563eb]">Giấy tờ sản phẩm</p>
               <div className="flex items-center flex-1">
-                <Form.Item name="product_documents" valuePropName="filelist">
+                <Form.Item name="productDocuments" valuePropName="filelist">
                   <Upload
                     multiple
                     showUploadList

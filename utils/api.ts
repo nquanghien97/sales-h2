@@ -4,7 +4,6 @@ export async function api(url: string, options: RequestInit = {}) {
   const token = Cookies.get('token');
 
   const headers = {
-    "Content-Type": "application/json",
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
     ...options.headers,
   };
