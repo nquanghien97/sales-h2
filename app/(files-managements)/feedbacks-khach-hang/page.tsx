@@ -1,5 +1,9 @@
 'use client';
 
+import DownloadIcon from '@/assets/icons/DownloadIcon';
+import SearchIcon from '@/assets/icons/SearchIcon';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
 import LoadingIcon from '@/components/ui/LoadingIcon';
 import Pagination from '@/components/ui/Pagination';
 import Select from '@/components/ui/Select';
@@ -15,10 +19,18 @@ function SalesPolicy() {
   const [pageSize, setPageSize] = useState(10);
   const [total, setTotal] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     document.title = 'Feedback Khách hàng'
   }, [])
+
+  const onSearch = () => {
+    setSearchParams({
+      ...searchParams,
+      search
+    })
+  }
 
   useEffect(() => {
     (async () => {
@@ -43,6 +55,18 @@ function SalesPolicy() {
   return (
     <div>
       <h1 className="text-center text-4xl font-bold mb-4 py-4">Feedback Khách hàng</h1>
+      <div className="mb-2">
+        <div className="flex items-center gap-2 w-full">
+          <Input
+            placeholder='Tìm kiếm tên hình ảnh, video'
+            icon={<SearchIcon />}
+            className="w-1/2"
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
+          />
+          <Button variant='primary' onClick={onSearch}>Tìm kiếm</Button>
+        </div>
+      </div>
       <div className="flex flex-wrap justify-center w-full py-4 gap-4">
         {loading ? (
           <LoadingIcon color='blue' />
@@ -51,21 +75,37 @@ function SalesPolicy() {
             files.map((file, index) => {
               if (file.type?.startsWith('image')) {
                 return (
-                  <Image.PreviewGroup key={index}>
-                    <Image className="border-2 m-auto cursor-pointer" width={180} height={180} src={`/api${file.url}`} alt="preview avatar" />
-                  </Image.PreviewGroup>
+                  <div key={index} className="flex flex-col gap-2">
+                    <Image.PreviewGroup>
+                      <Image className="border-2 m-auto cursor-pointer" width={300} height={180} src={`/api${file.url}`} alt="preview avatar" />
+                    </Image.PreviewGroup>
+                    <Button variant='primary'>
+                      <a download href={`/api${file.url}`} className="flex">
+                        <span>Tải xuống</span>
+                        <DownloadIcon />
+                      </a>
+                    </Button>
+                  </div>
                 )
               }
               if (file.type?.startsWith('video')) {
                 return (
-                  <video
-                    key={index}
-                    controls
-                    width={300}
-                    height={300}
-                  >
-                    <source className="border-2 m-auto cursor-pointer" width={100} height={100} src={`/api${file.url}`} />
-                  </video>
+                  <div key={index} className="flex flex-col gap-2">
+                    <video
+                      controls
+                      width={300}
+                      height={300}
+                      className='h-[180px] w-[300px]'
+                    >
+                      <source className="border-2 m-auto cursor-pointer" width={100} height={100} src={`/api${file.url}`} />
+                    </video>
+                    <Button variant='primary'>
+                      <a download href={`/api${file.url}`} className="flex">
+                        <span>Tải xuống</span>
+                        <DownloadIcon />
+                      </a>
+                    </Button>
+                  </div>
                 )
               }
             })
