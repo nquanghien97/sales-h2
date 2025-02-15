@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/Button'
 import LoadingIcon from '@/components/ui/LoadingIcon'
 import Modal from '@/components/ui/Modal'
-import { HandleRejectionEntity } from '@/entities/insight-mother'
-import { deleteHandleRejection } from '@/services/insight-mother'
+import { InsightMotherEntity } from '@/entities/insight-mother'
+import { deleteInsightMother } from '@/services/insight-mother'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 
@@ -10,7 +10,7 @@ interface DeleteProps {
   open: boolean
   onClose: () => void
   setRefreshKey: React.Dispatch<React.SetStateAction<boolean>>
-  data: HandleRejectionEntity
+  data: InsightMotherEntity
 }
 
 function Delete(props: DeleteProps) {
@@ -20,7 +20,7 @@ function Delete(props: DeleteProps) {
   const onDelete = async () => {
     setLoading(true);
     try {
-      await deleteHandleRejection(data.id);
+      await deleteInsightMother(data.id);
       toast.success('Xóa data thành công');
       setRefreshKey(pre => !pre);
       onClose();

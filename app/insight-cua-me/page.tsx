@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import Header from './Header'
-import { HandleRejectionEntity } from '@/entities/insight-mother'
+import { InsightMotherEntity } from '@/entities/insight-mother'
 import { handleRejectionParams } from '@/dto/insight-mother'
 import { formatDate } from '@/utils/formatDate'
 import Select from '@/components/ui/Select'
@@ -13,19 +13,19 @@ import DeleteIcon from '@/assets/icons/DeleteIcon'
 import withAuth from '@/hocs/withAuth'
 import Delete from './actions/Delete'
 import Update from './actions/Update'
-import { getHandleRejections } from '@/services/insight-mother'
+import { getInsightMothers } from '@/services/insight-mother'
 import { useAuthStore } from '@/zustand/auth.store'
 import DataIcon from '@/assets/icons/DataIcon'
 
 function HandleRejection() {
-  const [datas, setDatas] = useState<HandleRejectionEntity[]>([]);
+  const [datas, setDatas] = useState<InsightMotherEntity[]>([]);
   const [searchParams, setSearchParams] = useState<handleRejectionParams>({});
   const [refreshKey, setRefreshKey] = useState(false);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [total, setTotal] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<HandleRejectionEntity>();
+  const [data, setData] = useState<InsightMotherEntity>();
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isOpenUpdate, setIsOpenUpdate] = useState(false);
 
@@ -39,7 +39,7 @@ function HandleRejection() {
     (async () => {
       try {
         setLoading(true)
-        const res = await getHandleRejections({
+        const res = await getInsightMothers({
           ...searchParams,
           page,
           pageSize
@@ -73,7 +73,7 @@ function HandleRejection() {
       datas.map((data, index) => (
         <tr key={data.id}>
           <th className="px-4 py-2 text-left font-medium border border-black">{(index + 1) + pageSize * (page - 1)}</th>
-          <th className="px-4 py-2 text-left font-medium border border-black">{data.category}</th>
+          <th className="px-4 py-2 text-left font-medium border border-black">{data.keyword}</th>
           <th className="px-4 py-2 text-left font-medium border border-black"><div dangerouslySetInnerHTML={{ __html: data.content}} /></th>
           <th className="px-4 py-2 text-left font-medium border border-black">{formatDate(data.createdAt)}</th>
           <th className="px-4 py-2 text-left font-medium border border-black">{data.author.fullName}</th>

@@ -9,25 +9,31 @@ datasource db {
 
 model insight_mother {
   id        Int      @id @default(autoincrement())
-  category  String
+  keyword   String
   content   String   @db.LongText
   authorId  Int
   author    user     @relation(fields: [authorId], references: [id])
-  images    image[]
+  images    files[]
   createdAt DateTime @default(now())
 }
 
 enum ImageCategory {
-  SalesPolicy
-  Products
-  ProductDocuments
-  Feedbacks
+  salesPolicy
+  products
+  productDocuments
+  feedbacks
 }
 
-model image {
+enum TypeFile {
+  image
+  video
+}
+
+model files {
   id              Int            @id @default(autoincrement())
   url             String
   category        ImageCategory
+  type            TypeFile?
   authorId        Int
   author          user           @relation(fields: [authorId], references: [id])
   insightMotherId Int
@@ -45,7 +51,7 @@ model user {
 
   insight_mother insight_mother[]
 
-  image image[]
+  image files[]
 }
 
 enum user_role {

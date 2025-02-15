@@ -2,9 +2,10 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input'
 import LoadingIcon from '@/components/ui/LoadingIcon';
 import Modal from '@/components/ui/Modal'
-import { HandleRejectionEntity } from '@/entities/insight-mother';
-import { updateHandleRejection } from '@/services/insight-mother';
+import { InsightMotherEntity } from '@/entities/insight-mother';
+import { updateInsightMother } from '@/services/insight-mother';
 import { Editor } from '@tinymce/tinymce-react';
+import { Form, Upload, Image, UploadFile } from 'antd';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -12,44 +13,51 @@ interface UpdateHandleRejectionProps {
   open: boolean
   onClose: () => void
   setRefreshKey: React.Dispatch<React.SetStateAction<boolean>>
-  data: HandleRejectionEntity
+  data: InsightMotherEntity
+}
+
+interface FormValues {
+  keyword: string
 }
 
 function UpdateHandleRejection(props: UpdateHandleRejectionProps) {
   const { open, onClose, setRefreshKey, data } = props;
-  const [content, setContent] = useState('');
-  const [category, setCategory] = useState('');
-  const [errorMessage, setErrorMessage] = useState<{ category?: string, content?: string }>({
-    category: '',
-    content: '',
-  });
+
   const [loading, setLoading] = useState(false);
+  const [salesPolicy, setSalesPolicy] = useState<UploadFile[]>([]);
+  const [products, setProducts] = useState<UploadFile[]>([]);
+  const [productDocuments, setProductDocuments] = useState<UploadFile[]>([]);
+  const [feedbacks, setFeedbacks] = useState<UploadFile[]>([]);
+  const [content, setContent] = useState('');
 
-  const handleClose = () => {
-    onClose();
-    setContent('');
-    setCategory('')
-    setErrorMessage({});
-  }
+  const [form] = Form.useForm();
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit = async ({ keyword }: FormValues) => {
     setLoading(true);
     try {
-      const newErrors: { category?: string, content?: string } = {};
-      if (!category.trim()) {
-        newErrors.category = 'Trường này không được để trống';
-      }
-      if (!content.trim()) {
-        newErrors.content = 'Trường này không được để trống';
-      }
-      setErrorMessage(newErrors);
-      if (newErrors.category || newErrors.content) return;
+      const formData = new FormData()
+      formData.append("keyword", keyword);
+      formData.append("content", content);
 
-      await updateHandleRejection({ id: data.id, content, category })
+      salesPolicy.forEach((file) => {
+        formData.append("salesPolicy", file as unknown as File); // Không có [] trong key
+      });
+      
+      products.forEach((file) => {
+        formData.append("products", file as unknown as File);
+      });
+      
+      productDocuments.forEach((file) => {
+        formData.append("productDocuments", file as unknown as File);
+      });
+      
+      feedbacks.forEach((file) => {
+        formData.append("feedbacks", file as unknown as File);
+      });
+      await updateInsightMother({ id: data.id, data: formData })
       toast.success('Cập nhật thông tin thành công');
       setRefreshKey(pre => !pre);
-      handleClose();
+      onClose();
 
     } catch (err) {
       if (err instanceof Error) {
@@ -62,20 +70,26 @@ function UpdateHandleRejection(props: UpdateHandleRejectionProps) {
   return (
     <Modal
       open={open}
-      onClose={handleClose}
+      onClose={onClose}
       className='w-1/2'
     >
       <h1 className="mb-4 text-2xl font-bold text-center">Cập nhật nội dung</h1>
       <div>
-        <form onSubmit={onSubmit}>
-          <div className="mb-4">
-            <Input
-              label="Từ khóa"
-              minWidthLabel='90px'
-              defaultValue={data.category}
-              onChange={(e) => setCategory(e.target.value)}
-            />
-            {errorMessage.category && <p className="text-red-500">{errorMessage.category}</p>}
+        <Form form={form} onFinish={onSubmit} initialValues={{ keyword: data.keyword }}>
+          <div className="flex items-center h-[40px] mb-6">
+            <p className="w-[106px] text-left text-[#2563eb]">Từ khóa</p>
+            <Form.Item
+              className="!mb-0 w-full flex-1"
+              name="keyword"
+              rules={[
+                {
+                  required: true,
+                  message: "Trường này là bắt buộc"
+                },
+              ]}
+            >
+              <Input className="py-2" />
+            </Form.Item>
           </div>
           <div className="mb-4">
             <div className="flex items-center mb-2">
@@ -86,7 +100,7 @@ function UpdateHandleRejection(props: UpdateHandleRejectionProps) {
                 onEditorChange={(newContent) => setContent(newContent)}
                 init={{
                   height: 300,
-                  width: 1000,
+                  flex: 1,
                   menubar: false,
                   extended_valid_elements: "iframe[src|frameborder|style|scrolling|class|width|height|name|align]",
                   valid_elements: '*[*]',
@@ -98,15 +112,185 @@ function UpdateHandleRejection(props: UpdateHandleRejectionProps) {
                     'undo redo | formatselect | bold italic backcolor | ' +
                     'alignleft aligncenter alignright alignjustify | ' +
                     'bullist numlist outdent indent | table | forecolor | removeformat | media',
-                  setup: (editor) => {
-                    editor.on('init', () => {
-                      editor.setContent(data?.content)
-                    })
-                  }
+                    setup: (editor) => {
+                      editor.on('init', () => {
+                        editor.setContent(data.content)
+                      })
+                    }
                 }}
               />
             </div>
-            {errorMessage.category && <p className="text-red-500 text-sm">{errorMessage.category}</p>}
+          </div>
+          <div className="flex items-center flex-col py-4 border-b mb-4">
+            <div className="flex items-center w-full h-full">
+              <p className="w-[106px] text-left text-[#2563eb]">Chính sách bán hàng</p>
+              <div className="flex items-center flex-1">
+                <Form.Item name="salesPolicy">
+                  <Upload
+                    multiple
+                    showUploadList
+                    fileList={salesPolicy}
+                    beforeUpload={(file) => {
+                      if (file.type?.startsWith('video/')) {
+                        toast.error('Chỉ chọn file ảnh.');
+                        return false;
+                      }
+                      console.log(file)
+                      setSalesPolicy((prev) => [...prev, file]); // Lưu file vào state
+                      return false; // Ngăn không upload ngay lập tức
+                    }}
+                    onRemove={(file) => {
+                      setSalesPolicy((prev) => prev.filter((item) => item.uid !== file.uid))
+                    }}
+                  >
+                    <Button>Chọn hình ảnh</Button>
+                  </Upload>
+                </Form.Item>
+                {salesPolicy.length !== 0 && (
+                  <div className="flex flex-wrap justify-center w-full py-4 gap-4">
+                    <Image.PreviewGroup
+                    >
+                      {
+                        salesPolicy.map((file, index) => (
+                          <Image key={index} className="border-2 m-auto cursor-pointer" width={100} height={100} src={URL.createObjectURL(file as unknown as File)} alt="preview avatar" />
+                        ))
+                      }
+                    </Image.PreviewGroup>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center flex-col py-4 border-b mb-4">
+            <div className="flex items-center w-full h-full">
+              <p className="w-[106px] text-left text-[#2563eb]">Sản phẩm</p>
+              <div className="flex items-center flex-1">
+                <Form.Item name="products" valuePropName="filelist">
+                  <Upload
+                    multiple
+                    showUploadList
+                    beforeUpload={(file) => {
+                      setProducts((prev) => [...prev, file]);
+                      return false;
+                    }}
+                    onRemove={(file) => {
+                      setProducts((prev) => prev.filter((item) => item.uid !== file.uid))
+                    }}
+                  >
+                    <Button>Chọn hình ảnh</Button>
+                  </Upload>
+                </Form.Item>
+                {products.length !== 0 && (
+                  <div className="flex flex-wrap justify-center w-full py-4 gap-4">
+                    <Image.PreviewGroup>
+                      {
+                        products.map((file, index) => (
+                          <Image key={index} className="border-2 m-auto cursor-pointer" width={100} height={100} src={URL.createObjectURL(file as unknown as File)} alt="preview avatar" />
+                        ))
+                      }
+                    </Image.PreviewGroup>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center flex-col py-4 border-b mb-4">
+            <div className="flex items-center w-full h-full">
+              <p className="w-[106px] text-left text-[#2563eb]">Giấy tờ sản phẩm</p>
+              <div className="flex items-center flex-1">
+                <Form.Item name="productDocuments" valuePropName="filelist">
+                  <Upload
+                    multiple
+                    showUploadList
+                    beforeUpload={(file) => {
+                      setProductDocuments((prev) => [...prev, file]); // Lưu file vào state
+                      return false; // Ngăn không upload ngay lập tức
+                    }}
+                    onRemove={(file) => {
+                      setProductDocuments((prev) => prev.filter((item) => item.uid !== file.uid))
+                    }}
+                  >
+                    <Button>Chọn hình ảnh hoặc video</Button>
+                  </Upload>
+                </Form.Item>
+              </div>
+            </div>
+            {productDocuments.length !== 0 && (
+              <div className="flex flex-wrap justify-center w-full py-4 gap-4">
+                {
+                  productDocuments.map((file, index) => {
+                    if (file.type?.startsWith('image/')) {
+                      return (
+                        <Image.PreviewGroup key={index}>
+                          <Image className="border-2 m-auto cursor-pointer" width={180} height={180} src={URL.createObjectURL(file as unknown as File)} alt="preview avatar" />
+                        </Image.PreviewGroup>
+                      )
+                    }
+                    if (file.type?.startsWith('video/')) {
+                      return (
+                        <video
+                          key={index}
+                          controls
+                          width={300}
+                          height={300}
+                        >
+                          <source className="border-2 m-auto cursor-pointer" width={100} height={100} src={URL.createObjectURL(file as unknown as File)} />
+                        </video>
+                      )
+                    }
+                  })
+                }
+              </div>
+            )}
+          </div>
+          <div className="flex items-center flex-col py-4 border-b mb-4">
+            <div className="flex items-center w-full h-full">
+              <p className="w-[106px] text-left text-[#2563eb]">Feedback khách hàng</p>
+              <div className="flex items-center flex-1">
+                <Form.Item name="feedbacks" valuePropName="filelist">
+                  <Upload
+                    multiple
+                    showUploadList
+                    beforeUpload={(file) => {
+                      setFeedbacks((prev) => [...prev, file]); // Lưu file vào state
+                      return false; // Ngăn không upload ngay lập tức
+                    }}
+                    onRemove={(file) => {
+                      setFeedbacks((prev) => prev.filter((item) => item.uid !== file.uid))
+                    }}
+                  >
+                    <Button>Chọn hình ảnh hoặc video</Button>
+                  </Upload>
+                </Form.Item>
+              </div>
+            </div>
+            {feedbacks.length !== 0 && (
+              <div className="flex flex-wrap justify-center w-full py-4 gap-4">
+                {
+                  feedbacks.map((file, index) => {
+                    if (file.type?.startsWith('image/')) {
+                      return (
+                        <Image.PreviewGroup key={index}>
+                          <Image className="border-2 m-auto cursor-pointer" width={180} height={180} src={URL.createObjectURL(file as unknown as File)} alt="preview avatar" />
+                        </Image.PreviewGroup>
+                      )
+                    }
+                    if (file.type?.startsWith('video/')) {
+                      return (
+                        <video
+                          key={index}
+                          controls
+                          width={300}
+                          height={300}
+                        >
+                          <source className="border-2 m-auto cursor-pointer" width={100} height={100} src={URL.createObjectURL(file as unknown as File)} />
+                        </video>
+                      )
+                    }
+                  })
+                }
+              </div>
+            )}
           </div>
           <div className="flex justify-center gap-4">
             <Button variant='danger' onClick={onClose}>Hủy</Button>
@@ -115,7 +299,7 @@ function UpdateHandleRejection(props: UpdateHandleRejectionProps) {
               {loading && <LoadingIcon />}
             </Button>
           </div>
-        </form>
+        </Form>
       </div>
     </Modal>
   )
