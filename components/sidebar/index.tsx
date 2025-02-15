@@ -8,12 +8,14 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/zustand/auth.store';
 import { Button } from '../ui/Button';
 import ArrowRight from '@/assets/icons/ArrowRight';
+import ChangePassword from '../change-password';
 
 function Sidebar() {
   const router = useRouter();
   const { me } = useAuthStore();
 
-  const [showChildren, setShowChildren] = useState(false)
+  const [showChildren, setShowChildren] = useState(false);
+  const [isOpenChangePassword, setIsOpenChangePassword] = useState(false);
 
   const logOut = () => {
     Cookies.remove('token');
@@ -22,6 +24,7 @@ function Sidebar() {
 
   return (
     <>
+      <ChangePassword open={isOpenChangePassword} onClose={() => setIsOpenChangePassword(false)} />
       <div className="w-[240px] fixed h-screen border-r border-[#ccc]">
         <div className="p-2 py-4 bg-[#2563eb] text-white text-center">
           {me?.fullName}
@@ -32,7 +35,7 @@ function Sidebar() {
               me && menu.allowRole.includes(me?.role) && (
                 menu.children ? (
                   <div key={menu.title}>
-                    <div className="flex items-center gap-1 p-2 hover:text-[#716aca] font-bold duration-300 cursor-pointer" onClick={() => setShowChildren(pre => !pre)}>
+                    <div className="flex items-center gap-1 p-2 hover:text-[#716aca] font-bold duration-300 cursor-pointer uppercase" onClick={() => setShowChildren(pre => !pre)}>
                       {menu.icon}
                       {menu.title}
                       <ArrowRight className={`${showChildren ? 'rotate-90' : ''} duration-300`} />
@@ -52,6 +55,9 @@ function Sidebar() {
                 )
               )
             ))}
+          </div>
+          <div className="flex justify-center">
+            <Button variant='primary' onClick={() => setIsOpenChangePassword(true)}>Đổi mật khẩu</Button>
           </div>
           <div className="flex justify-center py-4">
             <Button variant='primary' onClick={logOut}>Đăng xuất</Button>

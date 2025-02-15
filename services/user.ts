@@ -35,7 +35,7 @@ export function deleteUser(id: number) {
 }
 
 export function changePassword({ id, password }: { id: number, password: string }) {
-  return api(`/api/change-password/${id}`, {
+  return api(`/api/users/change-password/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

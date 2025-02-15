@@ -23,7 +23,7 @@ export const menu_sidebar = [
     allowRole: ['ADMIN']
   },
   {
-    title: 'Quản lý files',
+    title: 'Quản lý tư liệu',
     url: '#',
     icon: <FilesIcon width={20} height={20} />,
     allowRole: ['ADMIN', 'USER'],
