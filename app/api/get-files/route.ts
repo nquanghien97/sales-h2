@@ -8,6 +8,7 @@ export async function GET(req: NextRequest) {
   const pageParam = url.searchParams.get('page');
   const pageSizeParam = url.searchParams.get('pageSize')
   const category = url.searchParams.get('category') as ImageCategory;
+  const search = url.searchParams.get('search')
 
   const page = pageParam ? parseInt(pageParam, 10) : null;
   const pageSize = pageSizeParam ? parseInt(pageSizeParam, 10) : null;
@@ -19,6 +20,14 @@ export async function GET(req: NextRequest) {
     skip = (page - 1) * pageSize;
     take = pageSize;
   }
+
+  const whereCondition = {
+    ...(search && {
+      OR: [
+        { url: { contains: search } },
+      ],
+    }),
+  };
 
   try {
     const authorization = req.headers.get('authorization');
@@ -39,6 +48,7 @@ export async function GET(req: NextRequest) {
 
     const files = await prisma.files.findMany({
       where: {
+        ...whereCondition,
         category
       },
       include: {
