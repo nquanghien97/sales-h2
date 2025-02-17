@@ -15,10 +15,10 @@ export function getInsightMothers({ search, page, pageSize }: { search?: string,
   return api(`/api/insight-mother?${params.toString()}`);
 }
 
-export function updateInsightMother({ id, data } : { id: number, data: FormData }) {
+export function updateInsightMother({ id, data } : { id: number, data: { keyword: string, content: string } }) {
   return api(`/api/insight-mother/${id}`, {
     method: 'PUT',
-    body: data,
+    body: JSON.stringify(data),
   })
 }
 

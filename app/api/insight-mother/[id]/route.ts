@@ -1,7 +1,5 @@
 import prisma from "@/lib/db";
 import { verifyToken } from "@/lib/token";
-import { deleteFile, uploadFile } from "@/utils/fileUpload";
-import { ImageCategory } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: number }> }) {
@@ -60,13 +58,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: numb
   try {
     const { id } = await params;
 
-    const formData = await req.formData();
-    const keyword = formData.get('keyword') as string;
-    const content = formData.get('content') as string;
-    const salesPolicy = formData.getAll('salesPolicy') as File[];
-    const products = formData.getAll('products') as File[];
-    const productDocuments = formData.getAll('productDocuments') as File[];
-    const feedbacks = formData.getAll('feedbacks') as File[];
+    const { keyword, content } = await req.json();
 
     if (!id) return NextResponse.json({
       success: false,
@@ -101,71 +93,6 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: numb
         success: false,
         message: "Bạn không có quyền"
       }, { status: 403 });
-    }
-
-    const listFiles = await prisma.files.findMany({
-      where: {
-        insightMotherId: +id
-      }
-    });
-
-    await prisma.files.deleteMany({
-      where: {
-        insightMotherId: +id
-      }
-    })
-
-    for (const file of listFiles) {
-      deleteFile(file.url)
-    }
-
-    const dataFiles = ({ filenames, insightMotherId, category }: { filenames: { filename: string, type?: 'image' | 'video' }[], insightMotherId: number, category: ImageCategory }) => {
-      return filenames.map(filename => ({
-        url: filename.filename,
-        type: filename.type,
-        insightMotherId,
-        category,
-        authorId: Number(user.user_id)
-      }))
-    }
-
-    const [
-      fileNamesSalesPolicy,
-      fileNamesProducts,
-      fileNamesProductDocuments,
-      fileNamesFeedbacks,
-    ] = await Promise.all([
-      uploadFile(salesPolicy, "sales-policy"),
-      uploadFile(products, "products"),
-      uploadFile(productDocuments, "product-documents"),
-      uploadFile(feedbacks, "feedbacks"),
-    ]);
-
-    const dataSalesPolicy = dataFiles({
-      filenames: fileNamesSalesPolicy,
-      insightMotherId: +id,
-      category: "salesPolicy",
-    })
-    const dataProducts = dataFiles({
-      filenames: fileNamesProducts,
-      insightMotherId: +id,
-      category: "products",
-    })
-    const dataProductDocuments = dataFiles({
-      filenames: fileNamesProductDocuments,
-      insightMotherId: +id,
-      category: "productDocuments",
-    })
-    const dataFeedbacks = dataFiles({
-      filenames: fileNamesFeedbacks,
-      insightMotherId: +id,
-      category: "feedbacks",
-    })
-
-    const mergeData = [...dataSalesPolicy, ...dataProducts, ...dataProductDocuments, ...dataFeedbacks]
-
-    if (mergeData.length > 0) {
-      await prisma.files.createMany({ data: mergeData });
     }
 
     await prisma.insight_mother.update({
@@ -222,21 +149,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: n
         message: "Bạn không có quyền"
       }, { status: 403 });
     }
-    const listFiles = await prisma.files.findMany({
-      where: {
-        insightMotherId: +id
-      }
-    });
 
-    await prisma.files.deleteMany({
-      where: {
-        insightMotherId: +id
-      }
-    })
-
-    for (const file of listFiles) {
-      deleteFile(file.url)
-    }
     await prisma.insight_mother.delete({
       where: {
         id: +id
