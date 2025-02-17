@@ -1,9 +1,9 @@
 import { api } from "@/utils/api";
 
-export function createInsightMother(data: FormData) {
+export function createInsightMother(data: { keyword: string, content: string }) {
   return api(`/api/insight-mother`, {
     method: 'POST',
-    body: data,
+    body: JSON.stringify(data),
   })
 }
 

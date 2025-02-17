@@ -13,7 +13,6 @@ model insight_mother {
   content   String   @db.LongText
   authorId  Int
   author    user     @relation(fields: [authorId], references: [id])
-  images    files[]
   createdAt DateTime @default(now())
 }
 
@@ -36,8 +35,6 @@ model files {
   type            TypeFile?
   authorId        Int
   author          user           @relation(fields: [authorId], references: [id])
-  insightMotherId Int
-  insightMother   insight_mother @relation(fields: [insightMotherId], references: [id])
   createdAt       DateTime       @default(now())
 }
 

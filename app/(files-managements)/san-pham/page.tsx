@@ -9,8 +9,13 @@ import Pagination from '@/components/ui/Pagination';
 import Select from '@/components/ui/Select';
 import { FilesEntity } from '@/entities/files';
 import { getFiles } from '@/services/files';
+import { useAuthStore } from '@/zustand/auth.store';
 import { Image } from 'antd';
 import React, { useEffect, useState } from 'react'
+import CreateFiles from './actions/CreateFiles';
+import DeleteIcon from '@/assets/icons/DeleteIcon';
+import DeleteFile from './actions/DeleteFile';
+import withAuth from '@/hocs/withAuth';
 
 function Products() {
   const [files, setFiles] = useState<FilesEntity[]>([]);
@@ -20,6 +25,12 @@ function Products() {
   const [total, setTotal] = useState(1);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
+  const [isOpenCreateFiles, setIsOpenCreateFiles] = useState(false);
+  const [isOpenDeleteFiles, setIsOpenDelete] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(false);
+  const [fileId, setFileId] = useState<number>();
+
+  const { me } = useAuthStore()
 
   useEffect(() => {
     document.title = 'Sản phẩm'
@@ -50,11 +61,18 @@ function Products() {
         setLoading(false);
       }
     })()
-  }, [page, pageSize, searchParams])
+  }, [page, pageSize, searchParams, refreshKey])
 
   return (
     <div className="px-4">
+      <CreateFiles open={isOpenCreateFiles} onClose={() => setIsOpenCreateFiles(false)} setRefreshKey={setRefreshKey} />
+      {fileId && <DeleteFile open={isOpenDeleteFiles} onClose={() => setIsOpenDelete(false)} setRefreshKey={setRefreshKey} id={fileId} />}
       <h1 className="text-center text-4xl font-bold mb-4 py-4">Sản phẩm</h1>
+      {me?.role === 'ADMIN' && (
+        <div className="mb-4">
+          <Button variant='primary' onClick={() => setIsOpenCreateFiles(true)}>Thêm tư liệu</Button>
+        </div>
+      )}
       <div className="mb-2">
         <div className="flex items-center gap-2 w-full">
           <Input
@@ -79,12 +97,24 @@ function Products() {
                     <Image.PreviewGroup>
                       <Image className="border-2 m-auto cursor-pointer" width={180} height={180} src={`/api${file.url}`} alt="preview avatar" />
                     </Image.PreviewGroup>
-                    <Button variant='primary'>
-                      <a download href={`/api${file.url}`} className="flex">
-                        <span>Tải xuống</span>
-                        <DownloadIcon />
-                      </a>
-                    </Button>
+                    <div className="flex w-full">
+                      <Button variant='primary' className="w-full">
+                        <a download href={`/api${file.url}`} className="flex">
+                          <DownloadIcon title='Tải xuống' />
+                        </a>
+                      </Button>
+                      {me?.role === 'ADMIN' && (
+                        <Button
+                          variant='danger'
+                          className="w-full"
+                          onClick={() => {
+                            setIsOpenDelete(true)
+                            setFileId(file.id)
+                          }}>
+                          <DeleteIcon title='Xóa' />
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 )
               }
@@ -99,12 +129,24 @@ function Products() {
                     >
                       <source className="border-2 m-auto cursor-pointer" width={100} height={100} src={`/api${file.url}`} />
                     </video>
-                    <Button variant='primary'>
-                      <a download href={`/api${file.url}`} className="flex">
-                        <span>Tải xuống</span>
-                        <DownloadIcon />
-                      </a>
-                    </Button>
+                    <div className="flex w-full">
+                      <Button variant='primary' className="w-full">
+                        <a download href={`/api${file.url}`} className="flex">
+                          <DownloadIcon title='Tải xuống' />
+                        </a>
+                      </Button>
+                      {me?.role === 'ADMIN' && (
+                        <Button
+                          variant='danger'
+                          className="w-full"
+                          onClick={() => {
+                            setIsOpenDelete(true)
+                            setFileId(file.id)
+                          }}>
+                          <DeleteIcon title='Xóa' />
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 )
               }
@@ -150,4 +192,6 @@ function Products() {
   )
 }
 
-export default Products
+const ProductsWithAuth = withAuth(Products)
+
+export default ProductsWithAuth

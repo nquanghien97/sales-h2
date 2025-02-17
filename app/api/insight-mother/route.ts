@@ -1,18 +1,10 @@
 import prisma from "@/lib/db";
 import { verifyToken } from "@/lib/token";
-import { uploadFile } from "@/utils/fileUpload";
-import { ImageCategory } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const formData = await req.formData();
-    const keyword = formData.get('keyword') as string;
-    const content = formData.get('content') as string;
-    const salesPolicy = formData.getAll('salesPolicy') as File[];
-    const products = formData.getAll('products') as File[];
-    const productDocuments = formData.getAll('productDocuments') as File[];
-    const feedbacks = formData.getAll('feedbacks') as File[];
+    const { keyword, content } = await req.json()
 
     if (!keyword || !content) {
       return NextResponse.json(
@@ -44,62 +36,13 @@ export async function POST(req: NextRequest) {
       }, { status: 403 });
     }
 
-    const dataFiles = ({ filenames, insightMotherId, category }: { filenames: { filename: string, type?: 'image' | 'video' }[], insightMotherId: number, category: ImageCategory }) => {
-      return filenames.map(filename => ({
-        url: filename.filename,
-        type: filename.type,
-        insightMotherId,
-        category,
-        authorId: Number(user.user_id)
-      }))
-    }
-
-    const [
-      fileNamesSalesPolicy,
-      fileNamesProducts,
-      fileNamesProductDocuments,
-      fileNamesFeedbacks,
-    ] = await Promise.all([
-      uploadFile(salesPolicy, "sales-policy"),
-      uploadFile(products, "products"),
-      uploadFile(productDocuments, "product-documents"),
-      uploadFile(feedbacks, "feedbacks"),
-    ]);
-
-    const resInsightMother = await prisma.insight_mother.create({
+    await prisma.insight_mother.create({
       data: {
         keyword,
         content,
         authorId: Number(user.user_id)
       }
     })
-
-    const dataSalesPolicy = dataFiles({
-      filenames: fileNamesSalesPolicy,
-      insightMotherId: resInsightMother.id,
-      category: "salesPolicy",
-    })
-    const dataProducts = dataFiles({
-      filenames: fileNamesProducts,
-      insightMotherId: resInsightMother.id,
-      category: "products",
-    })
-    const dataProductDocuments = dataFiles({
-      filenames: fileNamesProductDocuments,
-      insightMotherId: resInsightMother.id,
-      category: "productDocuments",
-    })
-    const dataFeedbacks = dataFiles({
-      filenames: fileNamesFeedbacks,
-      insightMotherId: resInsightMother.id,
-      category: "feedbacks",
-    })
-
-    const mergeData = [...dataSalesPolicy, ...dataProducts, ...dataProductDocuments, ...dataFeedbacks]
-
-    if (mergeData.length > 0) {
-      await prisma.files.createMany({ data: mergeData });
-    }
 
     return NextResponse.json({
       success: true,
@@ -167,7 +110,6 @@ export async function GET(req: NextRequest) {
             fullName: true
           }
         },
-        images: true
       },
       skip,
       take,
