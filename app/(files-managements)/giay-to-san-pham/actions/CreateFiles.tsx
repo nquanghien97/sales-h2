@@ -31,7 +31,7 @@ function CreateFiles(props: CreateFilesProps) {
       productDocuments.forEach((file) => {
         formData.append("productDocuments", file as unknown as File); // Không có [] trong key
       });
-      
+
       await createFiles({
         category: 'productDocuments',
         data: formData
@@ -64,10 +64,6 @@ function CreateFiles(props: CreateFilesProps) {
                     showUploadList
                     fileList={productDocuments}
                     beforeUpload={(file) => {
-                      if (file.type?.startsWith('video/')) {
-                        toast.error('Chỉ chọn file ảnh.');
-                        return false;
-                      }
                       setProductDocuments((prev) => [...prev, file]); // Lưu file vào state
                       return false; // Ngăn không upload ngay lập tức
                     }}
@@ -75,19 +71,35 @@ function CreateFiles(props: CreateFilesProps) {
                       setProductDocuments((prev) => prev.filter((item) => item.uid !== file.uid))
                     }}
                   >
-                    <Button>Chọn hình ảnh</Button>
+                    <Button>Chọn hình ảnh hoặc</Button>
                   </Upload>
                 </Form.Item>
                 {productDocuments.length !== 0 && (
                   <div className="flex flex-wrap justify-center w-full py-4 gap-4">
-                    <Image.PreviewGroup
-                    >
-                      {
-                        productDocuments.map((file, index) => (
-                          <Image key={index} className="border-2 m-auto cursor-pointer" width={100} height={100} src={URL.createObjectURL(file as unknown as File)} alt="preview avatar" />
-                        ))
-                      }
-                    </Image.PreviewGroup>
+                    {
+                      productDocuments.map((file, index) => {
+                        if (file.type?.startsWith('image/')) {
+                          return (
+                            <Image.PreviewGroup key={index}>
+                              <Image className="border-2 m-auto cursor-pointer" width={300} height={300} src={URL.createObjectURL(file as unknown as File)} alt="preview avatar" />
+                            </Image.PreviewGroup>
+                          )
+                        }
+                        if (file.type?.startsWith('video/')) {
+                          return (
+                            <video
+                              key={index}
+                              controls
+                              width={300}
+                              height={300}
+                              className='h-[180px]'
+                            >
+                              <source className="border-2 m-auto cursor-pointer" width={100} height={100} src={URL.createObjectURL(file as unknown as File)} />
+                            </video>
+                          )
+                        }
+                      })
+                    }
                   </div>
                 )}
               </div>

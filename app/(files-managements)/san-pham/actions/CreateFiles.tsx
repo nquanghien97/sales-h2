@@ -80,8 +80,7 @@ function CreateFiles(props: CreateFilesProps) {
                 </Form.Item>
                 {products.length !== 0 && (
                   <div className="flex flex-wrap justify-center w-full py-4 gap-4">
-                    <Image.PreviewGroup
-                    >
+                    <Image.PreviewGroup>
                       {
                         products.map((file, index) => (
                           <Image key={index} className="border-2 m-auto cursor-pointer" width={100} height={100} src={URL.createObjectURL(file as unknown as File)} alt="preview avatar" />

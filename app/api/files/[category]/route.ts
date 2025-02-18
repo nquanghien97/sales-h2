@@ -48,6 +48,7 @@ export async function POST(
         url: filename.filename,
         type: filename.type,
         category,
+        imageName: filename.imageName,
         authorId: Number(user.user_id)
       }))
     }

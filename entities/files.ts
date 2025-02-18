@@ -8,5 +8,6 @@ export interface FilesEntity {
   authorId: number;
   url: string;
   type: 'image' | 'video'
+  imageName: string;
   author: UserEntity
 }

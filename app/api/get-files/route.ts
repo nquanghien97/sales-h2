@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
   const whereCondition = {
     ...(search && {
       OR: [
-        { url: { contains: search } },
+        { imageName: { contains: search } },
       ],
     }),
   };

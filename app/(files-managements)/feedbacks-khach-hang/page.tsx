@@ -95,8 +95,11 @@ function Feedbacks() {
                 return (
                   <div key={index} className="flex flex-col gap-2">
                     <Image.PreviewGroup>
-                      <Image className="border-2 m-auto cursor-pointer" width={300} height={180} src={`/api${file.url}`} alt="preview avatar" />
+                      <Image className="border-2 m-auto cursor-pointer" width={180} height={180} src={`/api${file.url}`} alt="preview avatar" />
                     </Image.PreviewGroup>
+                    <div className="flex justify-center max-w-[180px] flex-1">
+                      <span>{file.imageName}</span>
+                    </div>
                     <div className="flex w-full">
                       <Button variant='primary' className="w-full">
                         <a download href={`/api${file.url}`} className="flex">
@@ -123,12 +126,15 @@ function Feedbacks() {
                   <div key={index} className="flex flex-col gap-2">
                     <video
                       controls
-                      width={300}
-                      height={300}
-                      className='h-[180px] w-[300px]'
+                      width={180}
+                      height={180}
+                      className='h-[180px] w-full'
                     >
                       <source className="border-2 m-auto cursor-pointer" width={100} height={100} src={`/api${file.url}`} />
                     </video>
+                    <div className="flex justify-center flex-1">
+                      <span>{file.imageName}</span>
+                    </div>
                     <div className="flex w-full">
                       <Button variant='primary' className="w-full">
                         <a download href={`/api${file.url}`} className="flex">

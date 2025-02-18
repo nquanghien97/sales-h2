@@ -14,7 +14,8 @@ export async function uploadFile(files: File[], folderPath: string) {
     const type = file.type.startsWith('image/') ? 'image' : file.type.startsWith('video/') ? 'video' : '' as unknown as 'video' | 'image';
     return {
       filename: `/files/${folderPath}/${filename}`,
-      type
+      type,
+      imageName: file.name
     }
   });
 

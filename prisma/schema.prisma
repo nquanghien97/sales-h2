@@ -29,13 +29,14 @@ enum TypeFile {
 }
 
 model files {
-  id              Int            @id @default(autoincrement())
-  url             String
-  category        ImageCategory
-  type            TypeFile?
-  authorId        Int
-  author          user           @relation(fields: [authorId], references: [id])
-  createdAt       DateTime       @default(now())
+  id        Int           @id @default(autoincrement())
+  url       String
+  category  ImageCategory
+  type      TypeFile?
+  imageName String
+  authorId  Int
+  author    user          @relation(fields: [authorId], references: [id])
+  createdAt DateTime      @default(now())
 }
 
 model user {
