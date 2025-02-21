@@ -1,5 +1,6 @@
 import prisma from "@/lib/db";
 import { verifyToken } from "@/lib/token";
+import { deleteFile } from "@/utils/fileUpload";
 import { NextResponse } from "next/server";
 
 export async function DELETE(req: Request, { params }: { params: Promise<{ id: number }> }) {
@@ -31,12 +32,27 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: n
         message: "Bạn không có quyền"
       }, { status: 403 });
     }
+
+    const file = await prisma.files.findUnique({
+      where: {
+        id: +id
+      }
+    });
+
+    if(!file) {
+      return NextResponse.json({
+        success: false,
+        message: "File không tồn tại"
+      }, { status: 404 });
+    }
     
     await prisma.files.delete({
       where: {
         id: +id
       }
     })
+    await deleteFile(file.url)
+    
     return NextResponse.json({
       success: true,
       message: "Xóa thành công",

@@ -26,6 +26,7 @@ enum ImageCategory {
 enum TypeFile {
   image
   video
+  pdf
 }
 
 model files {
