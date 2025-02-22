@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/Input'
 import LoadingIcon from '@/components/ui/LoadingIcon';
 import Modal from '@/components/ui/Modal'
 import { InsightMotherEntity } from '@/entities/insight-mother';
-import { updateInsightMother } from '@/services/insight-mother';
+import { updateHandleRejection } from '@/services/handle-rejection';
 import { Editor } from '@tinymce/tinymce-react';
 import { Form } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -29,17 +29,17 @@ function UpdateHandleRejection(props: UpdateHandleRejectionProps) {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    if(data) {
-      form.setFieldsValue({
-        keyword: data.keyword
-      })
-    }
-  }, [data, form])
+      if(data) {
+        form.setFieldsValue({
+          keyword: data.keyword
+        })
+      }
+    }, [data, form])
 
   const onSubmit = async ({ keyword }: FormValues) => {
     setLoading(true);
     try {
-      await updateInsightMother({ id: data.id, data: { keyword, content} })
+      await updateHandleRejection({ id: data.id, data: { keyword, content} })
       toast.success('Cập nhật thông tin thành công');
       setRefreshKey(pre => !pre);
       onClose();

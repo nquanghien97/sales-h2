@@ -13,9 +13,9 @@ import DeleteIcon from '@/assets/icons/DeleteIcon'
 import withAuth from '@/hocs/withAuth'
 import Delete from './actions/Delete'
 import Update from './actions/Update'
-import { getInsightMothers } from '@/services/insight-mother'
 import { useAuthStore } from '@/zustand/auth.store'
 import DataIcon from '@/assets/icons/DataIcon'
+import { getHandleRejections } from '@/services/handle-rejection'
 
 function HandleRejection() {
   const [datas, setDatas] = useState<InsightMotherEntity[]>([]);
@@ -32,14 +32,14 @@ function HandleRejection() {
   const { me } = useAuthStore();
 
   useEffect(() => {
-    document.title = "Insight của mẹ"
+    document.title = "Xử lý từ chối"
   }, []);
 
   useEffect(() => {
     (async () => {
       try {
         setLoading(true)
-        const res = await getInsightMothers({
+        const res = await getHandleRejections({
           ...searchParams,
           page,
           pageSize
@@ -110,7 +110,7 @@ function HandleRejection() {
       {data && (<Update data={data} open={isOpenUpdate} onClose={() => setIsOpenUpdate(false)} setRefreshKey={setRefreshKey} />)}
       {data && (<Delete data={data} open={isOpenDelete} onClose={() => setIsOpenDelete(false)} setRefreshKey={setRefreshKey} />)}
       <div>
-        <h1 className="text-center text-4xl font-bold mb-4 py-4">INSIGHT CỦA MẸ</h1>
+        <h1 className="text-center text-4xl font-bold mb-4 py-4">XỬ LÝ TỪ CHỐI</h1>
         <div className="bg-[#f4d798] shadow-xl rounded-xl p-4">
           <Header setSearchParams={setSearchParams} setRefreshKey={setRefreshKey} />
           <table className="w-full border-collapse">

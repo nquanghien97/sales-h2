@@ -1,3 +1,4 @@
+import BanIcon from "@/assets/icons/BanIcon";
 import ChildrenIcon from "@/assets/icons/ChildrenIcon";
 import FilesIcon from "@/assets/icons/FilesIcon";
 import UsersIcon from "@/assets/icons/UsersIcon";
@@ -21,6 +22,12 @@ export const menu_sidebar = [
     url: '/quan-ly-nguoi-dung',
     icon: <UsersIcon width={20} height={20} />,
     allowRole: ['ADMIN']
+  },
+  {
+    title: 'Xử lý từ chối',
+    url: '/xu-ly-tu-choi',
+    icon: <BanIcon width={20} height={20} />,
+    allowRole: ['ADMIN', 'USER']
   },
   {
     title: 'Quản lý tư liệu',

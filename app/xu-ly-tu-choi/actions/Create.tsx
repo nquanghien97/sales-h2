@@ -1,66 +1,69 @@
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-import LoadingIcon from '@/components/ui/LoadingIcon';
+import LoadingIcon from '@/components/ui/LoadingIcon'
 import Modal from '@/components/ui/Modal'
-import { InsightMotherEntity } from '@/entities/insight-mother';
-import { updateInsightMother } from '@/services/insight-mother';
-import { Editor } from '@tinymce/tinymce-react';
-import { Form } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import { Editor } from '@tinymce/tinymce-react'
+import { useState } from 'react'
+import { toast } from 'react-toastify'
+import { Form } from "antd";
+import { createHandleRejection } from '@/services/handle-rejection'
 
-interface UpdateHandleRejectionProps {
+interface CreateUserProps {
   open: boolean
   onClose: () => void
   setRefreshKey: React.Dispatch<React.SetStateAction<boolean>>
-  data: InsightMotherEntity
 }
 
 interface FormValues {
   keyword: string
 }
 
-function UpdateHandleRejection(props: UpdateHandleRejectionProps) {
-  const { open, onClose, setRefreshKey, data } = props;
+function CreateUser(props: CreateUserProps) {
+  const { open, onClose, setRefreshKey } = props;
 
   const [loading, setLoading] = useState(false);
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState('')
 
   const [form] = Form.useForm();
 
-  useEffect(() => {
-    if(data) {
-      form.setFieldsValue({
-        keyword: data.keyword
-      })
-    }
-  }, [data, form])
+  const handleClose = () => {
+    onClose();
+    setContent('')
+    form.setFieldsValue({
+      keyword: '',
+    })
+  }
 
-  const onSubmit = async ({ keyword }: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     setLoading(true);
     try {
-      await updateInsightMother({ id: data.id, data: { keyword, content} })
-      toast.success('Cập nhật thông tin thành công');
+      
+      await createHandleRejection({
+        keyword: data.keyword,
+        content,
+      })
+      
       setRefreshKey(pre => !pre);
-      onClose();
-
-    } catch (err) {
-      if (err instanceof Error) {
-        toast.error(err.message)
+      handleClose();
+    } catch (e) {
+      if (e instanceof Error) {
+        console.error(e.message);
+        toast.error(e.message)
       }
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
+
   return (
     <Modal
       open={open}
-      onClose={onClose}
+      onClose={() => { }}
       className='w-1/2'
     >
-      <h1 className="mb-4 text-2xl font-bold text-center">Cập nhật nội dung</h1>
+      <h1 className="mb-4 text-2xl font-bold text-center">Thêm mới nội dung</h1>
       <div>
-        <Form form={form} onFinish={onSubmit} initialValues={{ keyword: data.keyword }}>
+        <Form form={form} onFinish={onSubmit} initialValues={{ keyword: '' }}>
           <div className="flex items-center h-[40px] mb-6">
             <p className="w-[106px] text-left text-[#2563eb]">Từ khóa</p>
             <Form.Item
@@ -96,18 +99,13 @@ function UpdateHandleRejection(props: UpdateHandleRejectionProps) {
                   toolbar:
                     'undo redo | formatselect | bold italic backcolor | ' +
                     'alignleft aligncenter alignright alignjustify | ' +
-                    'bullist numlist outdent indent | table | forecolor | removeformat | media',
-                    setup: (editor) => {
-                      editor.on('init', () => {
-                        editor.setContent(data.content)
-                      })
-                    }
+                    'bullist numlist outdent indent | table | forecolor | removeformat | media'
                 }}
               />
             </div>
           </div>
           <div className="flex justify-center gap-4">
-            <Button variant='danger' onClick={onClose}>Hủy</Button>
+            <Button variant='danger' onClick={handleClose}>Hủy</Button>
             <Button variant='primary' type="submit">
               Xác nhận
               {loading && <LoadingIcon />}
@@ -119,4 +117,4 @@ function UpdateHandleRejection(props: UpdateHandleRejectionProps) {
   )
 }
 
-export default UpdateHandleRejection
+export default CreateUser

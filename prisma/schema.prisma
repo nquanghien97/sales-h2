@@ -51,9 +51,21 @@ model user {
   insight_mother insight_mother[]
 
   image files[]
+
+
+  handle_rejection handle_rejection[]
 }
 
 enum user_role {
   USER
   ADMIN
+}
+
+model handle_rejection {
+  id        Int      @id @default(autoincrement())
+  keyword   String
+  content   String   @db.LongText
+  authorId  Int
+  author    user     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
 }
