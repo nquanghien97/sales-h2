@@ -1,11 +1,11 @@
 {
-  "name": "sales",
+  "name": "sales-h2",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack -p 4070",
+    "dev": "next dev --turbopack -p 3010",
     "build": "next build",
-    "start": "next start -p 4070",
+    "start": "next start -p 3010",
     "lint": "next lint"
   },
   "dependencies": {
