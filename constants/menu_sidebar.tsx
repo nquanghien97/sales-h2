@@ -1,16 +1,9 @@
 import BanIcon from "@/assets/icons/BanIcon";
-import ChildrenIcon from "@/assets/icons/ChildrenIcon";
 import FilesIcon from "@/assets/icons/FilesIcon";
 import UsersIcon from "@/assets/icons/UsersIcon";
 import WomenIcon from "@/assets/icons/WomenIcon";
 
 export const menu_sidebar = [
-  {
-    title: 'INSIGHT CỦA BÉ',
-    url: '/insight-cua-be',
-    icon: <ChildrenIcon width={20} height={20} />,
-    allowRole: ['ADMIN', 'USER']
-  },
   {
     title: 'INSIGHT CỦA MẸ',
     url: '/insight-cua-me',
