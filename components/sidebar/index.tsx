@@ -25,11 +25,11 @@ function Sidebar() {
   return (
     <>
       <ChangePassword open={isOpenChangePassword} onClose={() => setIsOpenChangePassword(false)} />
-      <div className="w-[240px] fixed h-screen border-r border-[#ccc]">
+      <div className="w-[240px] fixed h-screen border-r border-[#ccc] text-white">
         <div className="p-2 py-4 bg-[#2563eb] text-white text-center">
           {me?.fullName}
         </div>
-        <div className="bg-[#f8e2b2] h-[calc(100%-56px)] overflow-x-hidden overflow-y-auto flex flex-col">
+        <div className="bg-[#ec658d] h-[calc(100%-56px)] overflow-x-hidden overflow-y-auto flex flex-col">
           <div className="py-2 flex-1">
             {menu_sidebar.map(menu => (
               me && menu.allowRole.includes(me?.role) && (

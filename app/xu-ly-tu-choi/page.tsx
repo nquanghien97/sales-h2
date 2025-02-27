@@ -111,7 +111,7 @@ function HandleRejection() {
       {data && (<Delete data={data} open={isOpenDelete} onClose={() => setIsOpenDelete(false)} setRefreshKey={setRefreshKey} />)}
       <div>
         <h1 className="text-center text-4xl font-bold mb-4 py-4">XỬ LÝ TỪ CHỐI</h1>
-        <div className="bg-[#f4d798] shadow-xl rounded-xl p-4">
+        <div className="bg-[#f19ab4] shadow-xl rounded-xl p-4">
           <Header setSearchParams={setSearchParams} setRefreshKey={setRefreshKey} />
           <table className="w-full border-collapse">
             <thead className="bg-[#f0c568]">
