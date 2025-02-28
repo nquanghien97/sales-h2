@@ -7,12 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model insight_mother {
+enum CATEGORY {
+  INSIGHT_MOTHER
+  HANDLE_REJECTION
+}
+
+model category {
   id        Int      @id @default(autoincrement())
   keyword   String
   content   String   @db.LongText
   authorId  Int
   author    user     @relation(fields: [authorId], references: [id])
+  category  CATEGORY
   createdAt DateTime @default(now())
 }
 
@@ -48,12 +54,9 @@ model user {
   role      user_role @default(USER)
   createdAt DateTime  @default(now())
 
-  insight_mother insight_mother[]
+  category category[]
 
   image files[]
-
-
-  handle_rejection handle_rejection[]
 }
 
 enum user_role {
@@ -61,11 +64,3 @@ enum user_role {
   ADMIN
 }
 
-model handle_rejection {
-  id        Int      @id @default(autoincrement())
-  keyword   String
-  content   String   @db.LongText
-  authorId  Int
-  author    user     @relation(fields: [authorId], references: [id])
-  createdAt DateTime @default(now())
-}

@@ -44,12 +44,14 @@ export async function POST(req: Request) {
       }, { status: 400 });
     }
 
+    const hashNewPassword = await bcrypt.hash(newPassword, 12)
+
     await prisma.user.update({
       where: {
         id: Number(userParse.user_id)
       },
       data: {
-        password: newPassword
+        password: hashNewPassword
       }
     })
     return NextResponse.json({

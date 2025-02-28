@@ -22,6 +22,16 @@ function ChangePassword(props: ChangePasswordProps) {
   const { open, onClose } = props
   const [form] = Form.useForm<FormValue>();
   const [loading, setLoading] = React.useState(false);
+
+  const handleClose = () => {
+    form.setFieldsValue({
+      currentPassword: '',
+      newPassword: '',
+      confirmNewPassword: ''
+    })
+    onClose();
+  }
+
   const onSubmit = async (data: FormValue) => {
     setLoading(true);
     try {
@@ -30,7 +40,7 @@ function ChangePassword(props: ChangePasswordProps) {
         newPassword: data.newPassword,
       })
       toast.success('Đổi mật khẩu thành công');
-      onClose();
+      handleClose();
     } catch (err) {
       if (err instanceof Error) {
         console.error(err.message);
@@ -42,7 +52,7 @@ function ChangePassword(props: ChangePasswordProps) {
   }
 
   return (
-    <Modal open={open} onClose={() => {}} className="w-1/2">
+    <Modal open={open} onClose={handleClose} className="w-1/2">
       <h1 className="mb-4 text-2xl font-bold text-center">Đổi mật khẩu</h1>
       <div>
         <Form
@@ -100,7 +110,7 @@ function ChangePassword(props: ChangePasswordProps) {
             <Input label="Xác nhận mật khẩu mới" minWidthLabel="200px" type='password' />
           </Form.Item>
           <div className="flex justify-center gap-8 my-4">
-            <Button variant='danger'>
+            <Button variant='danger' onClick={handleClose}>
               Hủy
             </Button>
             <Button

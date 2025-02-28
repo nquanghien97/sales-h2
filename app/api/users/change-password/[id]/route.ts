@@ -1,6 +1,7 @@
 import prisma from "@/lib/db";
 import { verifyToken } from "@/lib/token";
 import { NextResponse } from "next/server";
+import bcrypt from 'bcrypt';
 
 export async function PUT(req: Request, { params }: { params: Promise<{ id: number }> }) {
   try {
@@ -34,12 +35,14 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: numb
       }, { status: 403 });
     }
 
+    const hashPassword = await bcrypt.hash(password, 12)
+
     await prisma.user.update({
       where: {
         id: +id
       },
       data: {
-        password
+        password: hashPassword
       }
     })
     return NextResponse.json({

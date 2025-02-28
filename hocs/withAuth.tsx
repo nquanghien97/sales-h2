@@ -2,8 +2,8 @@
 
 import React, { useEffect, ComponentType } from 'react';
 import Cookies from 'js-cookie'
-import { parseJwt } from '../utils/parseJwt';
 import { useRouter } from 'next/navigation'
+import { verifyToken } from '@/lib/token';
 
 function withAuth<P extends object>(
   WrappedComponent: ComponentType<P>,
@@ -12,8 +12,8 @@ function withAuth<P extends object>(
     const router = useRouter();
     const token = Cookies.get('token');
     useEffect(() => {
-      const checkAuth = () => {
-        const dataParse = parseJwt(token || '')
+      const checkAuth = async () => {
+        const dataParse = await verifyToken(token)
         const user_id = dataParse?.user_id || null
         if (!user_id) {
           router.push('/login');

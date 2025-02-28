@@ -32,7 +32,7 @@ function HandleRejection() {
   const { me } = useAuthStore();
 
   useEffect(() => {
-    document.title = "Insight của mẹ"
+    document.title = "Insight khách hàng"
   }, []);
 
   useEffect(() => {

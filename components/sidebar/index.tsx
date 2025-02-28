@@ -7,14 +7,12 @@ import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/zustand/auth.store';
 import { Button } from '../ui/Button';
-import ArrowRight from '@/assets/icons/ArrowRight';
 import ChangePassword from '../change-password';
 
 function Sidebar() {
   const router = useRouter();
   const { me } = useAuthStore();
 
-  const [showChildren, setShowChildren] = useState(false);
   const [isOpenChangePassword, setIsOpenChangePassword] = useState(false);
 
   const logOut = () => {
@@ -33,26 +31,7 @@ function Sidebar() {
           <div className="py-2 flex-1">
             {menu_sidebar.map(menu => (
               me && menu.allowRole.includes(me?.role) && (
-                menu.children ? (
-                  <div key={menu.title}>
-                    <div className="flex items-center gap-1 p-2 hover:text-[#716aca] font-bold duration-300 cursor-pointer uppercase" onClick={() => setShowChildren(pre => !pre)}>
-                      {menu.icon}
-                      {menu.title}
-                      <ArrowRight className={`${showChildren ? 'rotate-90' : ''} duration-300`} />
-                    </div>
-                    {showChildren && (
-                      <ul className="list-disc pl-8">
-                        {menu.children.map(child => (
-                          <li key={child.title} className="">
-                            <SidebarItem menu={child} />
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                ) : (
-                  <SidebarItem key={menu.title} menu={menu} />
-                )
+                <SidebarItem key={menu.title} menu={menu} />
               )
             ))}
           </div>

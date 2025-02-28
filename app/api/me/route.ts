@@ -16,7 +16,7 @@ export async function GET(req: Request) {
     if (!userParse || !userParse.user_id) {
       return NextResponse.json({
         success: false,
-        message: "Phiên làm việc đã hết hạn, vui lòng đăng nhập lại."
+        message: "Người dùng không tồn tại"
       }, { status: 401 });
     }
     const user = await prisma.user.findUnique({
