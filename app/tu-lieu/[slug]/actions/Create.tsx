@@ -26,17 +26,21 @@ function CreateFiles(props: CreateFilesProps) {
   const handleClose = () => {
     onClose();
     setFilesData([])
+    form.setFieldsValue({
+      url: '',
+      fileName: ''
+    })
   }
 
-  const onSubmit = async (data: { filesData: UploadFile[], url: string }) => {
+  const onSubmit = async (data: { filesData: UploadFile[], url: string, fileName: string }) => {
     setLoading(true);
     try {
       const formData = new FormData();
       filesData.forEach((file) => {
         formData.append("files", file as unknown as File); // Không có [] trong key
       });
-      console.log(data)
       formData.append('url', data.url)
+      formData.append('fileName', data.fileName)
 
       await createFiles({
         slug: params.slug,
@@ -59,7 +63,7 @@ function CreateFiles(props: CreateFilesProps) {
     <Modal open={open} onClose={onClose} className="w-1/2">
       <h1 className="mb-4 text-2xl font-bold text-center">Thêm mới nội dung</h1>
       <div>
-        <Form form={form} onFinish={onSubmit}>
+        <Form form={form} onFinish={onSubmit} initialValues={{ url: '', fileName: '' }}>
           <div className="flex items-center flex-col py-4 border-b mb-4">
             <div className="flex items-center w-full h-full">
               {/* <p className="w-[150px] text-left text-[#2563eb]">Chính sách bán hàng</p> */}
@@ -99,20 +103,37 @@ function CreateFiles(props: CreateFilesProps) {
               </div>
             </div>
           </div>
-          <div className="flex items-center h-[40px] mb-6">
-            <p className="w-[106px] text-left text-[#2563eb]">Đường link</p>
-            <Form.Item
-              className="!mb-0 w-full flex-1"
-              name="url"
-              rules={[
-                {
-                  required: true,
-                  message: "Trường này là bắt buộc"
-                },
-              ]}
-            >
-              <Input className="py-2" />
-            </Form.Item>
+          <div>
+            <div className="flex items-center h-[40px] mb-6">
+              <p className="w-[106px] text-left text-[#2563eb]">Đường link</p>
+              <Form.Item
+                className="!mb-0 w-full flex-1"
+                name="url"
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: "Trường này là bắt buộc"
+                //   },
+                // ]}
+              >
+                <Input className="py-2" />
+              </Form.Item>
+            </div>
+            <div className="flex items-center h-[40px] mb-6">
+              <p className="w-[106px] text-left text-[#2563eb]">Tên</p>
+              <Form.Item
+                className="!mb-0 w-full flex-1"
+                name="fileName"
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: "Trường này là bắt buộc"
+                //   },
+                // ]}
+              >
+                <Input className="py-2" />
+              </Form.Item>
+            </div>
           </div>
           <div className="flex justify-center gap-4">
             <Button variant='danger' onClick={handleClose}>Hủy</Button>

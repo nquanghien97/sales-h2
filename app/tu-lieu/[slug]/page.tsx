@@ -183,8 +183,13 @@ function FileCategories() {
                 )
               }
               return (
-                <div key={file.id} className="flex items-center gap-2">
-                  <Link href={file.url} target='__blank' className="px-4 py-2 bg-[#2563eb] rounded-xl">Đi tới link</Link>
+                <div key={file.id} className="flex flex-col justify-center gap-2">
+                  <div className="h-[180px] flex items-center">
+                    <Link href={file.url} target='__blank' className="px-4 py-2 bg-[#2563eb] rounded-xl">Đi tới link {'->'}</Link>
+                  </div>
+                  <div className="flex justify-center max-w-[180px] flex-1">
+                      <span className="break-words w-full">{file.fileName || file.url}</span>
+                    </div>
                 </div>
               )
             })

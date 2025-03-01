@@ -13,6 +13,7 @@ export async function POST(
     const formData = await req.formData();
     const data = formData.getAll('files') as File[];
     const url = formData.get('url') as string;
+    const fileName = formData.get('fileName') as string;
 
     console.log(url)
 
@@ -57,6 +58,7 @@ export async function POST(
       await prisma.files.create({
         data: {
           url,
+          fileName,
           type: 'other',
           fileCategorySlug: slug,
           authorId: Number(user.user_id)
