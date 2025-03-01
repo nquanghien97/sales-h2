@@ -12,6 +12,7 @@ import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import CreateFiles from './actions/Create';
 import Link from 'next/link';
+import DeleteFile from './actions/DeleteFile';
 
 function FileCategories() {
   const [files, setFiles] = useState<FilesEntity[]>([]);
@@ -48,7 +49,7 @@ function FileCategories() {
   return (
     <div>
       <CreateFiles open={isOpenCreateFiles} onClose={() => setIsOpenCreateFiles(false)} setRefreshKey={setRefreshKey} />
-      {/* {fileId && <DeleteFile open={isOpenDeleteFiles} onClose={() => setIsOpenDelete(false)} setRefreshKey={setRefreshKey} id={fileId} />} */}
+      {fileId && <DeleteFile open={isOpenDeleteFiles} onClose={() => setIsOpenDelete(false)} setRefreshKey={setRefreshKey} id={fileId} />}
       <h1 className="text-center text-4xl font-bold mb-4 py-4">Chính sách bán hàng</h1>
       {me?.role === 'ADMIN' && (
         <div className="mb-4">
