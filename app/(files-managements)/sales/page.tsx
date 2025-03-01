@@ -98,7 +98,7 @@ function ProductDocuments() {
                       <Image className="border-2 m-auto cursor-pointer" width={180} height={180} src={`/api${file.url}`} alt="preview avatar" />
                     </Image.PreviewGroup>
                     <div className="flex justify-center max-w-[180px] flex-1">
-                      <span className="break-words">{file.imageName}</span>
+                      <span className="break-words">{file.fileName}</span>
                     </div>
                     <div className="flex w-full">
                       <Button variant='primary' className="w-full">
@@ -133,7 +133,7 @@ function ProductDocuments() {
                       <source className="border-2 m-auto cursor-pointer" width={100} height={100} src={`/api${file.url}`} />
                     </video>
                     <div className="flex justify-center flex-1">
-                      <span className="break-words">{file.imageName}</span>
+                      <span className="break-words">{file.fileName}</span>
                     </div>
                     <div className="flex w-full">
                       <Button variant='primary' className="w-full">
@@ -161,7 +161,7 @@ function ProductDocuments() {
                   <div key={index} className="flex flex-col gap-2">
                     <Image src="/pdf-image.png" alt="pdf-image" width={180} height={180} />
                     <div className="flex justify-center flex-1 max-w-[180px]">
-                      <span className="w-[180px] break-words">{file.imageName}</span>
+                      <span className="w-[180px] break-words">{file.fileName}</span>
                     </div>
                     <div className="flex w-full">
                       <Button variant='primary' className="w-full">

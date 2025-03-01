@@ -1,6 +1,6 @@
 'use client'
 
-import { menu_sidebar } from '@/constants/menu_sidebar'
+import {  MenuSidebarType } from '@/constants/menu_sidebar'
 import React, { useState } from 'react'
 import SidebarItem from './SidebarItem';
 import Cookies from 'js-cookie';
@@ -9,7 +9,7 @@ import { useAuthStore } from '@/zustand/auth.store';
 import { Button } from '../ui/Button';
 import ChangePassword from '../change-password';
 
-function Sidebar() {
+function Sidebar({ menuSidebar } : { menuSidebar?: MenuSidebarType[] }) {
   const router = useRouter();
   const { me } = useAuthStore();
 
@@ -29,8 +29,8 @@ function Sidebar() {
         </div>
         <div className="bg-[#ec658d] h-[calc(100%-56px)] overflow-x-hidden overflow-y-auto flex flex-col">
           <div className="py-2 flex-1">
-            {menu_sidebar.map(menu => (
-              me && menu.allowRole.includes(me?.role) && (
+            {menuSidebar?.map(menu => (
+              me && menu.allowRole?.includes(me?.role) && (
                 <SidebarItem key={menu.title} menu={menu} />
               )
             ))}

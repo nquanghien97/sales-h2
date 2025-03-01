@@ -7,43 +7,55 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum CATEGORY {
-  INSIGHT_MOTHER
-  HANDLE_REJECTION
+enum GUIDES_CATEGORY {
+  INSIGHT_CUSTOMER
 }
 
-model category {
-  id        Int      @id @default(autoincrement())
+model guides {
+  id        Int             @id @default(autoincrement())
   keyword   String
-  content   String   @db.LongText
+  content   String          @db.LongText
   authorId  Int
-  author    user     @relation(fields: [authorId], references: [id])
-  category  CATEGORY
-  createdAt DateTime @default(now())
+  author    user            @relation(fields: [authorId], references: [id])
+  category  GUIDES_CATEGORY
+  createdAt DateTime        @default(now())
 }
 
-enum ImageCategory {
-  salesPolicy
-  products
-  productDocuments
-  feedbacks
-}
-
-enum TypeFile {
+enum FILE_TYPE {
   image
   video
   pdf
+  audio
+  other
+}
+
+enum FILE_CATEGORY {
+  GENERAL
+  MKT
+  SALES
+  CSKH
 }
 
 model files {
+  id               Int             @id @default(autoincrement())
+  url              String
+  type             FILE_TYPE
+  fileName         String?
+  fileCategorySlug String
+  fileCategory     file_categories @relation(fields: [fileCategorySlug], references: [slug])
+  authorId         Int
+  author           user            @relation(fields: [authorId], references: [id])
+  createdAt        DateTime        @default(now())
+}
+
+model file_categories {
   id        Int           @id @default(autoincrement())
-  url       String
-  category  ImageCategory
-  type      TypeFile?
-  imageName String
-  authorId  Int
-  author    user          @relation(fields: [authorId], references: [id])
+  title     String
+  slug      String        @unique
+  category  FILE_CATEGORY
   createdAt DateTime      @default(now())
+
+  files files[]
 }
 
 model user {
@@ -51,16 +63,17 @@ model user {
   username  String    @unique(map: "User_username_key")
   fullName  String
   password  String
-  role      user_role @default(USER)
+  role      user_role
   createdAt DateTime  @default(now())
 
-  category category[]
+  guides guides[]
 
-  image files[]
+  files files[]
 }
 
 enum user_role {
-  USER
+  MKT
+  SALES
+  CSKH
   ADMIN
 }
-

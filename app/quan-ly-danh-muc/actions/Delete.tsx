@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/Button'
 import LoadingIcon from '@/components/ui/LoadingIcon'
 import Modal from '@/components/ui/Modal'
-import { GuidesEntity } from '@/entities/guides'
-import { deleteGuides } from '@/services/guides'
+import { FileCategoriesEntity } from '@/entities/file-categories'
+import { deleteFileCategory } from '@/services/file-categories'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 
@@ -10,7 +10,7 @@ interface DeleteProps {
   open: boolean
   onClose: () => void
   setRefreshKey: React.Dispatch<React.SetStateAction<boolean>>
-  data: GuidesEntity
+  data: FileCategoriesEntity
 }
 
 function Delete(props: DeleteProps) {
@@ -20,7 +20,7 @@ function Delete(props: DeleteProps) {
   const onDelete = async () => {
     setLoading(true);
     try {
-      await deleteGuides(data.id);
+      await deleteFileCategory(data.id);
       toast.success('Xóa data thành công');
       setRefreshKey(pre => !pre);
       onClose();
@@ -33,8 +33,8 @@ function Delete(props: DeleteProps) {
     }
   }
   return (
-    <Modal open={open} onClose={onClose} className="w-1/3">
-      <h1 className="text-2xl font-bold mb-4 text-center">Bạn có chắc chắn muốn xóa data này không</h1>
+    <Modal open={open} onClose={onClose} className="w-1/2">
+      <h1 className="text-2xl mb-4 text-center">Bạn có chắc chắn muốn xóa danh mục <strong>{data.title}</strong> không?</h1>
       <div className="flex justify-center gap-4">
         <Button variant='danger' onClick={onClose}>Hủy</Button>
         <Button variant='primary' onClick={onDelete}>

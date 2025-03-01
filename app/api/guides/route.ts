@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const { keyword, content } = await req.json()
+    const { keyword, content, category } = await req.json()
 
     if (!keyword || !content) {
       return NextResponse.json(
@@ -36,11 +36,12 @@ export async function POST(req: NextRequest) {
       }, { status: 403 });
     }
 
-    await prisma.insight_mother.create({
+    await prisma.guides.create({
       data: {
         keyword,
         content,
-        authorId: Number(user.user_id)
+        authorId: Number(user.user_id),
+        category
       }
     })
 
@@ -99,7 +100,7 @@ export async function GET(req: NextRequest) {
       }, { status: 401 });
     }
 
-    const data = await prisma.insight_mother.findMany({
+    const data = await prisma.guides.findMany({
       where: {
         ...whereCondition
       },
@@ -118,7 +119,7 @@ export async function GET(req: NextRequest) {
       }
     })
 
-    const total = await prisma.insight_mother.count({
+    const total = await prisma.guides.count({
       where: {
         ...whereCondition
       }

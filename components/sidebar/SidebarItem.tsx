@@ -1,19 +1,12 @@
 'use client';
 
 import ArrowRight from '@/assets/icons/ArrowRight';
+import { MenuSidebarType } from '@/constants/menu_sidebar';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-
-export interface DataSidebarType {
-  title: string,
-  url: string,
-  icon?: React.ReactNode,
-  children?: DataSidebarType[],
-  allowRole: string[]
-}
 interface SidebarItemProps {
-  menu: DataSidebarType
+  menu: MenuSidebarType
 }
 
 function SidebarItem(props: SidebarItemProps) {
@@ -23,7 +16,7 @@ function SidebarItem(props: SidebarItemProps) {
   const { menu } = props;
 
   useEffect(() => {
-    const isActivePath = (menu: DataSidebarType): boolean => {
+    const isActivePath = (menu: MenuSidebarType): boolean => {
       if (menu.url === pathname) return true;
       if (menu.children) {
         return menu.children.some((item) => isActivePath(item));
@@ -52,12 +45,12 @@ function SidebarItem(props: SidebarItemProps) {
             className="flex items-center w-full gap-2 cursor-pointer text-[#fff]"
             onClick={handleClick}
           >
-            <Link href={menu.url} className={`flex items-center w-full gap-2 text-[#fff] ${activeClass}`}>
+            <div className={`flex items-center w-full gap-2 text-[#fff] ${activeClass}`}>
               {menu.icon}
               <span className={`font-bold uppercase ${activeClass}`}>
                 {menu.title}
               </span>
-            </Link>
+            </div>
             <ArrowRight
               width={20}
               height={20}

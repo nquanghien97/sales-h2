@@ -2,8 +2,8 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input'
 import LoadingIcon from '@/components/ui/LoadingIcon';
 import Modal from '@/components/ui/Modal'
-import { InsightMotherEntity } from '@/entities/insight-mother';
-import { updateInsightMother } from '@/services/insight-mother';
+import { GuidesEntity } from '@/entities/guides';
+import { updateGuides } from '@/services/guides';
 import { Editor } from '@tinymce/tinymce-react';
 import { Form } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -13,7 +13,7 @@ interface UpdateHandleRejectionProps {
   open: boolean
   onClose: () => void
   setRefreshKey: React.Dispatch<React.SetStateAction<boolean>>
-  data: InsightMotherEntity
+  data: GuidesEntity
 }
 
 interface FormValues {
@@ -39,7 +39,7 @@ function UpdateHandleRejection(props: UpdateHandleRejectionProps) {
   const onSubmit = async ({ keyword }: FormValues) => {
     setLoading(true);
     try {
-      await updateInsightMother({ id: data.id, data: { keyword, content} })
+      await updateGuides({ id: data.id, data: { keyword, content} })
       toast.success('Cập nhật thông tin thành công');
       setRefreshKey(pre => !pre);
       onClose();

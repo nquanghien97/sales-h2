@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react'
 import Header from './Header'
-import { InsightMotherEntity } from '@/entities/insight-mother'
-import { handleRejectionParams } from '@/dto/insight-mother'
+import { GuidesEntity } from '@/entities/guides'
+import { GuidesParams } from '@/dto/guides'
 import { formatDate } from '@/utils/formatDate'
 import Select from '@/components/ui/Select'
 import Pagination from '@/components/ui/Pagination'
@@ -13,19 +13,19 @@ import DeleteIcon from '@/assets/icons/DeleteIcon'
 import withAuth from '@/hocs/withAuth'
 import Delete from './actions/Delete'
 import Update from './actions/Update'
-import { getInsightMothers } from '@/services/insight-mother'
+import { getGuides } from '@/services/guides'
 import { useAuthStore } from '@/zustand/auth.store'
 import DataIcon from '@/assets/icons/DataIcon'
 
 function HandleRejection() {
-  const [datas, setDatas] = useState<InsightMotherEntity[]>([]);
-  const [searchParams, setSearchParams] = useState<handleRejectionParams>({});
+  const [datas, setDatas] = useState<GuidesEntity[]>([]);
+  const [searchParams, setSearchParams] = useState<GuidesParams>({});
   const [refreshKey, setRefreshKey] = useState(false);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [total, setTotal] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<InsightMotherEntity>();
+  const [data, setData] = useState<GuidesEntity>();
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isOpenUpdate, setIsOpenUpdate] = useState(false);
 
@@ -39,7 +39,7 @@ function HandleRejection() {
     (async () => {
       try {
         setLoading(true)
-        const res = await getInsightMothers({
+        const res = await getGuides({
           ...searchParams,
           page,
           pageSize
@@ -110,7 +110,7 @@ function HandleRejection() {
       {data && (<Update data={data} open={isOpenUpdate} onClose={() => setIsOpenUpdate(false)} setRefreshKey={setRefreshKey} />)}
       {data && (<Delete data={data} open={isOpenDelete} onClose={() => setIsOpenDelete(false)} setRefreshKey={setRefreshKey} />)}
       <div>
-        <h1 className="text-center text-4xl font-bold mb-4 py-4">INSIGHT CỦA MẸ</h1>
+        <h1 className="text-center text-4xl font-bold mb-4 py-4">INSIGHT KHÁCH HÀNG</h1>
         <div className="bg-[#ec658d] shadow-xl rounded-xl p-4">
           <Header setSearchParams={setSearchParams} setRefreshKey={setRefreshKey} />
           <table className="w-full border-collapse">

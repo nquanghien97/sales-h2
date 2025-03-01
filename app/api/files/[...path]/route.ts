@@ -4,17 +4,21 @@ import path from 'path';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ path: string[] }> }
+  { params }: { params: Promise<{ path?: string[] }> } // path là optional
 ) {
-  const { path: pathSegments } = await params;
+  const resolvedParams = await params;
+  const pathSegments = resolvedParams.path || []; // Nếu không có path, trả về mảng rỗng
+
+  // Tạo đường dẫn file từ các đoạn path
   const filePath = path.join(process.cwd(), 'files', ...pathSegments);
 
   if (fs.existsSync(filePath)) {
     const fileBuffer = await fs.promises.readFile(filePath);
     const fileExtension = path.extname(filePath).toLowerCase();
-    
+
     const response = new NextResponse(fileBuffer);
-    
+
+    // Thiết lập Content-Type dựa trên phần mở rộng file
     switch (fileExtension) {
       case '.jpg':
       case '.jpeg':
@@ -35,7 +39,7 @@ export async function GET(
       default:
         response.headers.set('Content-Type', 'application/octet-stream');
     }
-    
+
     return response;
   } else {
     return new NextResponse('File not found', { status: 404 });

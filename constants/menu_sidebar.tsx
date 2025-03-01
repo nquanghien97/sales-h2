@@ -1,13 +1,54 @@
 import FilesIcon from "@/assets/icons/FilesIcon";
+import MenuIcon from "@/assets/icons/MenuIcon";
 import UsersIcon from "@/assets/icons/UsersIcon";
 import WomenIcon from "@/assets/icons/WomenIcon";
+import { FileCategoriesEntity } from "@/entities/file-categories";
+import { generateSlug } from "@/utils/generateSlug";
+import { FILE_CATEGORY } from "@prisma/client";
 
-export const menu_sidebar = [
+export interface MenuSidebarType {
+  title: string;
+  url: string;
+  icon?: React.ReactNode;
+  allowRole?: string[];
+  category?: FILE_CATEGORY;
+  children?: MenuSidebarType[];
+}
+
+const menu_sidebar: MenuSidebarType[] = [
   {
     title: 'INSIGHT KHÁCH HÀNG',
     url: '/insight-khach-hang',
     icon: <WomenIcon width={20} height={20} />,
     allowRole: ['ADMIN', 'USER']
+  },
+  {
+    title: 'Tư liệu chung',
+    category: 'GENERAL',
+    url: '#',
+    icon: <FilesIcon width={20} height={20} />,
+    allowRole: ['ADMIN', 'USER'],
+  },
+  {
+    title: 'MKT',
+    category: 'MKT',
+    url: '#',
+    icon: <FilesIcon width={20} height={20} />,
+    allowRole: ['ADMIN', 'USER'],
+  },
+  {
+    title: 'SALES',
+    category: 'SALES',
+    url: '#',
+    icon: <FilesIcon width={20} height={20} />,
+    allowRole: ['ADMIN', 'USER'],
+  },
+  {
+    title: 'CSKH',
+    category: 'CSKH',
+    url: '#',
+    icon: <FilesIcon width={20} height={20} />,
+    allowRole: ['ADMIN', 'USER'],
   },
   {
     title: 'Quản lý người dùng',
@@ -16,115 +57,26 @@ export const menu_sidebar = [
     allowRole: ['ADMIN']
   },
   {
-    title: 'Tư liệu chung',
-    url: '#',
-    icon: <FilesIcon width={20} height={20} />,
-    allowRole: ['ADMIN', 'USER'],
-    children: [
-      {
-        title: 'Chính sách bán hàng',
-        url: '/chinh-sach-ban-hang',
-        allowRole: ['ADMIN', 'USER']
-      },
-      {
-        title: 'Sản phẩm',
-        url: '/san-pham',
-        allowRole: ['ADMIN', 'USER']
-      },
-      {
-        title: 'Giấy tờ sản phẩm',
-        url: '/giay-to-san-pham',
-        allowRole: ['ADMIN', 'USER']
-      },
-      {
-        title: 'Feedback KH',
-        url: '/feedbacks-khach-hang',
-        allowRole: ['ADMIN', 'USER']
-      }
-    ]
-  },
-  {
-    title: 'MKT',
-    url: '#',
-    icon: <FilesIcon width={20} height={20} />,
-    allowRole: ['ADMIN', 'USER'],
-    children: [
-      {
-        title: 'Chính sách bán hàng',
-        url: '/chinh-sach-ban-hang',
-        allowRole: ['ADMIN', 'USER']
-      },
-      {
-        title: 'Sản phẩm',
-        url: '/san-pham',
-        allowRole: ['ADMIN', 'USER']
-      },
-      {
-        title: 'Giấy tờ sản phẩm',
-        url: '/giay-to-san-pham',
-        allowRole: ['ADMIN', 'USER']
-      },
-      {
-        title: 'Feedback KH',
-        url: '/feedbacks-khach-hang',
-        allowRole: ['ADMIN', 'USER']
-      }
-    ]
-  },
-  {
-    title: 'SALES',
-    url: '#',
-    icon: <FilesIcon width={20} height={20} />,
-    allowRole: ['ADMIN', 'USER'],
-    children: [
-      {
-        title: 'Chính sách bán hàng',
-        url: '/chinh-sach-ban-hang',
-        allowRole: ['ADMIN', 'USER']
-      },
-      {
-        title: 'Sản phẩm',
-        url: '/san-pham',
-        allowRole: ['ADMIN', 'USER']
-      },
-      {
-        title: 'Giấy tờ sản phẩm',
-        url: '/giay-to-san-pham',
-        allowRole: ['ADMIN', 'USER']
-      },
-      {
-        title: 'Feedback KH',
-        url: '/feedbacks-khach-hang',
-        allowRole: ['ADMIN', 'USER']
-      }
-    ]
-  },
-  {
-    title: 'CSKH',
-    url: '#',
-    icon: <FilesIcon width={20} height={20} />,
-    allowRole: ['ADMIN', 'USER'],
-    children: [
-      {
-        title: 'Chính sách bán hàng',
-        url: '/chinh-sach-ban-hang',
-        allowRole: ['ADMIN', 'USER']
-      },
-      {
-        title: 'Sản phẩm',
-        url: '/san-pham',
-        allowRole: ['ADMIN', 'USER']
-      },
-      {
-        title: 'Giấy tờ sản phẩm',
-        url: '/giay-to-san-pham',
-        allowRole: ['ADMIN', 'USER']
-      },
-      {
-        title: 'Feedback KH',
-        url: '/feedbacks-khach-hang',
-        allowRole: ['ADMIN', 'USER']
-      }
-    ]
+    title: 'Quản lý danh mục',
+    url: '/quan-ly-danh-muc',
+    icon: <MenuIcon width={20} height={20} />,
+    allowRole: ['ADMIN']
   },
 ]
+
+export const generateMenuSidebar = (fileCategories: FileCategoriesEntity[] | null) => {
+  if(!fileCategories) return
+  const fileCategoriesSidebar = fileCategories.map(item => ({
+    ...item,
+    url: `/tu-lieu/${generateSlug(item.title)}`
+  }))
+  return menu_sidebar.map(menu => {
+    const matchedCategories = fileCategoriesSidebar.filter(item => item.category === menu.category);
+
+    if (matchedCategories.length > 0) {
+      return { ...menu, children: matchedCategories };
+    }
+
+    return menu;
+  });
+}

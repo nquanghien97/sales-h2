@@ -1,13 +1,13 @@
 import prisma from "@/lib/db";
 import { verifyToken } from "@/lib/token";
-import { ImageCategory } from "@prisma/client";
+import { FILE_CATEGORY } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const pageParam = url.searchParams.get('page');
   const pageSizeParam = url.searchParams.get('pageSize')
-  const category = url.searchParams.get('category') as ImageCategory;
+  const slug = url.searchParams.get('slug') as FILE_CATEGORY;
   const search = url.searchParams.get('search')
 
   const page = pageParam ? parseInt(pageParam, 10) : null;
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
   const whereCondition = {
     ...(search && {
       OR: [
-        { imageName: { contains: search } },
+        { fileName: { contains: search } },
       ],
     }),
   };
@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
     const files = await prisma.files.findMany({
       where: {
         ...whereCondition,
-        category
+        fileCategorySlug: slug
       },
       include: {
         author: {
@@ -67,7 +67,7 @@ export async function GET(req: NextRequest) {
     })
     const total = await prisma.files.count({
       where: {
-        category
+        fileCategorySlug: slug
       }
     })
     return NextResponse.json({

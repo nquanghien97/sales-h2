@@ -1,18 +1,17 @@
 import { api } from "@/utils/api";
-import { ImageCategory } from "@prisma/client";
 
-export function getFiles({ category, page, pageSize, search }: { category?: string, page?: number, pageSize?: number, search?: string }) {
+export function getFiles({ slug, page, pageSize, search }: { slug?: string, page?: number, pageSize?: number, search?: string }) {
   const params = new URLSearchParams();
-  if (category) params.append('category', category.toString());
+  if (slug) params.append('slug', slug.toString());
   if (page) params.append('page', page.toString());
   if (pageSize) params.append('pageSize', pageSize.toString());
   if (search) params.append('search', search.toString());
 
-  return api(`/api/get-files?${params.toString()}`);
+  return api(`/api/category-files?${params.toString()}`);
 }
 
-export function createFiles({ category, data }: { category: ImageCategory, data: FormData }) {
-  return api(`api/files/${category}`,
+export function createFiles({ slug, data }: { slug: string, data: FormData }) {
+  return api(`/api/category-files/${slug}`,
     {
       method: 'POST',
       body: data,

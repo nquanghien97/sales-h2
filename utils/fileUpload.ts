@@ -1,21 +1,21 @@
 import { writeFile, unlink } from 'fs/promises';
 import path from 'path';
 
-export async function uploadFile(files: File[], folderPath: string) {
+export async function uploadFile(files: File[]) {
   const promises = files.map(async (file) => {
     const buffer = Buffer.from(await file.arrayBuffer());
     const filename = Date.now() + file.name.replaceAll(" ", "_");
 
-    const targetPath = path.join(process.cwd(), `files/${folderPath}`);
+    const targetPath = path.join(process.cwd(), `files`);
     await writeFile(
       path.join(targetPath, filename),
       buffer
     );
-    const type = file.type.startsWith('image/') ? 'image' : file.type.startsWith('video/') ? 'video' : file.type.startsWith('application/pdf') ? 'pdf' : '' as unknown as 'video' | 'image' | 'pdf';
+    const type  = ['image', 'audio', 'video'].includes(file.type.split('/')[0]) ? file.type.split('/')[0] : 'other';
     return {
-      filename: `/files/${folderPath}/${filename}`,
+      filename: `/files/${filename}`,
       type,
-      imageName: file.name
+      fileName: file.name
     }
   });
 

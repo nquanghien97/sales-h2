@@ -33,7 +33,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: numb
       }, { status: 403 });
     }
 
-    const data = await prisma.insight_mother.findUnique({
+    const data = await prisma.guides.findUnique({
       where: {
         id: +id
       }
@@ -95,7 +95,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: numb
       }, { status: 403 });
     }
 
-    await prisma.insight_mother.update({
+    await prisma.guides.update({
       where: {
         id: +id
       },
@@ -150,7 +150,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: n
       }, { status: 403 });
     }
 
-    await prisma.insight_mother.delete({
+    await prisma.guides.delete({
       where: {
         id: +id
       }

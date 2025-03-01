@@ -1,23 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken } from '@/lib/token';
-import { ImageCategory } from '@prisma/client';
 import { uploadFile } from '@/utils/fileUpload';
 import prisma from '@/lib/db';
+import { FILE_TYPE } from '@prisma/client';
 
-const folderName: Record<ImageCategory, string> = {
-  salesPolicy: 'sales-policy',
-  products: 'products',
-  productDocuments: 'product-documents',
-  feedbacks: 'feedbacks',
-}
 export async function POST(
   req: NextRequest,
-  { params }: { params: Promise<{ category: string }> }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const { category } = await params as unknown as { category: ImageCategory };
+    const { slug } = await params as unknown as { slug: string };
     const formData = await req.formData();
-    const data = formData.getAll(category) as File[];
+    const data = formData.getAll('files') as File[];
+    const url = formData.get('url') as string;
+
+    console.log(url)
 
     const authorization = req.headers.get('authorization');
     const token = authorization?.split(' ')[1];
@@ -41,20 +38,30 @@ export async function POST(
       }, { status: 403 });
     }
 
-    const fileNames = await uploadFile(data, folderName[category]);
+    const fileNames = await uploadFile(data);
 
     const dataFiles = () => {
       return fileNames.map(filename => ({
         url: filename.filename,
-        type: filename.type,
-        category,
-        imageName: filename.imageName,
+        type: filename.type as FILE_TYPE,
+        fileCategorySlug: slug,
+        fileName: filename.fileName,
         authorId: Number(user.user_id)
       }))
     }
 
     if (dataFiles().length > 0) {
       await prisma.files.createMany({ data: dataFiles() })
+    }
+    if(url && dataFiles().length === 0) {
+      await prisma.files.create({
+        data: {
+          url,
+          type: 'other',
+          fileCategorySlug: slug,
+          authorId: Number(user.user_id)
+        }
+      })
     }
     return NextResponse.json({
       success: true,

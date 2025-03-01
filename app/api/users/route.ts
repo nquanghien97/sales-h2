@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import { verifyToken } from "@/lib/token";
 
 export async function POST(req: NextRequest) {
-  const { username, fullName, password } = await req.json();
+  const { username, fullName, password, role } = await req.json();
   if (!username || !fullName || !password) {
     return NextResponse.json({
       success: false,
@@ -53,6 +53,7 @@ export async function POST(req: NextRequest) {
         password: hashPassword,
         username,
         fullName,
+        role
       }
     })
 
