@@ -133,6 +133,7 @@ export async function GET(req: NextRequest) {
         id: true,
         username: true,
         fullName: true,
+        role: true,
         createdAt: true,
       },
       skip,

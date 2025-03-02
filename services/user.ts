@@ -1,12 +1,13 @@
 import { api } from "@/utils/api";
+import { USER_ROLE } from "@prisma/client";
 
-export function createUser({ username, fullName, password }: { username: string, fullName: string, password: string }) {
+export function createUser({ username, fullName, role, password }: { username: string, fullName: string, role: USER_ROLE, password: string }) {
   return api(`/api/users`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ username, password, fullName }),
+    body: JSON.stringify({ username, password, fullName, role }),
   })
 }
 
@@ -18,13 +19,13 @@ export function getUsers({ search, page, pageSize }: { search?: string, page?: n
   return api(`/api/users?${params.toString()}`);
 }
 
-export function updateUser({ id, fullName }: { id: number, fullName: string }) {
+export function updateUser({ id, fullName, role }: { id: number, fullName: string, role: USER_ROLE }) {
   return api(`/api/users/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ fullName }),
+    body: JSON.stringify({ fullName, role }),
   })
 }
 

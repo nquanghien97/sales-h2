@@ -1,9 +1,8 @@
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import LoadingIcon from '@/components/ui/LoadingIcon';
-import Modal from '@/components/ui/Modal';
 import { createFiles } from '@/services/files';
-import { Form, Upload, Image, UploadFile } from 'antd';
+import { Form, Upload, Image, UploadFile, Select, Modal } from 'antd';
 import { useParams } from 'next/navigation';
 import React, { useState } from 'react'
 import { toast } from 'react-toastify';
@@ -18,6 +17,7 @@ function CreateFiles(props: CreateFilesProps) {
   const { open, onClose, setRefreshKey } = props;
   const [filesData, setFilesData] = useState<UploadFile[]>([]);
   const [loading, setLoading] = useState(false);
+  const [fileType, setFileType] = useState<'link' | 'file'>()
 
   const params: { slug: string } = useParams()
 
@@ -37,7 +37,7 @@ function CreateFiles(props: CreateFilesProps) {
     try {
       const formData = new FormData();
       filesData.forEach((file) => {
-        formData.append("files", file as unknown as File); // Không có [] trong key
+        formData.append("files", file as unknown as File);
       });
       formData.append('url', data.url)
       formData.append('fileName', data.fileName)
@@ -59,82 +59,96 @@ function CreateFiles(props: CreateFilesProps) {
     }
   }
 
+  console.log(filesData)
+
   return (
-    <Modal open={open} onClose={onClose} className="w-1/2">
+    <Modal open={open} onClose={onClose} className="!w-1/2 min-h-[300px]" footer={false}>
       <h1 className="mb-4 text-2xl font-bold text-center">Thêm mới nội dung</h1>
+      <div className="">
+        <p className='mb-2'>Chọn kiểu file</p>
+        <Select placeholder='Chọn kiểu file' options={[{ label: 'Link', value: 'link' }, { label: 'File', value: 'file' }]} onChange={(e) => setFileType(e as 'file' | 'link')} />
+      </div>
       <div>
         <Form form={form} onFinish={onSubmit} initialValues={{ url: '', fileName: '' }}>
-          <div className="flex items-center flex-col py-4 border-b mb-4">
-            <div className="flex items-center w-full h-full">
-              {/* <p className="w-[150px] text-left text-[#2563eb]">Chính sách bán hàng</p> */}
-              <div className="flex items-center flex-1">
-                <Form.Item name="filesData" className="!m-0">
-                  <Upload
-                    multiple
-                    showUploadList
-                    fileList={filesData}
-                    beforeUpload={(file) => {
-                      if (file.type?.startsWith('video/')) {
-                        toast.error('Chỉ chọn file ảnh.');
-                        return false;
-                      }
-                      setFilesData((prev) => [...prev, file]); // Lưu file vào state
-                      return false; // Ngăn không upload ngay lập tức
-                    }}
-                    onRemove={(file) => {
-                      setFilesData((prev) => prev.filter((item) => item.uid !== file.uid))
-                    }}
-                  >
-                    <Button>Chọn tư liệu</Button>
-                  </Upload>
-                </Form.Item>
-                {filesData.length !== 0 && (
-                  <div className="flex flex-wrap justify-center w-full py-4 gap-4">
-                    <Image.PreviewGroup
+          {fileType === 'file' && (
+            <div className="flex items-center flex-col py-4 border-b mb-4">
+              <div className="flex items-center w-full h-full">
+                <div className="flex items-center flex-1">
+                  <Form.Item name="filesData" className="!m-0">
+                    <Upload
+                      multiple
+                      showUploadList
+                      fileList={filesData}
+                      beforeUpload={(file) => {
+                        if (file.type?.startsWith('video/')) {
+                          toast.error('Chỉ chọn file ảnh.');
+                          return false;
+                        }
+                        setFilesData((prev) => [...prev, file]); // Lưu file vào state
+                        return false; // Ngăn không upload ngay lập tức
+                      }}
+                      onRemove={(file) => {
+                        setFilesData((prev) => prev.filter((item) => item.uid !== file.uid))
+                      }}
                     >
+                      <Button>Chọn tư liệu</Button>
+                    </Upload>
+                  </Form.Item>
+                  {(filesData.length !== 0 && filesData) && (
+                    <div className="flex flex-wrap justify-center w-full py-4 gap-4">
                       {
-                        filesData.map((file, index) => (
-                          <Image key={index} className="border-2 m-auto cursor-pointer" width={100} height={100} src={URL.createObjectURL(file as unknown as File)} alt="preview avatar" />
-                        ))
+                        filesData.map((file, index) => {
+                          if (file.type?.startsWith('image')) {
+                            {
+                              return (
+                                <Image.PreviewGroup key={index}>
+                                  <Image className="border-2 m-auto cursor-pointer" width={100} height={100} src={URL.createObjectURL(file as unknown as File)} alt="preview avatar" />
+                                </Image.PreviewGroup>
+                              )
+                            }
+                          }
+                        })
                       }
-                    </Image.PreviewGroup>
-                  </div>
-                )}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-          <div>
-            <div className="flex items-center h-[40px] mb-6">
-              <p className="w-[106px] text-left text-[#2563eb]">Đường link</p>
-              <Form.Item
-                className="!mb-0 w-full flex-1"
-                name="url"
+          )}
+          {fileType === 'link' && (
+            <div>
+              <div className="flex items-center h-[40px] mb-6">
+                <p className="w-[106px] text-left text-[#2563eb]">Đường link</p>
+                <Form.Item
+                  className="!mb-0 w-full flex-1"
+                  name="url"
                 // rules={[
                 //   {
                 //     required: true,
                 //     message: "Trường này là bắt buộc"
                 //   },
                 // ]}
-              >
-                <Input className="py-2" />
-              </Form.Item>
-            </div>
-            <div className="flex items-center h-[40px] mb-6">
-              <p className="w-[106px] text-left text-[#2563eb]">Tên</p>
-              <Form.Item
-                className="!mb-0 w-full flex-1"
-                name="fileName"
+                >
+                  <Input className="py-2" />
+                </Form.Item>
+              </div>
+              <div className="flex items-center h-[40px] mb-6">
+                <p className="w-[106px] text-left text-[#2563eb]">Tên</p>
+                <Form.Item
+                  className="!mb-0 w-full flex-1"
+                  name="fileName"
                 // rules={[
                 //   {
                 //     required: true,
                 //     message: "Trường này là bắt buộc"
                 //   },
                 // ]}
-              >
-                <Input className="py-2" />
-              </Form.Item>
+                >
+                  <Input className="py-2" />
+                </Form.Item>
+              </div>
             </div>
-          </div>
+          )}
           <div className="flex justify-center gap-4">
             <Button variant='danger' onClick={handleClose}>Hủy</Button>
             <Button variant='primary' type="submit">

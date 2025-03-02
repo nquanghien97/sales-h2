@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/Button';
 import LoadingIcon from '@/components/ui/LoadingIcon';
 import { useAuthStore } from '@/zustand/auth.store';
 import Image from 'next/image';
+import { useFileCategories } from '@/zustand/file-categories';
 
 function Login() {
 
@@ -19,6 +20,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ username?: string; password?: string }>({});
   const [loading, setLoading] = useState(false);
+  const { getFileCategories } = useFileCategories();
 
   const { getMe } = useAuthStore();
 
@@ -43,6 +45,7 @@ function Login() {
       const res = await loginUser({ username, password });
       Cookies.set('token', res.accessToken);
       await getMe()
+      await getFileCategories()
       toast.success('Đăng nhập thành công')
       router.push('/');
     } catch (err) {

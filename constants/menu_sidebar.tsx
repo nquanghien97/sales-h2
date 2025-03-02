@@ -20,35 +20,35 @@ const menu_sidebar: MenuSidebarType[] = [
     title: 'INSIGHT KHÁCH HÀNG',
     url: '/insight-khach-hang',
     icon: <WomenIcon width={20} height={20} />,
-    allowRole: ['ADMIN', 'USER']
+    allowRole: ['ADMIN', 'MKT', 'SALES', 'CSKH']
   },
   {
     title: 'Tư liệu chung',
     category: 'GENERAL',
     url: '#',
     icon: <FilesIcon width={20} height={20} />,
-    allowRole: ['ADMIN', 'USER'],
+    allowRole: ['ADMIN', 'MKT', 'SALES', 'CSKH'],
   },
   {
     title: 'MKT',
     category: 'MKT',
     url: '#',
     icon: <FilesIcon width={20} height={20} />,
-    allowRole: ['ADMIN', 'USER'],
+    allowRole: ['ADMIN', 'MKT'],
   },
   {
     title: 'SALES',
     category: 'SALES',
     url: '#',
     icon: <FilesIcon width={20} height={20} />,
-    allowRole: ['ADMIN', 'USER'],
+    allowRole: ['ADMIN', 'SALES'],
   },
   {
     title: 'CSKH',
     category: 'CSKH',
     url: '#',
     icon: <FilesIcon width={20} height={20} />,
-    allowRole: ['ADMIN', 'USER'],
+    allowRole: ['ADMIN', 'CSKH'],
   },
   {
     title: 'Quản lý người dùng',

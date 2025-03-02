@@ -17,6 +17,7 @@ import ChangePasswordUser from './actions/ChangePasswordUser'
 import withAuth from '@/hocs/withAuth'
 import DeleteUser from './actions/DeleteUser'
 import UpdateUser from './actions/UpdateUser'
+import withPermission from '@/hocs/withPermission'
 
 function UsersManagement() {
   const [users, setUsers] = useState<UserEntity[]>([]);
@@ -75,6 +76,7 @@ function UsersManagement() {
           <th className="px-4 py-2 text-left font-medium border border-black">{(index + 1) + pageSize * (page - 1)}</th>
           <th className="px-4 py-2 text-left font-medium border border-black">{user.username}</th>
           <th className="px-4 py-2 text-left font-medium border border-black">{user.fullName}</th>
+          <th className="px-4 py-2 text-left font-medium border border-black">{user.role}</th>
           <th className="px-4 py-2 text-left font-medium border border-black">{formatDate(user.createdAt)}</th>
           <th className="px-4 py-2 text-left font-medium border border-black">
             <div className="flex gap-2">
@@ -125,6 +127,7 @@ function UsersManagement() {
                 <th className="px-4 py-2 text-left border border-black">STT</th>
                 <th className="px-4 py-2 text-left border border-black">Tài khoản</th>
                 <th className="px-4 py-2 text-left border border-black">Tên</th>
+                <th className="px-4 py-2 text-left border border-black">Vai trò</th>
                 <th className="px-4 py-2 text-left border border-black">Thời gian tạo</th>
                 <th className="px-4 py-2 text-left border border-black">Chức năng</th>
               </tr>
@@ -171,5 +174,6 @@ function UsersManagement() {
 }
 
 const UsersManagementWithAuth = withAuth(UsersManagement)
+const UserManagementWithPermission = withPermission(UsersManagementWithAuth, ['ADMIN'])
 
-export default UsersManagementWithAuth
+export default UserManagementWithPermission

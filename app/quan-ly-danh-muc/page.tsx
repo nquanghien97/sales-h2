@@ -10,6 +10,8 @@ import Delete from './actions/Delete';
 import { FileCategoriesEntity } from '@/entities/file-categories';
 import EditIcon from '@/assets/icons/EditIcon';
 import Update from './actions/Update';
+import withAuth from '@/hocs/withAuth';
+import withPermission from '@/hocs/withPermission';
 
 function FileCategories() {
 
@@ -171,4 +173,7 @@ function FileCategories() {
   )
 }
 
-export default FileCategories
+const FileCategoriesWithAuth = withAuth(FileCategories)
+const FileCategoriesWithPermission = withPermission(FileCategoriesWithAuth, ['ADMIN'])
+
+export default FileCategoriesWithPermission

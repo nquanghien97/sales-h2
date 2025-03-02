@@ -13,6 +13,8 @@ import React, { useEffect, useState } from 'react'
 import CreateFiles from './actions/Create';
 import Link from 'next/link';
 import DeleteFile from './actions/DeleteFile';
+import withAuth from '@/hocs/withAuth';
+import { useFileCategories } from '@/zustand/file-categories';
 
 function FileCategories() {
   const [files, setFiles] = useState<FilesEntity[]>([]);
@@ -22,7 +24,10 @@ function FileCategories() {
   const [refreshKey, setRefreshKey] = useState(false);
   const [fileId, setFileId] = useState<number>();
 
-  const params : { slug: string } = useParams();
+  const { fileCategories } = useFileCategories();
+  
+  const params: { slug: string } = useParams();
+  const currentCategory = fileCategories?.find(item => item.slug === params.slug);
 
   const { me } = useAuthStore()
 
@@ -50,7 +55,7 @@ function FileCategories() {
     <div>
       <CreateFiles open={isOpenCreateFiles} onClose={() => setIsOpenCreateFiles(false)} setRefreshKey={setRefreshKey} />
       {fileId && <DeleteFile open={isOpenDeleteFiles} onClose={() => setIsOpenDelete(false)} setRefreshKey={setRefreshKey} id={fileId} />}
-      <h1 className="text-center text-4xl font-bold mb-4 py-4">Chính sách bán hàng</h1>
+      <h1 className="text-center text-4xl font-bold mb-4 py-4">{currentCategory?.title}</h1>
       {me?.role === 'ADMIN' && (
         <div className="mb-4">
           <Button variant='primary' onClick={() => setIsOpenCreateFiles(true)}>Thêm tư liệu</Button>
@@ -64,14 +69,14 @@ function FileCategories() {
             files.map((file, index) => {
               if (file.type?.startsWith('image')) {
                 return (
-                  <div key={index} className="flex flex-col gap-2">
+                  <div key={index} className="flex flex-col gap-2 border-2 border-[#ccc] rounded-xl p-2">
                     <Image.PreviewGroup>
-                      <Image className="border-2 m-auto cursor-pointer" width={180} height={180} src={`/api${file.url}`} alt="preview avatar" />
+                      <Image className="border-2 m-auto cursor-pointer" width={300} height={300} src={`/api${file.url}`} alt="preview avatar" />
                     </Image.PreviewGroup>
-                    <div className="flex justify-center max-w-[180px] flex-1">
+                    <div className="flex justify-center max-w-[300px] flex-1">
                       <span className="break-words w-full">{file.fileName}</span>
                     </div>
-                    <div className="flex w-full">
+                    <div className="flex w-full gap-2">
                       <Button variant='primary' className="w-full">
                         <a download href={`/api${file.url}`} className="flex">
                           <DownloadIcon title='Tải xuống' />
@@ -94,19 +99,19 @@ function FileCategories() {
               }
               if (file.type?.startsWith('video')) {
                 return (
-                  <div key={index} className="flex flex-col gap-2">
+                  <div key={index} className="flex flex-col gap-2 border-2 border-[#ccc] rounded-xl p-2">
                     <video
                       controls
                       width={300}
                       height={300}
-                      className='h-[180px] w-full'
+                      className='h-[300px] w-full'
                     >
                       <source className="border-2 m-auto cursor-pointer" width={100} height={100} src={`/api${file.url}`} />
                     </video>
-                    <div className="flex justify-center flex-1 max-w-[180px]">
+                    <div className="flex justify-center flex-1 max-w-[300px]">
                       <span className="break-words w-full">{file.fileName}</span>
                     </div>
-                    <div className="flex w-full">
+                    <div className="flex w-full gap-2">
                       <Button variant='primary' className="w-full">
                         <a download href={`/api${file.url}`} className="flex">
                           <DownloadIcon title='Tải xuống' />
@@ -129,12 +134,12 @@ function FileCategories() {
               }
               if (file.type?.startsWith('pdf')) {
                 return (
-                  <div key={index} className="flex flex-col gap-2">
-                    <Image src="/pdf-image.png" alt="pdf-image" width={180} height={180} />
-                    <div className="flex justify-center flex-1 max-w-[180px]">
-                      <span className="w-[180px] break-words">{file.fileName}</span>
+                  <div key={index} className="flex flex-col gap-2 border-2 border-[#ccc] rounded-xl p-2">
+                    <Image src="/pdf-image.png" alt="pdf-image" width={300} height={300} />
+                    <div className="flex justify-center flex-1 max-w-[300px]">
+                      <span className="w-[300px] break-words">{file.fileName}</span>
                     </div>
-                    <div className="flex w-full">
+                    <div className="flex w-full gap-2">
                       <Button variant='primary' className="w-full">
                         <a download href={`/api${file.url}`} className="flex">
                           <DownloadIcon title='Tải xuống' />
@@ -157,12 +162,12 @@ function FileCategories() {
               }
               if (file.type?.startsWith('audio')) {
                 return (
-                  <div key={index} className="flex flex-col gap-2">
-                    <Image src="/audio.jpg" alt="audio" width={180} height={180} />
-                    <div className="flex justify-center flex-1 max-w-[180px]">
-                      <span className="w-[180px] break-words">{file.fileName}</span>
+                  <div key={index} className="flex flex-col gap-2 border-2 border-[#ccc] rounded-xl p-2">
+                    <Image src="/audio.jpg" alt="audio" width={300} height={300} />
+                    <div className="flex justify-center flex-1 max-w-[300px]">
+                      <span className="w-[300px] break-words">{file.fileName}</span>
                     </div>
-                    <div className="flex w-full">
+                    <div className="flex w-full gap-2">
                       <Button variant='primary' className="w-full">
                         <a download href={`/api${file.url}`} className="flex">
                           <DownloadIcon title='Tải xuống' />
@@ -184,13 +189,27 @@ function FileCategories() {
                 )
               }
               return (
-                <div key={file.id} className="flex flex-col justify-center gap-2">
-                  <div className="h-[180px] flex items-center">
-                    <Link href={file.url} target='__blank' className="px-4 py-2 bg-[#2563eb] rounded-xl">Đi tới link {'->'}</Link>
+                <div key={index} className="flex flex-col gap-2 border-2 border-[#ccc] rounded-xl p-2">
+                  <Image src="/link.png" alt="link" width={300} height={300} />
+                  <div className="flex justify-center flex-1 max-w-[300px]">
+                    <span className="w-[300px] break-words">{file.fileName}</span>
                   </div>
-                  <div className="flex justify-center max-w-[180px] flex-1">
-                      <span className="break-words w-full">{file.fileName || file.url}</span>
-                    </div>
+                  <div className="flex w-full gap-2">
+                    <Button variant='primary' className="w-full">
+                      <Link href={file.url} target='__blank'>Đi tới link {'->'}</Link>
+                    </Button>
+                    {me?.role === 'ADMIN' && (
+                      <Button
+                        variant='danger'
+                        className="w-full"
+                        onClick={() => {
+                          setIsOpenDelete(true)
+                          setFileId(file.id)
+                        }}>
+                        <DeleteIcon title='Xóa' />
+                      </Button>
+                    )}
+                  </div>
                 </div>
               )
             })
@@ -204,4 +223,6 @@ function FileCategories() {
   )
 }
 
-export default FileCategories
+const FileCategoriesWithAuth = withAuth(FileCategories)
+
+export default FileCategoriesWithAuth

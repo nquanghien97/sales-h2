@@ -37,13 +37,12 @@ function CreateUser(props: CreateUserProps) {
   const onSubmit = async (data: FormValues) => {
     setLoading(true);
     try {
-      
       await createGuides({
         keyword: data.keyword,
         content,
         category: 'INSIGHT_CUSTOMER'
       })
-      
+      toast.success('Tạo data thành công')
       setRefreshKey(pre => !pre);
       handleClose();
     } catch (e) {

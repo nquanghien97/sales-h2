@@ -17,7 +17,7 @@ import { getGuides } from '@/services/guides'
 import { useAuthStore } from '@/zustand/auth.store'
 import DataIcon from '@/assets/icons/DataIcon'
 
-function HandleRejection() {
+function InsightCustomer() {
   const [datas, setDatas] = useState<GuidesEntity[]>([]);
   const [searchParams, setSearchParams] = useState<GuidesParams>({});
   const [refreshKey, setRefreshKey] = useState(false);
@@ -165,6 +165,6 @@ function HandleRejection() {
   )
 }
 
-const HandleRejectionWithAuth = withAuth(HandleRejection)
+const InsightCustomerWithAuth = withAuth(InsightCustomer)
 
-export default HandleRejectionWithAuth
+export default InsightCustomerWithAuth
