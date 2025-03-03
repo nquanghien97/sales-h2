@@ -50,6 +50,7 @@ function UpdateUser(props: UpdateUserProps) {
     <Modal
       open={open}
       onClose={handleClose}
+      onCancel={handleClose}
       className='!w-1/2'
       footer={false}
     >
