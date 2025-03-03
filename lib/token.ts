@@ -26,6 +26,8 @@ export async function verifyToken(token: string | undefined = '') {
     return payload
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {
-    console.log('Failed to verify session')
+    if(err instanceof Error) {
+      console.log('Failed to verify session', err.message)
+    }
   }
 }
