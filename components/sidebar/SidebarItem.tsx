@@ -45,7 +45,7 @@ function SidebarItem(props: SidebarItemProps) {
             className="flex items-center w-full gap-2 cursor-pointer text-[#fff] hover:text-[#2563eb] duration-300"
             onClick={handleClick}
           >
-            <div className={`flex items-center w-full gap-2 text-[#fff] ${activeClass}`}>
+            <div className={`flex items-center w-full gap-2 ${activeClass}`}>
               {menu.icon}
               <span className={`font-bold uppercase ${activeClass}`}>
                 {menu.title}
@@ -54,7 +54,7 @@ function SidebarItem(props: SidebarItemProps) {
             <ArrowRight
               width={20}
               height={20}
-              className={`duration-300 ${showChildren ? "rotate-90" : ''}`}
+              className={`${showChildren ? "rotate-90" : ''}`}
             />
           </div>
         ) : (
