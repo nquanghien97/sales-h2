@@ -11,13 +11,14 @@ import ChangePassword from '../change-password';
 
 function Sidebar({ menuSidebar } : { menuSidebar?: MenuSidebarType[] }) {
   const router = useRouter();
-  const { me } = useAuthStore();
+  const { me, setMe } = useAuthStore();
 
   const [isOpenChangePassword, setIsOpenChangePassword] = useState(false);
 
   const logOut = () => {
     Cookies.remove('token');
     router.push('/login')
+    setMe(null)
   }
 
   return (
