@@ -83,7 +83,7 @@ function UpdateUser(props: UpdateUserProps) {
                 },
               ]}
             >
-              <Select options={[{ label: 'MKT', value: 'MKT' }, { label: 'SALES', value: 'SALES' }, { label: 'CSKH', value: 'CSKH' }]} />
+              <Select options={[{ label: 'Quản lý', value: 'MANAGEMENT'}, { label: 'MKT', value: 'MKT' }, { label: 'SALES', value: 'SALES' }, { label: 'CSKH', value: 'CSKH' }]} />
             </Form.Item>
           </div>
           <div className="flex justify-center gap-4">

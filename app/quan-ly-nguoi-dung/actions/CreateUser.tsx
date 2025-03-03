@@ -106,7 +106,7 @@ function CreateUser(props: CreateUserProps) {
                 },
               ]}
             >
-              <Select options={[{ label: 'MKT', value: 'MKT' }, { label: 'SALES', value: 'SALES' }, { label: 'CSKH', value: 'CSKH' }]} />
+              <Select options={[{ label: 'Quản lý', value: 'MANAGEMENT'}, { label: 'MKT', value: 'MKT' }, { label: 'SALES', value: 'SALES' }, { label: 'CSKH', value: 'CSKH' }]} />
             </Form.Item>
           </div>
           <div className="flex items-center h-[40px] mb-6">

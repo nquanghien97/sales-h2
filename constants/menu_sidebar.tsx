@@ -4,7 +4,7 @@ import UsersIcon from "@/assets/icons/UsersIcon";
 import WomenIcon from "@/assets/icons/WomenIcon";
 import { FileCategoriesEntity } from "@/entities/file-categories";
 import { generateSlug } from "@/utils/generateSlug";
-import { FILE_CATEGORY } from "@prisma/client";
+import { FILE_CATEGORY, USER_ROLE } from "@prisma/client";
 
 export interface MenuSidebarType {
   title: string;
@@ -20,35 +20,35 @@ const menu_sidebar: MenuSidebarType[] = [
     title: 'INSIGHT KHÁCH HÀNG',
     url: '/insight-khach-hang',
     icon: <WomenIcon width={20} height={20} />,
-    allowRole: ['ADMIN', 'MKT', 'SALES', 'CSKH']
+    allowRole: [USER_ROLE.ADMIN, USER_ROLE.CSKH, USER_ROLE.MANAGEMENT, USER_ROLE.MKT, USER_ROLE.SALES]
   },
   {
     title: 'Tư liệu chung',
     category: 'GENERAL',
     url: '#',
     icon: <FilesIcon width={20} height={20} />,
-    allowRole: ['ADMIN', 'MKT', 'SALES', 'CSKH'],
+    allowRole: [USER_ROLE.ADMIN, USER_ROLE.CSKH, USER_ROLE.MANAGEMENT, USER_ROLE.MKT, USER_ROLE.SALES],
   },
   {
     title: 'MKT',
     category: 'MKT',
     url: '#',
     icon: <FilesIcon width={20} height={20} />,
-    allowRole: ['ADMIN', 'MKT'],
+    allowRole: [USER_ROLE.ADMIN, USER_ROLE.MANAGEMENT, USER_ROLE.MKT],
   },
   {
     title: 'SALES',
     category: 'SALES',
     url: '#',
     icon: <FilesIcon width={20} height={20} />,
-    allowRole: ['ADMIN', 'SALES'],
+    allowRole: [USER_ROLE.ADMIN, USER_ROLE.MANAGEMENT, USER_ROLE.SALES],
   },
   {
     title: 'CSKH',
     category: 'CSKH',
     url: '#',
     icon: <FilesIcon width={20} height={20} />,
-    allowRole: ['ADMIN', 'CSKH'],
+    allowRole: [USER_ROLE.ADMIN, USER_ROLE.CSKH, USER_ROLE.MANAGEMENT],
   },
   {
     title: 'Quản lý người dùng',

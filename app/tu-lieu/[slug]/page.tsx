@@ -25,7 +25,7 @@ function FileCategories() {
   const [fileId, setFileId] = useState<number>();
 
   const { fileCategories } = useFileCategories();
-  
+
   const params: { slug: string } = useParams();
   const currentCategory = fileCategories?.find(item => item.slug === params.slug);
 
@@ -77,11 +77,11 @@ function FileCategories() {
                       <span className="break-words w-full">{file.fileName}</span>
                     </div>
                     <div className="flex w-full gap-2">
-                      <Button variant='primary' className="w-full">
-                        <a download href={`/api${file.url}`} className="flex">
+                      <a download href={`/api${file.url}`} className="flex w-full">
+                        <Button variant='primary' className="w-full">
                           <DownloadIcon title='Tải xuống' />
-                        </a>
-                      </Button>
+                        </Button>
+                      </a>
                       {me?.role === 'ADMIN' && (
                         <Button
                           variant='danger'
@@ -112,11 +112,11 @@ function FileCategories() {
                       <span className="break-words w-full">{file.fileName}</span>
                     </div>
                     <div className="flex w-full gap-2">
-                      <Button variant='primary' className="w-full">
-                        <a download href={`/api${file.url}`} className="flex">
+                      <a download href={`/api${file.url}`} className="flex w-full">
+                        <Button variant='primary' className="w-full">
                           <DownloadIcon title='Tải xuống' />
-                        </a>
-                      </Button>
+                        </Button>
+                      </a>
                       {me?.role === 'ADMIN' && (
                         <Button
                           variant='danger'
@@ -140,11 +140,11 @@ function FileCategories() {
                       <span className="w-[300px] break-words">{file.fileName}</span>
                     </div>
                     <div className="flex w-full gap-2">
-                      <Button variant='primary' className="w-full">
-                        <a download href={`/api${file.url}`} className="flex">
+                      <a download href={`/api${file.url}`} className="flex w-full">
+                        <Button variant='primary' className="w-full">
                           <DownloadIcon title='Tải xuống' />
-                        </a>
-                      </Button>
+                        </Button>
+                      </a>
                       {me?.role === 'ADMIN' && (
                         <Button
                           variant='danger'
@@ -168,11 +168,11 @@ function FileCategories() {
                       <span className="w-[300px] break-words">{file.fileName}</span>
                     </div>
                     <div className="flex w-full gap-2">
-                      <Button variant='primary' className="w-full">
-                        <a download href={`/api${file.url}`} className="flex">
+                      <a download href={`/api${file.url}`} className="flex w-full">
+                        <Button variant='primary' className="w-full">
                           <DownloadIcon title='Tải xuống' />
-                        </a>
-                      </Button>
+                        </Button>
+                      </a>
                       {me?.role === 'ADMIN' && (
                         <Button
                           variant='danger'
@@ -195,9 +195,21 @@ function FileCategories() {
                     <span className="w-[300px] break-words">{file.fileName}</span>
                   </div>
                   <div className="flex w-full gap-2">
-                    <Button variant='primary' className="w-full">
-                      <Link href={file.url} target='__blank'>Đi tới link {'->'}</Link>
-                    </Button>
+                    {
+                      file.url.startsWith('http') ? (
+                        <Link href={file.url} target='__blank' className="w-full">
+                          <Button variant='primary' className="w-full">
+                            Đi tới link {'->'}
+                          </Button>
+                        </Link>
+                      ) : (
+                        <a download href={`/api${file.url}`} className="flex w-full">
+                          <Button variant='primary' className="w-full">
+                            <DownloadIcon title='Tải xuống' />
+                          </Button>
+                        </a>
+                      )
+                    }
                     {me?.role === 'ADMIN' && (
                       <Button
                         variant='danger'

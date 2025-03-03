@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE `files` MODIFY `url` LONGTEXT NOT NULL;
+
+-- AlterTable
+ALTER TABLE `user` MODIFY `role` ENUM('MANAGEMENT', 'MKT', 'SALES', 'CSKH', 'ADMIN') NOT NULL;

@@ -22,11 +22,17 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const { getFileCategories } = useFileCategories();
 
-  const { getMe } = useAuthStore();
+  const { getMe, me } = useAuthStore();
 
   useEffect(() => {
     document.title = "Đăng nhập"
   }, []);
+
+  useEffect(() => {
+    if(me) {
+      router.push('/');
+    }
+  }, [me, router])
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -38,7 +38,7 @@ enum FILE_CATEGORY {
 
 model files {
   id               Int             @id @default(autoincrement())
-  url              String
+  url              String          @db.LongText
   type             FILE_TYPE
   fileName         String?
   fileCategorySlug String
@@ -72,6 +72,7 @@ model user {
 }
 
 enum USER_ROLE {
+  MANAGEMENT
   MKT
   SALES
   CSKH

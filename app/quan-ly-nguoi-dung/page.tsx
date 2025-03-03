@@ -19,6 +19,14 @@ import DeleteUser from './actions/DeleteUser'
 import UpdateUser from './actions/UpdateUser'
 import withPermission from '@/hocs/withPermission'
 
+const optionsRole = {
+  ADMIN: 'Admin',
+  MKT: 'Marketing',
+  SALES: 'Sales',
+  CSKH: 'Chăm sóc khách hàng',
+  MANAGEMENT: 'Quản lý'
+} 
+
 function UsersManagement() {
   const [users, setUsers] = useState<UserEntity[]>([]);
   const [searchParams, setSearchParams] = useState<UserParams>({});
@@ -76,7 +84,7 @@ function UsersManagement() {
           <th className="px-4 py-2 text-left font-medium border border-black">{(index + 1) + pageSize * (page - 1)}</th>
           <th className="px-4 py-2 text-left font-medium border border-black">{user.username}</th>
           <th className="px-4 py-2 text-left font-medium border border-black">{user.fullName}</th>
-          <th className="px-4 py-2 text-left font-medium border border-black">{user.role}</th>
+          <th className="px-4 py-2 text-left font-medium border border-black">{optionsRole[user.role]}</th>
           <th className="px-4 py-2 text-left font-medium border border-black">{formatDate(user.createdAt)}</th>
           <th className="px-4 py-2 text-left font-medium border border-black">
             <div className="flex gap-2">

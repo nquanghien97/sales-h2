@@ -59,10 +59,8 @@ function CreateFiles(props: CreateFilesProps) {
     }
   }
 
-  console.log(filesData)
-
   return (
-    <Modal open={open} onClose={onClose} className="!w-1/2 min-h-[300px]" footer={false}>
+    <Modal open={open} onClose={handleClose} onCancel={handleClose} className="!w-1/2 min-h-[300px]" footer={false}>
       <h1 className="mb-4 text-2xl font-bold text-center">Thêm mới nội dung</h1>
       <div className="">
         <p className='mb-2'>Chọn kiểu file</p>
@@ -80,10 +78,6 @@ function CreateFiles(props: CreateFilesProps) {
                       showUploadList
                       fileList={filesData}
                       beforeUpload={(file) => {
-                        if (file.type?.startsWith('video/')) {
-                          toast.error('Chỉ chọn file ảnh.');
-                          return false;
-                        }
                         setFilesData((prev) => [...prev, file]); // Lưu file vào state
                         return false; // Ngăn không upload ngay lập tức
                       }}

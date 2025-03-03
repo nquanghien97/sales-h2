@@ -15,8 +15,6 @@ export async function POST(
     const url = formData.get('url') as string;
     const fileName = formData.get('fileName') as string;
 
-    console.log(url)
-
     const authorization = req.headers.get('authorization');
     const token = authorization?.split(' ')[1];
     if (!token) {
