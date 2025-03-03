@@ -42,7 +42,7 @@ function SidebarItem(props: SidebarItemProps) {
       <div className="flex flex-col text-white p-3">
         {menu.children ? (
           <div
-            className="flex items-center w-full gap-2 cursor-pointer text-[#fff]"
+            className="flex items-center w-full gap-2 cursor-pointer text-[#fff] hover:text-[#2563eb] duration-300"
             onClick={handleClick}
           >
             <div className={`flex items-center w-full gap-2 text-[#fff] ${activeClass}`}>
