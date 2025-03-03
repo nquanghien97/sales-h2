@@ -12,7 +12,6 @@ export async function createToken(user_id: number, user_role: string) {
 };
 
 export async function verifyToken(token: string | undefined = '') {
-  console.log('token', token)
   try {
     const { payload } = await jwtVerify(token, encodedKey, {
       algorithms: ['HS256'],
