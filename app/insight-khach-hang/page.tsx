@@ -116,8 +116,8 @@ function InsightCustomer() {
             <thead className="bg-[#f0c568]">
               <tr>
                 <th className="px-4 py-2 text-left border border-black w-[5%]">STT</th>
-                <th className="px-4 py-2 text-left border border-black w-[30%]">Từ khóa</th>
-                <th className="px-4 py-2 text-left border border-black w-[55%]">Nội dung</th>
+                <th className="px-4 py-2 text-left border border-black w-[15%]">Từ khóa</th>
+                <th className="px-4 py-2 text-left border border-black w-[70%]">Nội dung</th>
                 {/* <th className="px-4 py-2 text-left border border-black">Thời gian tạo</th> */}
                 {/* <th className="px-4 py-2 text-left border border-black">Người tạo</th> */}
                 {me?.role === 'ADMIN' && <th className="px-4 py-2 text-left border border-black w-[10%]">Chức năng</th>}
