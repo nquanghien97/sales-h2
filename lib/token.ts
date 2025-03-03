@@ -18,13 +18,11 @@ export async function verifyToken(token: string | undefined = '') {
     })
     const currentTime = Math.floor(Date.now() / 1000);
 
-    // Kiểm tra nếu token đã hết hạn
     if (payload.exp && payload.exp < currentTime) {
       console.log('Token has expired');
-      return null; // Trả về null nếu token hết hạn
+      return null;
     }
     return payload
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {
     if(err instanceof Error) {
       console.log('Failed to verify session', err.message)
