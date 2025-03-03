@@ -28,7 +28,7 @@ function SidebarItem(props: SidebarItemProps) {
     }
   }, [menu, pathname]);
 
-  const activeClass = pathname === menu.url ? 'text-[black]' : '';
+  const activeClass = pathname === menu.url ? 'text-[#2563eb]' : '';
 
   const handleClick = (e: React.MouseEvent) => {
     if (menu.children) {
@@ -59,7 +59,7 @@ function SidebarItem(props: SidebarItemProps) {
           </div>
         ) : (
           <Link href={menu.url}>
-            <div className="flex items-center w-full gap-2 cursor-pointer text-[#fff]">
+            <div className="flex items-center w-full gap-2 cursor-pointer text-[#fff] hover:text-[#2563eb] duration-300">
               <div className={`flex items-center w-full gap-2 ${activeClass}`}>
                 {menu.icon}
                 <span className={`font-bold uppercase ${activeClass}`}>

@@ -75,8 +75,8 @@ function InsightCustomer() {
           <th className="px-4 py-2 text-left font-medium border border-black">{(index + 1) + pageSize * (page - 1)}</th>
           <th className="px-4 py-2 text-left font-medium border border-black">{data.keyword}</th>
           <th className="px-4 py-2 text-left font-medium border border-black"><div dangerouslySetInnerHTML={{ __html: data.content}} /></th>
-          <th className="px-4 py-2 text-left font-medium border border-black">{formatDate(data.createdAt)}</th>
-          <th className="px-4 py-2 text-left font-medium border border-black">{data.author.fullName}</th>
+          {/* <th className="px-4 py-2 text-left font-medium border border-black">{formatDate(data.createdAt)}</th>
+          <th className="px-4 py-2 text-left font-medium border border-black">{data.author.fullName}</th> */}
           {me?.role === 'ADMIN' && (
             <th className="px-4 py-2 text-left font-medium border border-black">
               <div className="flex gap-2">
@@ -116,12 +116,12 @@ function InsightCustomer() {
           <table className="w-full border-collapse">
             <thead className="bg-[#f0c568]">
               <tr>
-                <th className="px-4 py-2 text-left border border-black">STT</th>
-                <th className="px-4 py-2 text-left border border-black">Từ khóa</th>
-                <th className="px-4 py-2 text-left border border-black">Nội dung</th>
-                <th className="px-4 py-2 text-left border border-black">Thời gian tạo</th>
-                <th className="px-4 py-2 text-left border border-black">Người tạo</th>
-                {me?.role === 'ADMIN' && <th className="px-4 py-2 text-left border border-black">Chức năng</th>}
+                <th className="px-4 py-2 text-left border border-black w-[5%]">STT</th>
+                <th className="px-4 py-2 text-left border border-black w-[30%]">Từ khóa</th>
+                <th className="px-4 py-2 text-left border border-black w-[55%]">Nội dung</th>
+                {/* <th className="px-4 py-2 text-left border border-black">Thời gian tạo</th> */}
+                {/* <th className="px-4 py-2 text-left border border-black">Người tạo</th> */}
+                {me?.role === 'ADMIN' && <th className="px-4 py-2 text-left border border-black w-[10%]">Chức năng</th>}
               </tr>
             </thead>
             <tbody>
