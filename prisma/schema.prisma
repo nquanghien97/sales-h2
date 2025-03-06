@@ -42,7 +42,7 @@ model files {
   type             FILE_TYPE
   fileName         String?
   fileCategorySlug String
-  fileCategory     file_categories @relation(fields: [fileCategorySlug], references: [slug])
+  fileCategory     file_categories @relation(fields: [fileCategorySlug], references: [slug], onDelete: Cascade)
   authorId         Int
   author           user            @relation(fields: [authorId], references: [id])
   createdAt        DateTime        @default(now())
