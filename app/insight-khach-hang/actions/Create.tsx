@@ -95,6 +95,7 @@ function CreateUser(props: CreateUserProps) {
                   plugins: [
                     'table',
                     'media',
+                    'textcolor'
                   ],
                   toolbar:
                     'undo redo | formatselect | bold italic backcolor | ' +
