@@ -1,3 +1,4 @@
+import { FileCategoriesEntity } from "@/entities/file-categories";
 import { api } from "@/utils/api";
 import { FILE_CATEGORY } from "@prisma/client";
 
@@ -22,5 +23,12 @@ export function updateFileCategory({ id, data }: { id: number, data: { title: st
 export function deleteFileCategory(id: number) {
   return api(`/api/file-categories/${id}`, {
     method: 'DELETE',
+  })
+}
+
+export function updateOrder(categories: FileCategoriesEntity[]) {
+  return api(`/api/update-order`, {
+    method: 'PUT',
+    body: JSON.stringify({categories}),
   })
 }

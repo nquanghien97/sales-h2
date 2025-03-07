@@ -53,6 +53,7 @@ model file_categories {
   title     String
   slug      String        @unique
   category  FILE_CATEGORY
+  order     Int           @default(0)
   createdAt DateTime      @default(now())
 
   files files[]
