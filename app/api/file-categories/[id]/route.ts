@@ -1,5 +1,6 @@
 import prisma from "@/lib/db";
 import { verifyToken } from "@/lib/token";
+import { generateSlug } from "@/utils/generateSlug";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: number }> }) {
@@ -59,6 +60,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: numb
     const { id } = await params;
 
     const { title, category } = await req.json();
+    const newSlug = generateSlug(title)
 
     if (!id) return NextResponse.json({
       success: false,
@@ -88,6 +90,19 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: numb
       }, { status: 403 });
     }
 
+    const currentFileCategory = await prisma.file_categories.findUnique({
+      where: {
+        id: +id
+      }
+    })
+
+    if(!currentFileCategory) {
+      return NextResponse.json({
+        success: false,
+        message: "Danh mục không tồn tại"
+      });
+    }
+
     await prisma.file_categories.update({
       where: {
         id: +id
@@ -95,6 +110,16 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: numb
       data: {
         title,
         category,
+        slug: newSlug,
+      }
+    })
+
+    await prisma.files.updateMany({
+      where: {
+        fileCategorySlug: currentFileCategory.slug
+      },
+      data: {
+        fileCategorySlug: newSlug,
       }
     })
 

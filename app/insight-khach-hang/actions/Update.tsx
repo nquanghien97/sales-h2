@@ -92,6 +92,7 @@ function UpdateHandleRejection(props: UpdateHandleRejectionProps) {
                   plugins: [
                     'table',
                     'media',
+                    'textcolor'
                   ],
                   toolbar:
                     'undo redo | formatselect | bold italic backcolor | ' +
