@@ -66,6 +66,7 @@ export async function GET(req: NextRequest) {
   const pageParam = url.searchParams.get('page');
   const pageSizeParam = url.searchParams.get('pageSize')
   const search = url.searchParams.get('search') || '';
+  const keywords = search.split(" ")
 
   const page = pageParam ? parseInt(pageParam, 10) : null;
   const pageSize = pageSizeParam ? parseInt(pageSizeParam, 10) : null;
@@ -78,9 +79,11 @@ export async function GET(req: NextRequest) {
     take = pageSize;
   }
   const whereCondition = {
-    keyword: {
-      contains: search.toLowerCase(),
-    },
+    OR: keywords.map(keyword => ({
+      keyword: {
+        contains: keyword.toLowerCase(),
+      }
+    }))
   };
 
   try {
