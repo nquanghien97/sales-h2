@@ -12,15 +12,30 @@ import EditIcon from '@/assets/icons/EditIcon';
 import Update from './actions/Update';
 import withAuth from '@/hocs/withAuth';
 import withPermission from '@/hocs/withPermission';
+import { SortableList } from './actions/SortableList';
 
 function FileCategories() {
 
   const { fileCategories, getFileCategories } = useFileCategories();
-  const [data, setData] = useState<FileCategoriesEntity>()
+
+  const [itemsGeneral, setItemsGeneral] = useState<FileCategoriesEntity[]>([]);
+  const [itemsSales, setItemsSales] = useState<FileCategoriesEntity[]>([]);
+  const [itemsMKT, setItemsMKT] = useState<FileCategoriesEntity[]>([]);
+  const [itemsCSKH, setItemsCSKH] = useState<FileCategoriesEntity[]>([]);
+
+  const [data, setData] = useState<FileCategoriesEntity>();
+
   const [isOpenCreate, setIsOpenCreate] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isOpenUpdate, setIsOpenUpdate] = useState(false);
   const [refreshKey, setRefreshKey] = useState(false);
+
+  useEffect(() => {
+    setItemsGeneral(fileCategories?.filter(item => item.category === 'GENERAL') || []);
+    setItemsSales(fileCategories?.filter(item => item.category === 'SALES') || []);
+    setItemsMKT(fileCategories?.filter(item => item.category === 'MKT') || []);
+    setItemsCSKH(fileCategories?.filter(item => item.category === 'CSKH') || []);
+  }, [fileCategories]);
 
   useEffect(() => {
     (async () => {
@@ -28,15 +43,9 @@ function FileCategories() {
     })()
   }, [getFileCategories, refreshKey])
 
-  if (!fileCategories) {
+  if (!fileCategories || !itemsGeneral) {
     return <p>Không có dữ liệu</p>
   }
-
-
-  const dataGeneral = fileCategories.filter(item => item.category === 'GENERAL')
-  const dataMKT = fileCategories.filter(item => item.category === 'MKT')
-  const dataSales = fileCategories.filter(item => item.category === 'SALES')
-  const dataCSKH = fileCategories.filter(item => item.category === 'CSKH')
 
   return (
     <div>
@@ -50,123 +59,143 @@ function FileCategories() {
       <div className="w-full flex">
         <div className="w-full border-x border-[#ccc] px-4">
           <p className="font-bold text-2xl mb-2">TƯ LIỆU CHUNG</p>
-          <ul className="list-disc pl-8">
-            {dataGeneral.map(data => (
-              <li key={data.id}>
-                <div className="flex items-center gap-2">
-                  <span>{data.title}</span>
-                  <div className="flex">
-                    <ButtonIcon
-                      onClick={() => {
-                        setData(data);
-                        setIsOpenUpdate(true);
-                      }}
-                    >
-                      <EditIcon width={16} height={16} />
-                    </ButtonIcon>
-                    <ButtonIcon
-                      onClick={() => {
-                        setData(data);
-                        setIsOpenDelete(true);
-                      }}
-                    >
-                      <DeleteIcon width={16} height={16} />
-                    </ButtonIcon>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <div>
+            <SortableList
+              items={itemsGeneral}
+              onChange={setItemsGeneral}
+              renderItem={(item) => {
+                return (
+                  <SortableList.Item id={item.id}>
+                    {item.title}
+                    <div className="flex justify-end flex-1">
+                      <ButtonIcon
+                        onClick={() => {
+                          setData(item);
+                          setIsOpenUpdate(true);
+                        }}
+                      >
+                        <EditIcon width={16} height={16} />
+                      </ButtonIcon>
+                      <ButtonIcon
+                        onClick={() => {
+                          setData(item);
+                          setIsOpenDelete(true);
+                        }}
+                      >
+                        <DeleteIcon width={16} height={16} />
+                      </ButtonIcon>
+                      <SortableList.DragHandle />
+                    </div>
+                  </SortableList.Item>
+                );
+              }}
+            />
+          </div>
         </div>
         <div className="w-full border-x border-[#ccc] px-4">
           <p className="font-bold text-2xl mb-2">MKT</p>
-          <ul className="list-disc pl-8">
-            {dataMKT.map(data => (
-              <li key={data.id}>
-                <div className="flex items-center gap-2">
-                  <span>{data.title}</span>
-                  <div className="flex">
-                    <ButtonIcon
-                      onClick={() => {
-                        setData(data);
-                        setIsOpenUpdate(true);
-                      }}
-                    >
-                      <EditIcon width={16} height={16} />
-                    </ButtonIcon>
-                    <ButtonIcon
-                      onClick={() => {
-                        setData(data);
-                        setIsOpenDelete(true);
-                      }}
-                    >
-                      <DeleteIcon width={16} height={16} />
-                    </ButtonIcon>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <div>
+            <SortableList
+              items={itemsMKT}
+              onChange={setItemsMKT}
+              renderItem={(item) => {
+                return (
+                  <SortableList.Item id={item.id}>
+                    {item.title}
+                    <div className="flex justify-end flex-1">
+                      <ButtonIcon
+                        onClick={() => {
+                          setData(item);
+                          setIsOpenUpdate(true);
+                        }}
+                      >
+                        <EditIcon width={16} height={16} />
+                      </ButtonIcon>
+                      <ButtonIcon
+                        onClick={() => {
+                          setData(item);
+                          setIsOpenDelete(true);
+                        }}
+                      >
+                        <DeleteIcon width={16} height={16} />
+                      </ButtonIcon>
+                      <SortableList.DragHandle />
+                    </div>
+                  </SortableList.Item>
+                );
+              }}
+            />
+          </div>
         </div>
         <div className="w-full border-x border-[#ccc] px-4">
           <p className="font-bold text-2xl mb-2">SALES</p>
-          <ul className="list-disc pl-8">
-            {dataSales.map(data => (
-              <li key={data.id}>
-                <div className="flex items-center gap-2">
-                  <span>{data.title}</span>
-                  <div className="flex">
-                    <ButtonIcon
-                      onClick={() => {
-                        setData(data);
-                        setIsOpenUpdate(true);
-                      }}
-                    >
-                      <EditIcon width={16} height={16} />
-                    </ButtonIcon>
-                    <ButtonIcon
-                      onClick={() => {
-                        setData(data);
-                        setIsOpenDelete(true);
-                      }}
-                    >
-                      <DeleteIcon width={16} height={16} />
-                    </ButtonIcon>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <div>
+            <SortableList
+              items={itemsSales}
+              onChange={setItemsSales}
+              renderItem={(item) => {
+                return (
+                  <SortableList.Item id={item.id}>
+                    {item.title}
+                    <div className="flex justify-end flex-1">
+                      <ButtonIcon
+                        onClick={() => {
+                          setData(item);
+                          setIsOpenUpdate(true);
+                        }}
+                      >
+                        <EditIcon width={16} height={16} />
+                      </ButtonIcon>
+                      <ButtonIcon
+                        onClick={() => {
+                          setData(item);
+                          setIsOpenDelete(true);
+                        }}
+                      >
+                        <DeleteIcon width={16} height={16} />
+                      </ButtonIcon>
+                      <SortableList.DragHandle />
+                    </div>
+                  </SortableList.Item>
+                );
+              }}
+            />
+          </div>
         </div>
         <div className="w-full border-x border-[#ccc] px-4">
           <p className="font-bold text-2xl mb-2">CSKH</p>
-          <ul className="list-disc pl-8">
-            {dataCSKH.map(data => (
-              <li key={data.id}>
-                <div className="flex items-center gap-2">
-                  <span>{data.title}</span>
-                  <div className="flex">
-                    <ButtonIcon
-                      onClick={() => {
-                        setData(data);
-                        setIsOpenUpdate(true);
-                      }}
-                    >
-                      <EditIcon width={16} height={16} />
-                    </ButtonIcon>
-                    <ButtonIcon
-                      onClick={() => {
-                        setData(data);
-                        setIsOpenDelete(true);
-                      }}
-                    >
-                      <DeleteIcon width={16} height={16} />
-                    </ButtonIcon>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <div>
+            <SortableList
+              items={itemsCSKH}
+              onChange={setItemsCSKH}
+              renderItem={(item) => {
+                return (
+                  <SortableList.Item id={item.id}>
+                    {item.title}
+                    <div className="flex justify-end flex-1">
+                      <ButtonIcon
+                        onClick={() => {
+                          setData(item);
+                          setIsOpenUpdate(true);
+                        }}
+                      >
+                        <EditIcon width={16} height={16} />
+                      </ButtonIcon>
+                      <ButtonIcon
+                        onClick={() => {
+                          setData(item);
+                          setIsOpenDelete(true);
+                        }}
+                      >
+                        <DeleteIcon width={16} height={16} />
+                      </ButtonIcon>
+                      <SortableList.DragHandle />
+                    </div>
+                  </SortableList.Item>
+                );
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>

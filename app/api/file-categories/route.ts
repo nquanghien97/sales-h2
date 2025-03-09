@@ -21,7 +21,11 @@ export async function GET(req: NextRequest) {
       }, { status: 401 });
     }
 
-    const fileCategories = await prisma.file_categories.findMany()
+    const fileCategories = await prisma.file_categories.findMany({
+      orderBy: {
+        order: 'asc'
+      }
+    })
     return NextResponse.json({
       success: true,
       message: "Lấy danh mục tập tin thành công.",

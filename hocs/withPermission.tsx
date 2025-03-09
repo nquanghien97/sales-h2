@@ -11,12 +11,13 @@ function withPermission<P extends object>(
 ): ComponentType<P> {
   const WithPermission: React.FC<P> = (props) => {
     const router = useRouter();
-    const { me } = useAuthStore()
+    const { me, isLoading } = useAuthStore()
     useEffect(() => {
+      if (isLoading) return;
       const checkPermission = async () => {
         if (!me) {
           router.push('/login');
-          return;  // Stop checking if user is not logged in.
+          return;
         }
         const currentRole = me.role
         const hasPermission = roles.includes(currentRole)
@@ -26,7 +27,7 @@ function withPermission<P extends object>(
       };
 
       checkPermission();
-    }, [me, router]);
+    }, [isLoading, me, router]);
 
     return <WrappedComponent {...props} />
   };
