@@ -1,11 +1,10 @@
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input'
 import LoadingIcon from '@/components/ui/LoadingIcon';
-import Modal from '@/components/ui/Modal'
 import { FileCategoriesEntity } from '@/entities/file-categories';
 import { updateFileCategory } from '@/services/file-categories';
 import { FILE_CATEGORY } from '@prisma/client';
-import { Form, Select } from 'antd';
+import { Form, Modal, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -29,7 +28,7 @@ function Update(props: UpdateProps) {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    if(data) {
+    if (data) {
       form.setFieldsValue({
         title: data.title,
         category: data.category
@@ -40,7 +39,7 @@ function Update(props: UpdateProps) {
   const onSubmit = async ({ title, category }: FormValues) => {
     setLoading(true);
     try {
-      await updateFileCategory({ id: data.id, data: { title, category} })
+      await updateFileCategory({ id: data.id, data: { title, category } })
       toast.success('Cập nhật thông tin thành công');
       setRefreshKey(pre => !pre);
       onClose();
@@ -57,7 +56,9 @@ function Update(props: UpdateProps) {
     <Modal
       open={open}
       onClose={onClose}
-      className='w-1/2'
+      onCancel={onClose}
+      className='!w-full lg:!w-1/2 min-h-[300px]'
+      footer={false}
     >
       <h1 className="mb-4 text-2xl font-bold text-center">Cập nhật nội dung</h1>
       <div>

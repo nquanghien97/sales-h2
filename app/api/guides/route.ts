@@ -85,6 +85,7 @@ export async function GET(req: NextRequest) {
       }
     }))
   };
+ 
 
   try {
     const authorization = req.headers.get('authorization');

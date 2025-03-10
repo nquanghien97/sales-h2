@@ -25,7 +25,7 @@ const optionsRole = {
   SALES: 'Sales',
   CSKH: 'Chăm sóc khách hàng',
   MANAGEMENT: 'Quản lý'
-} 
+}
 
 function UsersManagement() {
   const [users, setUsers] = useState<UserEntity[]>([]);
@@ -126,24 +126,26 @@ function UsersManagement() {
       {user && (<ChangePasswordUser user={user} open={isOpenChangePassword} onClose={() => setIsOpenChangePassword(false)} setRefreshKey={setRefreshKey} />)}
       {user && (<DeleteUser user={user} open={isOpenDeleteUser} onClose={() => setIsOpenDeleteUser(false)} setRefreshKey={setRefreshKey} />)}
       <div>
-        <h1 className="text-center text-4xl font-bold mb-4 py-4">QUẢN LÝ NGƯỜI DÙNG</h1>
+        <h1 className="text-center text-4xl font-bold my-8">QUẢN LÝ NGƯỜI DÙNG</h1>
         <div className="bg-[#ec658d] rounded-xl p-4 shadow-xl">
           <Header setSearchParams={setSearchParams} setRefreshKey={setRefreshKey} />
-          <table className="w-full border-collapse">
-            <thead className="bg-[#f0c568]">
-              <tr>
-                <th className="px-4 py-2 text-left border border-black">STT</th>
-                <th className="px-4 py-2 text-left border border-black">Tài khoản</th>
-                <th className="px-4 py-2 text-left border border-black">Tên</th>
-                <th className="px-4 py-2 text-left border border-black">Vai trò</th>
-                <th className="px-4 py-2 text-left border border-black">Thời gian tạo</th>
-                <th className="px-4 py-2 text-left border border-black">Chức năng</th>
-              </tr>
-            </thead>
-            <tbody>
-              {renderBody()}
-            </tbody>
-          </table>
+          <div className="overflow-auto">
+            <table className="border-collapse w-full">
+              <thead className="bg-[#f0c568]">
+                <tr>
+                  <th className="px-4 py-2 text-left border border-black">STT</th>
+                  <th className="px-4 py-2 text-left border border-black">Tài khoản</th>
+                  <th className="px-4 py-2 text-left border border-black">Tên</th>
+                  <th className="px-4 py-2 text-left border border-black">Vai trò</th>
+                  <th className="px-4 py-2 text-left border border-black">Thời gian tạo</th>
+                  <th className="px-4 py-2 text-left border border-black">Chức năng</th>
+                </tr>
+              </thead>
+              <tbody>
+                {renderBody()}
+              </tbody>
+            </table>
+          </div>
           <div className="mt-4 flex justify-between items-center w-full">
             <div>
               <Select

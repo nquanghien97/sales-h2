@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/Button'
 import LoadingIcon from '@/components/ui/LoadingIcon'
-import Modal from '@/components/ui/Modal'
 import { FileCategoriesEntity } from '@/entities/file-categories'
 import { deleteFileCategory } from '@/services/file-categories'
+import { Modal } from 'antd'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 
@@ -33,7 +33,12 @@ function Delete(props: DeleteProps) {
     }
   }
   return (
-    <Modal open={open} onClose={onClose} className="w-1/2">
+    <Modal open={open}
+      onClose={onClose}
+      onCancel={onClose}
+      className='!w-full lg:!w-1/2 min-h-[300px]'
+      footer={false}
+    >
       <h1 className="text-2xl mb-4 text-center">Bạn có chắc chắn muốn xóa danh mục <strong>{data.title}</strong> không?</h1>
       <div className="flex justify-center gap-4">
         <Button variant='danger' onClick={onClose}>Hủy</Button>

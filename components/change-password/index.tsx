@@ -1,7 +1,6 @@
 import React from 'react'
-import Modal from '../ui/Modal'
 import { Input } from '../ui/Input'
-import { Form } from 'antd'
+import { Form, Modal } from 'antd'
 import { Button } from '../ui/Button'
 import { toast } from 'react-toastify'
 import { changeMyPassword } from '@/services/me'
@@ -52,7 +51,13 @@ function ChangePassword(props: ChangePasswordProps) {
   }
 
   return (
-    <Modal open={open} onClose={handleClose} className="w-1/2">
+    <Modal
+      open={open}
+      onClose={handleClose}
+      onCancel={handleClose}
+      className='!w-full lg:!w-1/2 min-h-[300px]'
+      footer={false}
+    >
       <h1 className="mb-4 text-2xl font-bold text-center">Đổi mật khẩu</h1>
       <div>
         <Form

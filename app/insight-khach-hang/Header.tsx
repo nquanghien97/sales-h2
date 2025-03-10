@@ -42,7 +42,7 @@ function Header(props: HeaderProps) {
           <Input
             placeholder='Tìm kiếm từ khóa'
             icon={<SearchIcon />}
-            className="w-1/2"
+            className="w-full lg:w-1/2"
             onChange={(e) => setInputValue(e.target.value)}
             value={inputValue}
           />

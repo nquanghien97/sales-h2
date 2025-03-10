@@ -86,3 +86,14 @@ p, li {
 .react-datepicker-wrapper {
   width: 100%;
 }
+
+@media not all and (min-width: 1024px) {
+  .ant-upload-list-item-name {
+    word-wrap: break-word;
+    max-width: 300px
+  }
+}
+
+.tox-tinymce {
+  flex: 1
+}

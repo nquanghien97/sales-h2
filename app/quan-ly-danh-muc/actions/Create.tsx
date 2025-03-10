@@ -1,10 +1,9 @@
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import LoadingIcon from '@/components/ui/LoadingIcon'
-import Modal from '@/components/ui/Modal'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
-import { Form, Select } from "antd";
+import { Form, Modal, Select } from "antd";
 import { createFileCategory } from '@/services/file-categories'
 import { FILE_CATEGORY } from '@prisma/client'
 
@@ -37,7 +36,7 @@ function Create(props: CreateProps) {
   const onSubmit = async (data: FormValues) => {
     setLoading(true);
     try {
-      
+
       await createFileCategory({
         title: data.title,
         category: data.category
@@ -58,8 +57,10 @@ function Create(props: CreateProps) {
   return (
     <Modal
       open={open}
-      onClose={() => { }}
-      className='w-1/2'
+      onClose={handleClose}
+      onCancel={handleClose}
+      className='!w-full lg:!w-1/2 min-h-[300px]'
+      footer={false}
     >
       <h1 className="mb-4 text-2xl font-bold text-center">Thêm mới tiêu đề</h1>
       <div>

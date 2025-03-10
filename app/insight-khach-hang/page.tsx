@@ -73,7 +73,7 @@ function InsightCustomer() {
         <tr key={data.id}>
           <th className="px-4 py-2 text-left font-medium border border-black">{(index + 1) + pageSize * (page - 1)}</th>
           <th className="px-4 py-2 text-left font-medium border border-black">{data.keyword}</th>
-          <th className="px-4 py-2 text-left font-medium border border-black"><div dangerouslySetInnerHTML={{ __html: data.content}} /></th>
+          <th className="px-4 py-2 text-left font-medium border border-black"><div dangerouslySetInnerHTML={{ __html: data.content }} /></th>
           {/* <th className="px-4 py-2 text-left font-medium border border-black">{formatDate(data.createdAt)}</th>
           <th className="px-4 py-2 text-left font-medium border border-black">{data.author.fullName}</th> */}
           {me?.role === 'ADMIN' && (
@@ -109,24 +109,26 @@ function InsightCustomer() {
       {data && (<Update data={data} open={isOpenUpdate} onClose={() => setIsOpenUpdate(false)} setRefreshKey={setRefreshKey} />)}
       {data && (<Delete data={data} open={isOpenDelete} onClose={() => setIsOpenDelete(false)} setRefreshKey={setRefreshKey} />)}
       <div>
-        <h1 className="text-center text-4xl font-bold mb-4 py-4">INSIGHT KHÁCH HÀNG</h1>
+        <h1 className="text-center text-4xl font-bold mb-8 pt-8">INSIGHT KHÁCH HÀNG</h1>
         <div className="bg-[#ec658d] shadow-xl rounded-xl p-4">
           <Header setSearchParams={setSearchParams} setRefreshKey={setRefreshKey} />
-          <table className="w-full border-collapse">
-            <thead className="bg-[#f0c568]">
-              <tr>
-                <th className="px-4 py-2 text-left border border-black w-[5%]">STT</th>
-                <th className="px-4 py-2 text-left border border-black w-[15%]">Từ khóa</th>
-                <th className="px-4 py-2 text-left border border-black w-[70%]">Nội dung</th>
-                {/* <th className="px-4 py-2 text-left border border-black">Thời gian tạo</th> */}
-                {/* <th className="px-4 py-2 text-left border border-black">Người tạo</th> */}
-                {me?.role === 'ADMIN' && <th className="px-4 py-2 text-left border border-black w-[10%]">Chức năng</th>}
-              </tr>
-            </thead>
-            <tbody>
-              {renderBody()}
-            </tbody>
-          </table>
+          <div className="overflow-auto">
+            <table className="w-full border-collapse">
+              <thead className="bg-[#f0c568]">
+                <tr>
+                  <th className="px-4 py-2 text-left border border-black w-[5%]">STT</th>
+                  <th className="px-4 py-2 text-left border border-black w-[15%]">Từ khóa</th>
+                  <th className="px-4 py-2 text-left border border-black w-[70%]">Nội dung</th>
+                  {/* <th className="px-4 py-2 text-left border border-black">Thời gian tạo</th> */}
+                  {/* <th className="px-4 py-2 text-left border border-black">Người tạo</th> */}
+                  {me?.role === 'ADMIN' && <th className="px-4 py-2 text-left border border-black w-[10%]">Chức năng</th>}
+                </tr>
+              </thead>
+              <tbody>
+                {renderBody()}
+              </tbody>
+            </table>
+          </div>
           <div className="mt-4 flex justify-between items-center w-full">
             <div>
               <Select

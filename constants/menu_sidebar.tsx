@@ -1,5 +1,5 @@
 import FilesIcon from "@/assets/icons/FilesIcon";
-import MenuIcon from "@/assets/icons/MenuIcon";
+import ListIcon from "@/assets/icons/ListIcon";
 import UsersIcon from "@/assets/icons/UsersIcon";
 import WomenIcon from "@/assets/icons/WomenIcon";
 import { FileCategoriesEntity } from "@/entities/file-categories";
@@ -59,7 +59,7 @@ const menu_sidebar: MenuSidebarType[] = [
   {
     title: 'Quản lý danh mục',
     url: '/quan-ly-danh-muc',
-    icon: <MenuIcon width={20} height={20} />,
+    icon: <ListIcon width={20} height={20} />,
     allowRole: ['ADMIN']
   },
 ]
