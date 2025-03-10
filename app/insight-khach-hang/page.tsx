@@ -118,7 +118,7 @@ function InsightCustomer() {
                 <tr>
                   <th className="px-4 py-2 text-left border border-black w-[5%]">STT</th>
                   <th className="px-4 py-2 text-left border border-black w-[15%]">Từ khóa</th>
-                  <th className="px-4 py-2 text-left border border-black w-[70%]">Nội dung</th>
+                  <th className="px-4 py-2 text-left border border-black w-[70%] min-w-[500px]">Nội dung</th>
                   {/* <th className="px-4 py-2 text-left border border-black">Thời gian tạo</th> */}
                   {/* <th className="px-4 py-2 text-left border border-black">Người tạo</th> */}
                   {me?.role === 'ADMIN' && <th className="px-4 py-2 text-left border border-black w-[10%]">Chức năng</th>}
@@ -129,8 +129,8 @@ function InsightCustomer() {
               </tbody>
             </table>
           </div>
-          <div className="mt-4 flex justify-between items-center w-full">
-            <div>
+          <div className="mt-4 flex max-lg:flex-col justify-between items-center w-full">
+            <div className="flex mb-4">
               <Select
                 options={[
                   { label: '1', value: '1' },
@@ -145,17 +145,17 @@ function InsightCustomer() {
                   setPage(1)
                 }}
               />
+              <Pagination
+                totalCount={total}
+                onPageChange={(page) => {
+                  setSearchParams((pre) => ({ ...pre, page }));
+                  setPage(page);
+                }}
+                siblingCount={1}
+                currentPage={page}
+                pageSize={pageSize}
+              />
             </div>
-            <Pagination
-              totalCount={total}
-              onPageChange={(page) => {
-                setSearchParams((pre) => ({ ...pre, page }));
-                setPage(page);
-              }}
-              siblingCount={1}
-              currentPage={page}
-              pageSize={pageSize}
-            />
             <div className="whitespace-nowrap">
               <span>Kết quả {1 + (pageSize * (page - 1))} - {(pageSize * page)} của tổng {total} bản ghi</span>
             </div>
