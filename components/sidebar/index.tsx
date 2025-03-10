@@ -1,7 +1,7 @@
 'use client'
 
 import { MenuSidebarType } from '@/constants/menu_sidebar'
-import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
+import React, { Dispatch, SetStateAction, useRef, useState } from 'react'
 import SidebarItem from './SidebarItem';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
@@ -24,13 +24,6 @@ function Sidebar({ menuSidebar, open, setOpen }: { menuSidebar?: MenuSidebarType
     router.push('/login')
     setMe(null)
   }
-  
-  useEffect(() => {
-    const currentWidth = window.innerWidth
-    if(currentWidth > 1024) {
-      setOpen(true)
-    }
-  }, [])
 
   const onClose = () => {
     setOpen(false);
