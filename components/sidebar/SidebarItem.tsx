@@ -7,13 +7,14 @@ import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 interface SidebarItemProps {
   menu: MenuSidebarType
+  onClose: () => void
 }
 
 function SidebarItem(props: SidebarItemProps) {
   const pathname = usePathname()
 
   const [showChildren, setShowChildren] = useState(false);
-  const { menu } = props;
+  const { menu, onClose } = props;
 
   useEffect(() => {
     const isActivePath = (menu: MenuSidebarType): boolean => {
@@ -58,7 +59,7 @@ function SidebarItem(props: SidebarItemProps) {
             />
           </div>
         ) : (
-          <Link href={menu.url}>
+          <Link href={menu.url} onClick={onClose}>
             <div className="flex items-center w-full gap-2 cursor-pointer text-[#fff] hover:text-[#2563eb] duration-300">
               <div className={`flex items-center w-full gap-2 ${activeClass}`}>
                 {menu.icon}
@@ -73,7 +74,7 @@ function SidebarItem(props: SidebarItemProps) {
         {(showChildren && menu.children) && (
           <div className="flex flex-col pl-3 pt-2 w-full">
             {menu.children.map((item) => (
-              <SidebarItem key={item.title} menu={item} />
+              <SidebarItem key={item.title} menu={item} onClose={onClose} />
             ))}
           </div>
         )}

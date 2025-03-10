@@ -59,7 +59,7 @@ function CreateUser(props: CreateUserProps) {
       open={open}
       onClose={handleClose}
       onCancel={handleClose}
-      className='!w-1/2'
+      className='!w-full lg:!w-1/2 min-h-[300px]'
       footer={false}
     >
       <h1 className="mb-4 text-2xl font-bold text-center">Thêm mới người dùng</h1>

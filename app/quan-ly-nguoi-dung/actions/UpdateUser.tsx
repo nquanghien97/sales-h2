@@ -51,7 +51,7 @@ function UpdateUser(props: UpdateUserProps) {
       open={open}
       onClose={handleClose}
       onCancel={handleClose}
-      className='!w-1/2'
+      className='!w-full lg:!w-1/2 min-h-[300px]'
       footer={false}
     >
       <h1 className="mb-4 text-2xl font-bold text-center">Cập nhật người dùng <span className="text-[#2563eb]">{user.fullName}</span></h1>

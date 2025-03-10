@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/Button'
 import LoadingIcon from '@/components/ui/LoadingIcon'
-import Modal from '@/components/ui/Modal'
 import { UserEntity } from '@/entities/user'
 import { deleteUser } from '@/services/user'
+import { Modal } from 'antd'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 
@@ -33,7 +33,7 @@ function DeleteUser(props: DeleteUserProps) {
     }
   }
   return (
-    <Modal open={open} onClose={onClose} className="w-1/3">
+    <Modal open={open} onClose={onClose} onCancel={onClose} footer={false} className="!w-full lg:!w-1/2 min-h-[300px]">
       <h1 className="mb-4 text-2xl font-bold text-center">Bạn có chắc chắn muốn xóa <span className="text-[#2563eb]">{user.fullName}</span></h1>
       <div className="flex justify-center gap-4">
         <Button variant='danger' onClick={onClose}>Hủy</Button>

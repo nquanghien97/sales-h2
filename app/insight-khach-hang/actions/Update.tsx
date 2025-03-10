@@ -1,11 +1,10 @@
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input'
 import LoadingIcon from '@/components/ui/LoadingIcon';
-import Modal from '@/components/ui/Modal'
 import { GuidesEntity } from '@/entities/guides';
 import { updateGuides } from '@/services/guides';
 import { Editor } from '@tinymce/tinymce-react';
-import { Form } from 'antd';
+import { Form, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -29,7 +28,7 @@ function UpdateHandleRejection(props: UpdateHandleRejectionProps) {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    if(data) {
+    if (data) {
       form.setFieldsValue({
         keyword: data.keyword
       })
@@ -39,7 +38,7 @@ function UpdateHandleRejection(props: UpdateHandleRejectionProps) {
   const onSubmit = async ({ keyword }: FormValues) => {
     setLoading(true);
     try {
-      await updateGuides({ id: data.id, data: { keyword, content} })
+      await updateGuides({ id: data.id, data: { keyword, content } })
       toast.success('Cập nhật thông tin thành công');
       setRefreshKey(pre => !pre);
       onClose();
@@ -56,13 +55,15 @@ function UpdateHandleRejection(props: UpdateHandleRejectionProps) {
     <Modal
       open={open}
       onClose={onClose}
-      className='w-1/2'
+      onCancel={onClose}
+      className='!w-full lg:!w-1/2 min-h-[300px]'
+      footer={false}
     >
       <h1 className="mb-4 text-2xl font-bold text-center">Cập nhật nội dung</h1>
       <div>
         <Form form={form} onFinish={onSubmit} initialValues={{ keyword: data.keyword }}>
           <div className="flex items-center h-[40px] mb-6">
-            <p className="w-[106px] text-left text-[#2563eb]">Từ khóa</p>
+            <p className="w-[60px] pr-2 lg:w-[106px] text-left text-[#2563eb]">Từ khóa</p>
             <Form.Item
               className="!mb-0 w-full flex-1"
               name="keyword"
@@ -78,7 +79,7 @@ function UpdateHandleRejection(props: UpdateHandleRejectionProps) {
           </div>
           <div className="mb-4">
             <div className="flex items-center mb-2">
-              <p className="w-[106px] text-left text-[#2563eb]">Nội dung</p>
+              <p className="w-[60px] pr-2 lg:w-[106px] text-left text-[#2563eb]">Nội dung</p>
               <Editor
                 apiKey="hkoepxco9p2gme5kius6axtlk3n83yberu5a59m56l7dhgn3"
                 value={content}
@@ -98,11 +99,11 @@ function UpdateHandleRejection(props: UpdateHandleRejectionProps) {
                     'undo redo | formatselect | bold italic backcolor | ' +
                     'alignleft aligncenter alignright alignjustify | ' +
                     'bullist numlist outdent indent | table | forecolor | removeformat | media',
-                    setup: (editor) => {
-                      editor.on('init', () => {
-                        editor.setContent(data.content)
-                      })
-                    }
+                  setup: (editor) => {
+                    editor.on('init', () => {
+                      editor.setContent(data.content)
+                    })
+                  }
                 }}
               />
             </div>

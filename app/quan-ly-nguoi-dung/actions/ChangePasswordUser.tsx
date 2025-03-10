@@ -51,10 +51,10 @@ function ChangePasswordUser(props: ChangePasswordUserProps) {
       open={open}
       onClose={handleClose}
       onCancel={handleClose}
-      className='!w-1/2'
+      className='!w-full lg:!w-1/2 min-h-[300px]'
       footer={false}
     >
-      <h1 className="mb-4 text-2xl font-bold text-center">Đổi mật khẩu người dùng <span className="text-[#2563eb]">{user.fullName}</span></h1>
+      <h1 className="my-4 text-2xl font-bold text-center">Đổi mật khẩu người dùng <span className="text-[#2563eb]">{user.fullName}</span></h1>
       <div>
         <Form onFinish={onSubmit} form={form} initialValues={{ password: '', confirmPassword: '' }}>
           <div className="flex items-center h-[40px] mb-6">

@@ -52,12 +52,12 @@ function FileCategories() {
       {<Create open={isOpenCreate} onClose={() => setIsOpenCreate(false)} setRefreshKey={setRefreshKey} />}
       {data && <Delete open={isOpenDelete} onClose={() => setIsOpenDelete(false)} setRefreshKey={setRefreshKey} data={data} />}
       {data && <Update open={isOpenUpdate} onClose={() => setIsOpenUpdate(false)} setRefreshKey={setRefreshKey} data={data} />}
-      <h1 className="text-center text-4xl font-bold mb-4 py-4">QUẢN LÝ DANH MỤC</h1>
+      <h1 className="text-center text-4xl font-bold my-8">QUẢN LÝ DANH MỤC</h1>
       <div className="mb-4">
         <Button variant='primary' onClick={() => setIsOpenCreate(true)}>Thêm mới</Button>
       </div>
-      <div className="w-full flex">
-        <div className="w-full border-x border-[#ccc] px-4">
+      <div className="w-full flex max-lg:flex-col">
+        <div className="w-full lg:border-x border-b border-[#ccc] p-4">
           <p className="font-bold text-2xl mb-2">TƯ LIỆU CHUNG</p>
           <div>
             <SortableList
@@ -92,7 +92,7 @@ function FileCategories() {
             />
           </div>
         </div>
-        <div className="w-full border-x border-[#ccc] px-4">
+        <div className="w-full lg:border-x border-b border-[#ccc] p-4">
           <p className="font-bold text-2xl mb-2">MKT</p>
           <div>
             <SortableList
@@ -127,7 +127,7 @@ function FileCategories() {
             />
           </div>
         </div>
-        <div className="w-full border-x border-[#ccc] px-4">
+        <div className="w-full lg:border-x border-b border-[#ccc] p-4">
           <p className="font-bold text-2xl mb-2">SALES</p>
           <div>
             <SortableList
@@ -162,7 +162,7 @@ function FileCategories() {
             />
           </div>
         </div>
-        <div className="w-full border-x border-[#ccc] px-4">
+        <div className="w-full lg:border-x border-b border-[#ccc] p-4">
           <p className="font-bold text-2xl mb-2">CSKH</p>
           <div>
             <SortableList

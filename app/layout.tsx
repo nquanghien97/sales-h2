@@ -4,7 +4,7 @@ import "./globals.css";
 import Sidebar from "@/components/sidebar";
 import { usePathname } from "next/navigation";
 import { ToastContainer } from 'react-toastify';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "@/zustand/auth.store";
 import "react-datepicker/dist/react-datepicker.css";
 import { useFileCategories } from "@/zustand/file-categories";
@@ -18,6 +18,7 @@ export default function RootLayout({
   const pathname = usePathname();
   const { getMe } = useAuthStore();
   const { getFileCategories, fileCategories } = useFileCategories()
+  const [open, setOpen] = useState(false)
   
   useEffect(() => {
     (async () => {
@@ -43,8 +44,8 @@ export default function RootLayout({
         ) : (
           <div className="flex">
 
-            <Sidebar menuSidebar={menuSidebar} />
-            <main className="p-2 bg-[#f8d5d7] w-[calc(100%-240px)] h-screen">
+            <Sidebar menuSidebar={menuSidebar} open={open} setOpen={setOpen} />
+            <main className={`p-2 bg-[#f8d5d7] ${open ? 'lg:w-[calc(100%-240px)]' : 'w-full'} h-screen`}>
               {children}
             </main>
           </div>

@@ -1,11 +1,10 @@
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import LoadingIcon from '@/components/ui/LoadingIcon'
-import Modal from '@/components/ui/Modal'
 import { Editor } from '@tinymce/tinymce-react'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
-import { Form } from "antd";
+import { Form, Modal } from "antd";
 import { createGuides } from '@/services/guides'
 
 interface CreateUserProps {
@@ -58,14 +57,16 @@ function CreateUser(props: CreateUserProps) {
   return (
     <Modal
       open={open}
-      onClose={() => { }}
-      className='w-1/2'
+      onClose={handleClose}
+      onCancel={handleClose}
+      className='!w-full lg:!w-1/2 min-h-[300px]'
+      footer={false}
     >
       <h1 className="mb-4 text-2xl font-bold text-center">Thêm mới nội dung</h1>
       <div>
         <Form form={form} onFinish={onSubmit} initialValues={{ keyword: '' }}>
           <div className="flex items-center h-[40px] mb-6">
-            <p className="w-[106px] text-left text-[#2563eb]">Từ khóa</p>
+            <p className="w-[60px] pr-2 lg:w-[106px] text-left text-[#2563eb]">Từ khóa</p>
             <Form.Item
               className="!mb-0 w-full flex-1"
               name="keyword"
@@ -81,7 +82,7 @@ function CreateUser(props: CreateUserProps) {
           </div>
           <div className="mb-4">
             <div className="flex items-center mb-2">
-              <p className="w-[106px] text-left text-[#2563eb]">Nội dung</p>
+              <p className="w-[60px] lg:w-[106px] text-left text-[#2563eb] pr-2">Nội dung</p>
               <Editor
                 apiKey="hkoepxco9p2gme5kius6axtlk3n83yberu5a59m56l7dhgn3"
                 value={content}

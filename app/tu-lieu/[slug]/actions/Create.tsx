@@ -60,9 +60,9 @@ function CreateFiles(props: CreateFilesProps) {
   }
 
   return (
-    <Modal open={open} onClose={handleClose} onCancel={handleClose} className="!w-1/2 min-h-[300px]" footer={false}>
+    <Modal open={open} onClose={handleClose} onCancel={handleClose} className="!w-full lg:!w-1/2 min-h-[300px]" footer={false}>
       <h1 className="mb-4 text-2xl font-bold text-center">Thêm mới nội dung</h1>
-      <div className="">
+      <div className="mb-4">
         <p className='mb-2'>Chọn kiểu file</p>
         <Select placeholder='Chọn kiểu file' options={[{ label: 'Link', value: 'link' }, { label: 'File', value: 'file' }]} onChange={(e) => setFileType(e as 'file' | 'link')} />
       </div>
@@ -71,7 +71,7 @@ function CreateFiles(props: CreateFilesProps) {
           {fileType === 'file' && (
             <div className="flex items-center flex-col py-4 border-b mb-4">
               <div className="flex items-center w-full h-full">
-                <div className="flex items-center flex-1">
+                <div className="flex items-center flex-1 max-lg:flex-col">
                   <Form.Item name="filesData" className="!m-0">
                     <Upload
                       multiple
