@@ -36,7 +36,7 @@ function Sidebar({ menuSidebar, open, setOpen }: { menuSidebar?: MenuSidebarType
 
   return (
     <>
-      <ButtonIcon className="fixed z-[999] top-2 left-2" onClick={() => setOpen(pre => !pre)}>
+      <ButtonIcon className="fixed z-[999] top-2 left-2 lg:hidden" onClick={() => setOpen(pre => !pre)}>
         <MenuIcon />
       </ButtonIcon>
       <ChangePassword open={isOpenChangePassword} onClose={() => setIsOpenChangePassword(false)} />
@@ -47,7 +47,7 @@ function Sidebar({ menuSidebar, open, setOpen }: { menuSidebar?: MenuSidebarType
         onClick={onClose}
       />
       <div
-        className={`fixed h-screen border-r border-[#ccc] z-[888] text-white duration-300 ${open ? 'translate-x-[0px]' : '-translate-x-full'}`}
+        className={`fixed h-screen border-r border-[#ccc] z-[888] text-white duration-300 ${open ? 'max-lg:translate-x-[0px]' : 'max-lg:-translate-x-full'}`}
         ref={backdropRef}
         onClick={clickHandler}
       >
@@ -70,7 +70,7 @@ function Sidebar({ menuSidebar, open, setOpen }: { menuSidebar?: MenuSidebarType
           </div>
         </div>
       </div>
-      <div className={`${open ? 'w-[240px]' : 'w-0'}`} />
+      <div className={`${open ? 'w-[240px]' : 'w-0 lg:w-[260px]'}`} />
     </>
   )
 }
