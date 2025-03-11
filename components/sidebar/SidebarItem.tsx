@@ -63,7 +63,7 @@ function SidebarItem(props: SidebarItemProps) {
             <div className="flex items-center w-full gap-2 cursor-pointer text-[#fff] hover:text-[#2563eb] duration-300">
               <div className={`flex items-center w-full gap-2 ${activeClass}`}>
                 {menu.icon}
-                <span className={`font-bold uppercase break-all ${activeClass}`}>
+                <span className={`font-bold uppercase lg:break-all ${activeClass}`}>
                   {menu.title}
                 </span>
               </div>
