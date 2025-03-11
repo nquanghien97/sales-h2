@@ -47,7 +47,7 @@ function Sidebar({ menuSidebar, open, setOpen }: { menuSidebar?: MenuSidebarType
         onClick={onClose}
       />
       <div
-        className={`fixed h-screen border-r border-[#ccc] z-[888] text-white duration-300 w-[230px] ${open ? 'max-lg:translate-x-[0px]' : 'max-lg:-translate-x-full'}`}
+        className={`fixed h-screen border-r border-[#ccc] z-[888] text-white duration-300 w-2/3 lg:w-[240px] ${open ? 'max-lg:translate-x-[0px]' : 'max-lg:-translate-x-full'}`}
         ref={backdropRef}
         onClick={clickHandler}
       >
@@ -70,7 +70,7 @@ function Sidebar({ menuSidebar, open, setOpen }: { menuSidebar?: MenuSidebarType
           </div>
         </div>
       </div>
-      <div className={`${open ? 'w-[240px]' : 'w-0 lg:w-[260px]'}`} />
+      <div className={`${open ? 'w-[280px]' : 'w-0 lg:w-[280px]'}`} />
     </>
   )
 }
